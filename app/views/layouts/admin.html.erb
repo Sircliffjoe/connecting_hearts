@@ -15,6 +15,7 @@
   </head>
 
   <body class="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased" data-controller="admin-sidebar">
+    <%= render "layouts/pwa_splash_screen" %>
     <% if logged_in? %>
       <!-- TOP HEADER BAR -->
       <header class="fixed top-0 left-0 right-0 h-16 bg-slate-900/95 backdrop-blur border-b border-slate-800 z-40 px-4 sm:px-6 lg:px-8 flex items-center justify-between">

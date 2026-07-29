@@ -1,0 +1,61 @@
+<!-- PWA Launch Splash Screen with Brand Logo & Micro-animations -->
+<div id="pwa-splash-screen" class="fixed inset-0 z-[9999] bg-plum-950 flex flex-col items-center justify-center p-6 text-center transition-opacity duration-700 ease-out">
+  <!-- Glowing Ambient Background Effects -->
+  <div class="absolute w-96 h-96 bg-terracotta-500/15 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+  <div class="absolute w-72 h-72 bg-plum-600/20 rounded-full blur-2xl pointer-events-none"></div>
+
+  <!-- Splash Content -->
+  <div class="relative z-10 flex flex-col items-center space-y-6 max-w-sm animate-fade-in">
+    <!-- Brand Logo Box with Pulse Effect -->
+    <div class="relative group">
+      <div class="absolute -inset-2 bg-gradient-to-r from-plum-600 to-terracotta-500 rounded-3xl blur opacity-75 animate-pulse"></div>
+      <div class="relative w-28 h-28 md:w-32 md:h-32 bg-slate-900/90 border border-white/20 rounded-3xl p-5 shadow-2xl flex items-center justify-center backdrop-blur-md">
+        <%= image_tag "logo.png", alt: "Connecting Hearts Logo", class: "w-full h-full object-contain brightness-0 invert filter drop-shadow-lg" %>
+      </div>
+    </div>
+
+    <!-- Title & Tagline -->
+    <div class="space-y-2">
+      <h1 class="font-serif text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
+        Connecting Hearts
+      </h1>
+      <p class="text-xs text-terracotta-300 font-serif italic tracking-wide">
+        "Connecting Hearts. Growing Love. Building Life."
+      </p>
+    </div>
+
+    <!-- Loading Bar Indicator -->
+    <div class="w-36 bg-plum-900/80 rounded-full h-1.5 overflow-hidden border border-white/10 shadow-inner">
+      <div class="bg-gradient-to-r from-terracotta-500 via-plum-400 to-emerald-400 h-1.5 w-full animate-pulse"></div>
+    </div>
+
+    <span class="text-[10px] uppercase tracking-widest text-warm-300/60 font-semibold pt-2">
+      Singles & Married Foundation
+    </span>
+  </div>
+</div>
+
+<script>
+  (function() {
+    function hideSplashScreen() {
+      var splash = document.getElementById('pwa-splash-screen');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(function() {
+          splash.style.display = 'none';
+        }, 700);
+      }
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(hideSplashScreen, 800);
+    } else {
+      window.addEventListener('load', function() {
+        setTimeout(hideSplashScreen, 800);
+      });
+    }
+
+    // Safety fallback
+    setTimeout(hideSplashScreen, 2500);
+  })();
+</script>
