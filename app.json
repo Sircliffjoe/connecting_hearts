@@ -1,0 +1,10 @@
+{
+  "name": "connectinghearts",
+  "description": "Connecting Hearts for Singles & Married Foundation",
+  "keywords": ["rails", "dokku", "connectinghearts"],
+  "scripts": {
+    "dokku": {
+      "postdeploy": "bundle exec rails db:seed"
+    }
+  }
+}
