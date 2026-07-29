@@ -12,4 +12,39 @@ module ApplicationHelper
       end
     end
   end
+
+  def page_title(title = nil)
+    base_title = "Connecting Hearts for Singles & Married Foundation | Warri, Nigeria"
+    if title.present?
+      "#{title} | Connecting Hearts Foundation"
+    elsif content_for?(:title)
+      "#{content_for(:title)} | Connecting Hearts Foundation"
+    else
+      base_title
+    end
+  end
+
+  def page_description(default_desc = nil)
+    if default_desc.present?
+      default_desc
+    elsif content_for?(:description)
+      content_for(:description)
+    else
+      "Connecting Hearts for Singles & Married Foundation creates safe spaces, provides free confidential counseling, and supports children from broken families in Warri, Delta State, Nigeria."
+    end
+  end
+
+  def og_image_url(custom_image = nil)
+    raw = custom_image.presence || content_for(:og_image).presence || "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80"
+    if raw.start_with?("http://", "https://")
+      raw
+    else
+      filename = File.basename(raw)
+      begin
+        image_url(filename)
+      rescue StandardError
+        raw
+      end
+    end
+  end
 end

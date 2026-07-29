@@ -1,4 +1,6 @@
 <% content_for :title, @resource.title %>
+<% content_for :description, @resource.summary.presence || @resource.content.to_s.truncate(160) %>
+<% content_for :og_type, "article" %>
 
 <section class="py-24 bg-warm-50">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">

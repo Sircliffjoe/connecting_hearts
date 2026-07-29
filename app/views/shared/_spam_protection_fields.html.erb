@@ -1,0 +1,6 @@
+<%# Spam Protection Fields (Honeypot Trap & Submission Timestamp) %>
+<div style="display: none !important; position: absolute !important; left: -9999px !important;" aria-hidden="true">
+  <label for="website_hp">Leave this field empty</label>
+  <input type="text" name="website_hp" id="website_hp" tabindex="-1" autocomplete="off" value="" />
+</div>
+<input type="hidden" name="form_timestamp" value="<%= Time.current.to_i %>" />

@@ -1,4 +1,6 @@
 class SupportRequestsController < ApplicationController
+  include SpamProtection
+
   def new
     @support_request = SupportRequest.new(
       support_category: params[:category] || "Individual Counseling"
@@ -6,6 +8,8 @@ class SupportRequestsController < ApplicationController
   end
 
   def create
+    return unless verify_spam_and_rate_limit!(text_content: "#{params.dig(:support_request, :situation_description)}")
+
     @support_request = SupportRequest.new(support_request_params)
     if @support_request.save
       redirect_to confirmation_support_requests_path, notice: "Your support request has been received with care."

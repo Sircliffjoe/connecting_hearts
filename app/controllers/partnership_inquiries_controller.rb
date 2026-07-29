@@ -1,9 +1,13 @@
 class PartnershipInquiriesController < ApplicationController
+  include SpamProtection
+
   def new
     @partnership_inquiry = PartnershipInquiry.new
   end
 
   def create
+    return unless verify_spam_and_rate_limit!(text_content: "#{params.dig(:partnership_inquiry, :message)}")
+
     @partnership_inquiry = PartnershipInquiry.new(partnership_params)
     if @partnership_inquiry.save
       redirect_to confirmation_partnership_inquiries_path, notice: "Thank you! Your partnership proposal has been submitted."

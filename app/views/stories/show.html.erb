@@ -1,4 +1,7 @@
 <% content_for :title, @story.title %>
+<% content_for :description, @story.summary.presence || @story.body.truncate(160) %>
+<% content_for :og_image, safe_image_path(@story.image_url) if @story.image_url.present? %>
+<% content_for :og_type, "article" %>
 
 <section class="py-24 bg-warm-50">
 

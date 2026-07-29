@@ -1,27 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full scroll-smooth">
   <head>
-    <title><%= content_for?(:title) ? "#{yield(:title)} | Connecting Hearts Foundation" : "Connecting Hearts for Singles & Married Foundation | Warri, Delta State, Nigeria" %></title>
+    <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : 'Connecting Hearts for Singles & Married Foundation creates safe spaces, provides free confidential counseling, and supports children from broken families in Warri, Delta State, Nigeria.' %>">
+    <meta name="description" content="<%= page_description %>">
     <meta name="keywords" content="<%= content_for?(:keywords) ? yield(:keywords) : 'Relationship support Nigeria, Marriage counseling Warri, Couples counseling Delta State, Connecting Hearts Experience, Child education support Warri, Eloho Sodje' %>">
-    <%= favicon_link_tag image_path("logo.png") %>
-
     <meta name="author" content="Connecting Hearts for Singles & Married Foundation">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<%= request.original_url %>">
     <%= favicon_link_tag image_path("logo.png") %>
     
-    <!-- Open Graph / Facebook Metadata -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Connecting Hearts Foundation' %>">
-    <meta property="og:description" content="Connecting Hearts provides free counseling, relationship building, and child educational support in Nigeria.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80">
-    <meta property="og:site_name" content="Connecting Hearts Foundation">
+    <!-- Open Graph / WhatsApp Link Preview Metadata -->
+    <meta property="og:type" content="<%= content_for?(:og_type) ? yield(:og_type) : 'website' %>">
+    <meta property="og:site_name" content="Connecting Hearts for Singles & Married Foundation">
+    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Connecting Hearts for Singles & Married Foundation' %>">
+    <meta property="og:description" content="<%= page_description %>">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:image" content="<%= og_image_url %>">
+    <meta property="og:image:secure_url" content="<%= og_image_url %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Connecting Hearts Foundation - Safe Spaces & Support in Warri, Delta State">
+    <meta property="og:locale" content="en_NG">
 
     <!-- Twitter Card Metadata -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@connectinghearts">
     <meta name="twitter:title" content="<%= content_for?(:title) ? yield(:title) : 'Connecting Hearts Foundation' %>">
-    <meta name="twitter:description" content="Connecting Hearts provides free counseling, relationship building, and child educational support in Nigeria.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80">
+    <meta name="twitter:description" content="<%= page_description %>">
+    <meta name="twitter:image" content="<%= og_image_url %>">
+
+    <!-- Schema.org JSON-LD Structured Data for Search Engines -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "NGO",
+        "name": "Connecting Hearts for Singles & Married Foundation",
+        "alternateName": "Connecting Hearts Foundation",
+        "url": "<%= request.base_url %>",
+        "logo": "<%= og_image_url(image_path('logo.png')) %>",
+        "foundingDate": "2025",
+        "founder": {
+          "@type": "Person",
+          "name": "Eloho Sodje"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Warri",
+          "addressRegion": "Delta State",
+          "addressCountry": "Nigeria"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+2349013732353",
+          "contactType": "customer support",
+          "email": "contact@connectingheartsng.org"
+        },
+        "sameAs": [
+          "https://facebook.com/connectingheartsng",
+          "https://instagram.com/connectingheartsng"
+        ]
+      }
+    </script>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -47,4 +87,3 @@
     <%= render "layouts/footer" %>
   </body>
 </html>
-

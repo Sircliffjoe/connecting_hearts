@@ -87,6 +87,7 @@
           <h2 class="font-serif text-2xl font-bold text-plum-950">Send Us A Message</h2>
           
           <%= form_with(model: (@contact_inquiry || ContactInquiry.new), url: contact_inquiries_path, local: true, class: "space-y-4") do |f| %>
+            <%= render "shared/spam_protection_fields" %>
             
             <% if @contact_inquiry&.errors&.any? %>
               <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1">

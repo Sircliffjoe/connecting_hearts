@@ -1,5 +1,9 @@
 class EventRegistrationsController < ApplicationController
+  include SpamProtection
+
   def create
+    return unless verify_spam_and_rate_limit!
+
     @registration = EventRegistration.new(registration_params)
     if @registration.save
       redirect_to experiences_path, notice: "Registration successful! We look forward to seeing you at the Connecting Hearts Experience."
