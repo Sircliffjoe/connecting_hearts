@@ -1,0 +1,58 @@
+<%= form_with(model: [:admin, resource], local: true, class: "space-y-6") do |f| %>
+  <% if resource.errors.any? %>
+    <div class="bg-rose-950/80 border border-rose-800 text-rose-200 p-4 rounded-xl text-xs space-y-1">
+      <p class="font-bold"><%= pluralize(resource.errors.count, "error") %> prohibited this resource from being saved:</p>
+      <ul class="list-disc list-inside">
+        <% resource.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-2">
+      <%= f.label :title, "Resource Title", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :title, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :category, "Category", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.select :category, Resource::CATEGORIES, { include_blank: "Select Category" }, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :resource_type, "Resource Type", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.select :resource_type, Resource::TYPES, { include_blank: "Select Type" }, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :external_link, "External Link / Video URL", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.url_field :external_link, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="md:col-span-2">
+      <%= render "shared/media_upload_field", form: f, field_name: :file_url, label_text: "Media Attachment / Video / PDF File", placeholder_text: "upload file below or paste link" %>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :summary, "Short Summary", class: "block text-xs font-bold text-slate-300" %>
+    <%= f.text_area :summary, rows: 3, class: "w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-plum-500" %>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :content, "Resource Content / Article Body / Details", class: "block text-xs font-bold text-slate-300" %>
+    <%= f.text_area :content, rows: 8, class: "w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-plum-500" %>
+  </div>
+
+  <div class="flex items-center gap-3 pt-2">
+    <%= f.check_box :published, class: "w-4 h-4 rounded bg-slate-950 border-slate-800 text-plum-600 focus:ring-plum-500" %>
+    <%= f.label :published, "Publish Resource Immediately", class: "text-xs text-slate-300 font-medium cursor-pointer" %>
+  </div>
+
+  <div class="flex items-center gap-4 pt-4 border-t border-slate-800">
+    <%= f.submit resource.new_record? ? "Create Resource" : "Update Resource", class: "px-6 py-2.5 bg-plum-700 hover:bg-plum-600 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-colors" %>
+    <%= link_to "Cancel", admin_resources_path, class: "px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-colors" %>
+  </div>
+<% end %>

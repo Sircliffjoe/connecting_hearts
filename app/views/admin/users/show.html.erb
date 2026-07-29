@@ -1,0 +1,109 @@
+<div class="max-w-5xl mx-auto space-y-8">
+  <!-- Top Navigation & Action Header -->
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div>
+      <h1 class="font-serif text-2xl font-bold text-white">Team Member Profile</h1>
+      <p class="text-xs text-slate-400">Detailed account profile, role, and foundation activity.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <%= link_to "Edit Profile", edit_admin_user_path(@user), class: "px-4 py-2.5 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold rounded-xl hover:bg-amber-500/30 transition-colors flex items-center gap-2" %>
+      <%= link_to "← Back to Team", admin_users_path, class: "px-4 py-2.5 bg-slate-800 text-slate-300 text-xs font-bold rounded-xl hover:bg-slate-700 transition-colors" %>
+    </div>
+  </div>
+
+  <!-- Main Profile Card Banner -->
+  <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+    <!-- Top Gradient Accent Banner -->
+    <div class="h-32 bg-gradient-to-r from-plum-900 via-plum-800 to-terracotta-700 relative">
+      <div class="absolute inset-0 bg-black/10"></div>
+    </div>
+
+    <!-- User Avatar & Core Details -->
+    <div class="px-6 md:px-8 pb-8 relative">
+      <div class="flex flex-col md:flex-row md:items-end justify-between -mt-16 gap-6 mb-6">
+        <!-- Avatar Ring -->
+        <div class="relative inline-block">
+          <% if @user.image_url.present? %>
+            <%= image_tag @user.image_url, alt: @user.name, class: "w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-slate-900 shadow-2xl bg-slate-950" %>
+          <% else %>
+            <div class="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-tr from-plum-700 to-terracotta-500 text-white font-bold text-3xl md:text-4xl flex items-center justify-center border-4 border-slate-900 shadow-2xl">
+              <%= @user.name.first.upcase %>
+            </div>
+          <% end %>
+          <span class="absolute bottom-2 right-2 w-5 h-5 bg-emerald-500 border-2 border-slate-900 rounded-full" title="Active Account"></span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider <%= @user.role == 'super_admin' ? 'bg-purple-900/80 text-purple-200 border border-purple-600' : (@user.role == 'counselor' ? 'bg-emerald-900/80 text-emerald-200 border border-emerald-600' : 'bg-plum-900/80 text-plum-200 border border-plum-600') %>">
+            <%= @user.role.titleize %>
+          </span>
+          <span class="text-xs text-slate-400 font-medium">Member ID: #US-<%= @user.id.to_s.rjust(4, '0') %></span>
+        </div>
+      </div>
+
+      <div class="space-y-2 mb-8">
+        <h2 class="font-serif text-3xl font-extrabold text-white tracking-tight"><%= @user.name %></h2>
+        <p class="text-sm text-plum-300 font-medium flex items-center gap-2">
+          <span>✉ <%= @user.email %></span>
+        </p>
+      </div>
+
+      <!-- Detail Grid Info -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-slate-800 text-xs">
+        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800/80 space-y-1">
+          <span class="text-slate-400 block font-medium">Account Role</span>
+          <span class="text-white font-bold text-sm"><%= @user.role.titleize %></span>
+        </div>
+
+        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800/80 space-y-1">
+          <span class="text-slate-400 block font-medium">Date Joined</span>
+          <span class="text-white font-bold text-sm"><%= @user.created_at.strftime("%B %d, %Y") %></span>
+        </div>
+
+        <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800/80 space-y-1">
+          <span class="text-slate-400 block font-medium">Last Profile Update</span>
+          <span class="text-white font-bold text-sm"><%= @user.updated_at.strftime("%B %d, %Y") %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reviewed Support Requests Activity Section -->
+  <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-4">
+    <h3 class="font-serif text-xl font-bold text-white flex items-center gap-2">
+      <span>💌 Assigned / Reviewed Support Requests</span>
+      <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-plum-900 text-plum-300 border border-plum-700"><%= @user.reviewed_support_requests.count %></span>
+    </h3>
+
+    <% if @user.reviewed_support_requests.any? %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
+            <tr>
+              <th class="p-3">Applicant Name</th>
+              <th class="p-3">Category</th>
+              <th class="p-3">Format</th>
+              <th class="p-3">Status</th>
+              <th class="p-3 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800">
+            <% @user.reviewed_support_requests.each do |req| %>
+              <tr class="hover:bg-slate-850">
+                <td class="p-3 font-semibold text-white"><%= req.full_name %></td>
+                <td class="p-3 text-amber-300 font-medium"><%= req.support_category %></td>
+                <td class="p-3 text-slate-400"><%= req.session_format.titleize %></td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase <%= req.status == 'completed' ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-700' : 'bg-amber-900/60 text-amber-300 border border-amber-700' %>"><%= req.status %></span></td>
+                <td class="p-3 text-right">
+                  <%= link_to "View Details", admin_support_request_path(req), class: "text-sky-400 hover:underline font-medium" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-xs text-slate-400 italic">No support requests currently assigned to or reviewed by <%= @user.name %>.</p>
+    <% end %>
+  </div>
+</div>

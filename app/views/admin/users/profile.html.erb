@@ -1,0 +1,53 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div>
+      <h1 class="font-serif text-2xl font-bold text-white">Admin Profile</h1>
+      <p class="text-xs text-slate-400">Update your account name, email address, or security password.</p>
+    </div>
+  </div>
+
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8">
+    <%= form_with(model: @user, url: admin_profile_path, method: :patch, local: true, class: "space-y-6") do |f| %>
+      <% if @user.errors.any? %>
+        <div class="bg-rose-950/80 border border-rose-800 text-rose-200 p-4 rounded-xl text-xs space-y-1">
+          <p class="font-bold"><%= pluralize(@user.errors.count, "error") %> prohibited saving your profile:</p>
+          <ul class="list-disc list-inside">
+            <% @user.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <%= f.label :name, "Full Name", class: "block text-xs font-bold text-slate-300" %>
+          <%= f.text_field :name, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :email, "Email Address", class: "block text-xs font-bold text-slate-300" %>
+          <%= f.email_field :email, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :password, "New Password (leave blank if unchanged)", class: "block text-xs font-bold text-slate-300" %>
+          <%= f.password_field :password, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :password_confirmation, "Confirm New Password", class: "block text-xs font-bold text-slate-300" %>
+          <%= f.password_field :password_confirmation, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+        </div>
+
+        <div class="md:col-span-2">
+          <%= render "shared/media_upload_field", form: f, field_name: :image_url, label_text: "Profile Photo / Avatar Image", placeholder_text: "upload profile photo or paste image URL" %>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-800">
+        <%= f.submit "Save Profile Changes", class: "px-6 py-2.5 bg-plum-700 hover:bg-plum-600 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-colors" %>
+      </div>
+    <% end %>
+  </div>
+</div>

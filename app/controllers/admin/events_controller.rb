@@ -1,9 +1,12 @@
 module Admin
   class EventsController < ApplicationController
-    before_action :set_event, only: [:edit, :update, :destroy]
+    before_action :set_event, only: [:show, :edit, :update, :destroy]
 
     def index
       @events = Event.all.order(event_date: :desc)
+    end
+
+    def show
     end
 
     def new

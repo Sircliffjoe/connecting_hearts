@@ -1,9 +1,12 @@
 module Admin
   class StoriesController < ApplicationController
-    before_action :set_story, only: [:edit, :update, :destroy]
+    before_action :set_story, only: [:show, :edit, :update, :destroy]
 
     def index
       @stories = Story.order(created_at: :desc)
+    end
+
+    def show
     end
 
     def new

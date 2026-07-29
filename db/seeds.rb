@@ -8,6 +8,7 @@ admin = User.find_or_create_by!(email: "admin@connectingheartsng.org") do |u|
   u.password = "password123"
   u.password_confirmation = "password123"
   u.role = "super_admin"
+  u.image_url = "founder.png"
 end
 puts "✓ Admin user created: #{admin.email}"
 
@@ -163,3 +164,7 @@ end
 puts "✓ Sample Support Requests created."
 
 puts "Database seeding completed successfully!"
+
+
+
+

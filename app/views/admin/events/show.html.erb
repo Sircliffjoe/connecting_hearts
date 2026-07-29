@@ -1,0 +1,48 @@
+<div class="max-w-4xl mx-auto space-y-6">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div>
+      <span class="text-xs font-bold text-plum-400 uppercase tracking-wider">Event Details • Edition <%= @event.edition_number %></span>
+      <h1 class="font-serif text-2xl font-bold text-white mt-1"><%= @event.title %></h1>
+    </div>
+    <div class="flex items-center gap-3">
+      <%= link_to "Edit Event", edit_admin_event_path(@event), class: "px-4 py-2 bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold rounded-xl hover:bg-amber-500/30 transition-colors" %>
+      <%= link_to "← Back", admin_events_path, class: "px-4 py-2 bg-slate-800 text-slate-300 text-xs font-bold rounded-xl hover:bg-slate-700 transition-colors" %>
+    </div>
+  </div>
+
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block mb-1">Date & Time</span>
+        <span class="text-white font-bold"><%= @event.event_date&.strftime("%B %d, %Y at %I:%M %p") %></span>
+      </div>
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block mb-1">Location</span>
+        <span class="text-white font-bold"><%= @event.location.presence || "TBD / Virtual" %></span>
+      </div>
+      <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+        <span class="text-slate-400 block mb-1">Registrations</span>
+        <span class="text-white font-bold"><%= @event.event_registrations.count %> registered</span>
+      </div>
+    </div>
+
+    <% if @event.theme.present? %>
+      <div>
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Theme</h3>
+        <p class="text-lg italic text-amber-200">"<%= @event.theme %>"</p>
+      </div>
+    <% end %>
+
+    <div>
+      <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Description</h3>
+      <div class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap"><%= @event.description %></div>
+    </div>
+
+    <% if @event.registration_link.present? %>
+      <div>
+        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Registration Link</h3>
+        <%= link_to @event.registration_link, @event.registration_link, target: "_blank", class: "text-xs text-plum-400 hover:underline break-all" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -4,11 +4,11 @@
       
       <!-- Foundation Summary Column -->
       <div class="lg:col-span-2 space-y-4">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-terracotta-500 flex items-center justify-center text-white font-serif font-bold text-lg">
-            ♥
-          </div>
-          <span class="font-serif font-bold text-xl text-white tracking-tight">Connecting Hearts</span>
+        <div>
+          <%= link_to root_path, class: "inline-flex items-center gap-3 group" do %>
+            <%= image_tag "logo.png", alt: "Connecting Hearts Logo", class: "h-11 w-auto object-contain brightness-0 invert opacity-95 group-hover:opacity-100 transition-opacity" %>
+            <span class="font-serif font-bold text-xl text-white tracking-tight">Connecting Hearts</span>
+          <% end %>
         </div>
         <p class="text-sm text-warm-300/90 max-w-md leading-relaxed">
           Connecting Hearts for Singles & Married Foundation provides safe spaces, confidential therapy, and educational support for children in Warri, Delta State, and across Nigeria.

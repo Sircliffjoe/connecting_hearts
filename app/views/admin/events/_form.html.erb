@@ -1,0 +1,68 @@
+<%= form_with(model: [:admin, event], local: true, class: "space-y-6") do |f| %>
+  <% if event.errors.any? %>
+    <div class="bg-rose-950/80 border border-rose-800 text-rose-200 p-4 rounded-xl text-xs space-y-1">
+      <p class="font-bold"><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</p>
+      <ul class="list-disc list-inside">
+        <% event.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-2">
+      <%= f.label :title, "Event Title", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :title, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :edition_number, "Edition Number (e.g. 4.0)", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :edition_number, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :event_date, "Event Date & Time", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.datetime_field :event_date, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :location, "Location / Venue", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :location, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :theme, "Theme / Subtitle", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :theme, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :capacity, "Capacity / Max Attendees", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.number_field :capacity, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :registration_link, "Registration URL / Form Link", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.url_field :registration_link, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="md:col-span-2">
+      <%= render "shared/media_upload_field", form: f, field_name: :image_url, label_text: "Event Cover Image / Banner", placeholder_text: "pic1.jpeg or upload file below" %>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :description, "Event Description", class: "block text-xs font-bold text-slate-300" %>
+    <%= f.text_area :description, rows: 5, class: "w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-plum-500" %>
+  </div>
+
+  <div class="flex items-center gap-3 pt-2">
+    <%= f.check_box :featured, class: "w-4 h-4 rounded bg-slate-950 border-slate-800 text-plum-600 focus:ring-plum-500" %>
+    <%= f.label :featured, "Mark as Featured Event (Highlight on Homepage)", class: "text-xs text-slate-300 font-medium cursor-pointer" %>
+  </div>
+
+  <div class="flex items-center gap-4 pt-4 border-t border-slate-800">
+    <%= f.submit event.new_record? ? "Create Event" : "Update Event", class: "px-6 py-2.5 bg-plum-700 hover:bg-plum-600 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-colors" %>
+    <%= link_to "Cancel", admin_events_path, class: "px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-colors" %>
+  </div>
+<% end %>

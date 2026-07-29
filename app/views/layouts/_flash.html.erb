@@ -1,19 +1,22 @@
 <% flash.each do |type, message| %>
   <% color_classes = case type.to_sym
-     when :notice, :success then "bg-emerald-50 text-emerald-900 border-emerald-300"
-     when :alert, :error then "bg-rose-50 text-rose-900 border-rose-300"
-     else "bg-plum-50 text-plum-900 border-plum-200"
+     when :notice, :success then "bg-emerald-950/95 text-emerald-100 border-emerald-700/80 shadow-xl"
+     when :alert, :error then "bg-rose-950/95 text-rose-100 border-rose-700/80 shadow-xl"
+     else "bg-plum-950/95 text-plum-100 border-plum-700/80 shadow-xl"
      end %>
   
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-    <div class="p-4 rounded-xl border <%= color_classes %> flex items-center justify-between shadow-sm animate-fade-in" role="alert">
-      <div class="flex items-center gap-3">
-        <span class="text-lg">
-          <%= type.to_sym == :alert || type.to_sym == :error ? '⚠️' : '✨' %>
-        </span>
-        <p class="text-sm font-medium"><%= message %></p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 z-50 relative">
+    <div class="p-4 rounded-2xl border <%= color_classes %> flex items-center justify-between shadow-2xl backdrop-blur-md animate-fade-in" role="alert">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-slate-900/90 p-1.5 flex items-center justify-center border border-white/10 shrink-0 shadow-inner">
+          <%= image_tag "logo.png", alt: "Connecting Hearts Logo", class: "h-7 w-auto object-contain brightness-0 invert" %>
+        </div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider opacity-75 block text-plum-300"><%= type.to_s.titleize %></span>
+          <p class="text-sm font-semibold leading-snug"><%= message %></p>
+        </div>
       </div>
-      <button type="button" onclick="this.parentElement.remove()" class="text-sm opacity-60 hover:opacity-100 font-bold px-2">✕</button>
+      <button type="button" onclick="this.closest('[role=alert]').remove()" class="text-sm opacity-70 hover:opacity-100 font-bold px-2.5 py-1 hover:bg-white/10 rounded-lg transition-colors cursor-pointer" aria-label="Dismiss notice">✕</button>
     </div>
   </div>
 <% end %>

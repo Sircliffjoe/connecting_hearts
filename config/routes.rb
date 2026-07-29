@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
+  get "manifest" => "pwa#manifest", as: :pwa_manifest
+  get "service-worker" => "pwa#service_worker", as: :pwa_service_worker
 
   root "pages#home"
   get "about", to: "pages#about", as: :about
@@ -56,5 +58,11 @@ Rails.application.routes.draw do
     resources :resources
     resources :testimonials
     resources :donations, only: [:index, :show]
+    resources :users
+
+    post "uploads", to: "uploads#create"
+    get "profile", to: "users#profile", as: :profile
+    patch "profile", to: "users#update_profile"
+    get "settings", to: "users#settings", as: :settings
   end
 end

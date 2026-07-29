@@ -165,14 +165,74 @@
 
       </nav>
 
-      <!-- Action Buttons -->
+      <!-- Action Buttons / Authenticated Admin Header Menu -->
       <div class="hidden lg:flex items-center space-x-3">
-        <%= link_to new_partnership_inquiry_path, class: "px-4 py-2.5 text-xs font-bold rounded-full transition-all border header-btn-secondary" do %>
-          Partner with us
-        <% end %>
-        <%= link_to new_support_request_path, class: "px-5 py-2.5 text-xs font-bold text-white brand-btn-gradient rounded-full shadow-md hover:shadow-lg transition-all flex items-center gap-1.5" do %>
-          <span>Get support</span>
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        <% if logged_in? %>
+          <!-- DIRECT ADMIN DASHBOARD LINK BUTTON -->
+        
+          <!-- AUTHENTICATED USER AVATAR & DROPDOWN -->
+          <div class="relative" data-controller="dropdown">
+            <button type="button" data-action="click->dropdown#toggle" class="flex items-center gap-2 p-1.5 rounded-full hover:bg-plum-100/60 transition-colors focus:outline-none group border border-warm-300">
+              <% if current_user.image_url.present? %>
+                <%= image_tag current_user.image_url, alt: current_user.name, class: "w-8 h-8 rounded-full object-cover shadow-sm border border-plum-500/40" %>
+              <% else %>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-plum-700 to-terracotta-500 text-white font-bold text-xs flex items-center justify-center shadow-sm">
+                  <%= current_user.name.first.upcase %>
+                </div>
+              <% end %>
+              <span class="text-xs font-bold text-plum-950 pr-1"><%= current_user.name.split.first %></span>
+              <svg class="w-3.5 h-3.5 text-charcoal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+
+            <!-- DROPDOWN MENU -->
+            <div data-dropdown-target="menu" class="hidden absolute right-0 mt-3 w-60 bg-white border border-warm-300 rounded-2xl shadow-2xl py-2 z-50 animate-fade-in divide-y divide-warm-200">
+              <div class="px-4 py-2.5">
+                <p class="text-xs font-bold text-plum-950"><%= current_user.name %></p>
+                <p class="text-[10px] text-plum-700 font-bold uppercase tracking-wider"><%= current_user.role.titleize %> (Logged In)</p>
+              </div>
+
+              <div class="py-1">
+                <%= link_to admin_dashboard_path, class: "flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-plum-900 hover:bg-plum-50 transition-colors" do %>
+                  <span>📊 Admin Dashboard</span>
+                <% end %>
+                <%= link_to admin_events_path, class: "flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-charcoal-700 hover:bg-plum-50 transition-colors" do %>
+                  <span>📅 Manage Events</span>
+                <% end %>
+                <%= link_to admin_stories_path, class: "flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-charcoal-700 hover:bg-plum-50 transition-colors" do %>
+                  <span>📖 Manage Stories</span>
+                <% end %>
+                <%= link_to admin_resources_path, class: "flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-charcoal-700 hover:bg-plum-50 transition-colors" do %>
+                  <span>📚 Manage Resources</span>
+                <% end %>
+                <%= link_to admin_users_path, class: "flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-charcoal-700 hover:bg-plum-50 transition-colors" do %>
+                  <span>👥 Manage Team</span>
+                <% end %>
+              </div>
+
+              <div class="py-1">
+                <%= link_to admin_profile_path, class: "flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-charcoal-700 hover:bg-plum-50 transition-colors" do %>
+                  <span>👤 My Profile</span>
+                <% end %>
+                <%= link_to admin_settings_path, class: "flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-charcoal-700 hover:bg-plum-50 transition-colors" do %>
+                  <span>⚙️ Settings</span>
+                <% end %>
+              </div>
+
+              <div class="py-1">
+                <%= button_to admin_logout_path, method: :delete, class: "w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors text-left" do %>
+                  <span>🚪 Logout</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <%= link_to new_partnership_inquiry_path, class: "px-4 py-2.5 text-xs font-bold rounded-full transition-all border header-btn-secondary" do %>
+            Partner with us
+          <% end %>
+          <%= link_to new_support_request_path, class: "px-5 py-2.5 text-xs font-bold text-white brand-btn-gradient rounded-full shadow-md hover:shadow-lg transition-all flex items-center gap-1.5" do %>
+            <span>Get support</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <% end %>
         <% end %>
       </div>
 
@@ -189,6 +249,25 @@
 
   <!-- Mobile Menu Drawer -->
   <div data-menu-target="drawer" class="hidden lg:hidden bg-white border-b border-warm-300 px-4 pt-3 pb-6 space-y-4 shadow-2xl">
+    
+    <% if logged_in? %>
+      <div class="bg-plum-950 text-white rounded-2xl p-4 space-y-3 shadow-md">
+        <div class="flex items-center gap-3">
+          <% if current_user.image_url.present? %>
+            <%= image_tag current_user.image_url, alt: current_user.name, class: "w-10 h-10 rounded-full object-cover border border-plum-500/40" %>
+          <% else %>
+            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-plum-700 to-terracotta-500 text-white font-bold text-sm flex items-center justify-center">
+              <%= current_user.name.first.upcase %>
+            </div>
+          <% end %>
+          <div>
+            <span class="font-bold text-sm block leading-tight"><%= current_user.name %></span>
+            <span class="text-[10px] text-plum-300 font-bold uppercase tracking-wider"><%= current_user.role.titleize %> (Logged In)</span>
+          </div>
+        </div>
+        <%= link_to "📊 Return to Admin Dashboard", admin_dashboard_path, class: "block w-full text-center px-4 py-2.5 bg-plum-800 hover:bg-plum-700 text-white text-xs font-bold rounded-xl border border-plum-600 shadow-md", data: { action: "click->menu#close" } %>
+      </div>
+    <% end %>
     
     <!-- About Us Group -->
     <div class="space-y-1">
