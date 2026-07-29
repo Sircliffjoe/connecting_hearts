@@ -35,16 +35,23 @@ module ApplicationHelper
   end
 
   def og_image_url(custom_image = nil)
-    raw = custom_image.presence || content_for(:og_image).presence || "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80"
+    raw = custom_image.presence || content_for(:og_image).presence || "pic112.jpeg"
+
     if raw.start_with?("http://", "https://")
-      raw
-    else
-      filename = File.basename(raw)
-      begin
-        image_url(filename)
-      rescue StandardError
-        raw
+      return raw
+    end
+
+    filename = File.basename(raw)
+
+    begin
+      path = image_path(filename)
+      if path.start_with?("http://", "https://")
+        path
+      else
+        "#{request.base_url}#{path}"
       end
+    rescue StandardError
+      "#{request.base_url}#{image_path('logo.png')}"
     end
   end
 end
