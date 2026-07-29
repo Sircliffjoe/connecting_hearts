@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+  <head>
+    <title><%= content_for?(:title) ? "#{yield(:title)} | Connecting Hearts Foundation" : "Connecting Hearts for Singles & Married Foundation | Warri, Delta State, Nigeria" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : 'Connecting Hearts for Singles & Married Foundation creates safe spaces, provides free confidential counseling, and supports children from broken families in Warri, Delta State, Nigeria.' %>">
+    <meta name="keywords" content="<%= content_for?(:keywords) ? yield(:keywords) : 'Relationship support Nigeria, Marriage counseling Warri, Couples counseling Delta State, Connecting Hearts Experience, Child education support Warri, Eloho Sodje' %>">
+    <meta name="author" content="Connecting Hearts for Singles & Married Foundation">
+    <%= favicon_link_tag image_path("logo.png") %>
+    
+    <!-- Open Graph / Facebook Metadata -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Connecting Hearts Foundation' %>">
+    <meta property="og:description" content="Connecting Hearts provides free counseling, relationship building, and child educational support in Nigeria.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:site_name" content="Connecting Hearts Foundation">
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= content_for?(:title) ? yield(:title) : 'Connecting Hearts Foundation' %>">
+    <meta name="twitter:description" content="Connecting Hearts provides free counseling, relationship building, and child educational support in Nigeria.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Swiper.js CSS & JS for Hero Slider -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="flex flex-col min-h-screen bg-warm-100 text-charcoal-900 font-sans antialiased relative">
+    <%= render "layouts/header" %>
+    <%= render "layouts/flash" %>
+
+    <main class="flex-grow">
+      <%= yield %>
+    </main>
+
+    <%= render "layouts/whatsapp_button" %>
+    <%= render "layouts/footer" %>
+  </body>
+</html>
+

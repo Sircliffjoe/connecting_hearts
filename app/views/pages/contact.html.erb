@@ -1,0 +1,130 @@
+<% content_for :title, "Contact Us | Connecting Hearts Foundation" %>
+<% content_for :description, "Contact Connecting Hearts for Singles & Married Foundation headquarters in Warri, Delta State, Nigeria." %>
+
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300 bg-white/10 px-3.5 py-1 rounded-full inline-block">Reach Out To Our Team</span>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Contact Us</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
+      Whether you have a general inquiry, want to learn more about our Foundation pillars, or wish to schedule a consultation.
+    </p>
+  </div>
+</section>
+
+<section class="py-20 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      
+      <!-- Foundation Details & Interactive Map -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-white p-8 rounded-3xl border border-warm-300 shadow-sm space-y-6">
+          <h2 class="font-serif text-2xl font-bold text-plum-950">Foundation Headquarters</h2>
+          
+          <div class="space-y-4 text-sm text-charcoal-800">
+            <div class="flex items-start gap-3">
+              <span class="text-xl">📍</span>
+              <div>
+                <strong class="block text-plum-950 font-serif font-bold">Headquarters Address</strong>
+                <span class="font-medium text-charcoal-700">Warri, Delta State, Nigeria</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="text-xl">✉️</span>
+              <div>
+                <strong class="block text-plum-950 font-serif font-bold">Email Address</strong>
+                <span class="font-medium text-charcoal-700">contact@connectingheartsng.org</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="text-xl">📞</span>
+              <div>
+                <strong class="block text-plum-950 font-serif font-bold">Phone & WhatsApp Hotline</strong>
+                <span class="font-medium text-charcoal-700">+2349013732353</span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <span class="text-xl">⏰</span>
+              <div>
+                <strong class="block text-plum-950 font-serif font-bold">Operating Hours</strong>
+                <span class="font-medium text-charcoal-700">Monday – Friday: 9:00 AM – 5:00 PM WAT</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Map Container -->
+          <div class="pt-4 border-t border-warm-200">
+            <span class="text-xs font-bold uppercase tracking-wider text-plum-700 mb-2 block">Location Map</span>
+            <div class="w-full h-48 rounded-2xl overflow-hidden border border-warm-300 relative bg-plum-50 flex items-center justify-center">
+              <iframe 
+                title="Foundation Map Location"
+                src="https://maps.google.com/maps?q=Warri%2C%20Delta%20State%2C%20Nigeria&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="brand-gradient text-white p-8 rounded-3xl space-y-3 shadow-lg">
+          <h3 class="font-serif text-xl font-bold text-white">Need Confidential Counseling?</h3>
+          <p class="text-xs text-purple-100/90 leading-relaxed">
+            Please do not send sensitive relationship or therapy details via general contact forms. Use our dedicated multi-step Support Request intake portal.
+          </p>
+          <%= link_to "Get support", new_support_request_path, class: "inline-block mt-2 px-6 py-2.5 text-xs font-bold text-plum-950 bg-white hover:bg-warm-100 rounded-full shadow-md transition-all" %>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="lg:col-span-7">
+        <div class="bg-white p-8 sm:p-10 rounded-3xl border border-warm-300 shadow-sm space-y-6">
+          <h2 class="font-serif text-2xl font-bold text-plum-950">Send Us A Message</h2>
+          
+          <%= form_with(model: (@contact_inquiry || ContactInquiry.new), url: contact_inquiries_path, local: true, class: "space-y-4") do |f| %>
+            
+            <% if @contact_inquiry&.errors&.any? %>
+              <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1">
+                <p class="font-bold">Please correct the errors below:</p>
+                <ul class="list-disc list-inside">
+                  <% @contact_inquiry.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div>
+              <%= f.label :name, "Your Full Name", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+              <%= f.text_field :name, required: true, placeholder: "e.g. Eloho Sodje", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-700 outline-none text-sm bg-warm-50 text-charcoal-900 font-medium" %>
+            </div>
+
+            <div>
+              <%= f.label :email, "Email Address", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+              <%= f.email_field :email, required: true, placeholder: "you@example.com", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-700 outline-none text-sm bg-warm-50 text-charcoal-900 font-medium" %>
+            </div>
+
+            <div>
+              <%= f.label :subject, "Subject", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+              <%= f.text_field :subject, required: true, placeholder: "e.g. Inquiry about Experience 4.0 Launch", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-700 outline-none text-sm bg-warm-50 text-charcoal-900 font-medium" %>
+            </div>
+
+            <div>
+              <%= f.label :message, "Your Message", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+              <%= f.text_area :message, rows: 4, required: true, placeholder: "How can our Warri team assist you?", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-700 outline-none text-sm bg-warm-50 text-charcoal-900 font-medium" %>
+            </div>
+
+            <%= f.submit "Send Message", class: "w-full py-4 text-sm font-bold text-white brand-btn-gradient rounded-xl shadow-md cursor-pointer transition-all" %>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

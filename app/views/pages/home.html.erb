@@ -1,0 +1,363 @@
+<% content_for :title, "Connecting Hearts for Singles & Married Foundation | Warri, Nigeria" %>
+<% content_for :description, "Connecting Hearts for Singles & Married Foundation creates safe spaces, provides free confidential counseling, and supports children from broken homes in Warri, Delta State, Nigeria." %>
+
+<!-- SECTION 1: HERO SLIDER (Modern, High Impact, Swiper.js Enabled) -->
+<section class="relative overflow-hidden min-h-[640px] lg:min-h-[720px] w-full text-white">
+  <div class="swiper w-full min-h-[640px] lg:min-h-[720px] relative" data-controller="hero-slider">
+    <div class="swiper-wrapper">
+      
+      <!-- Slide 1: Main Foundation Vision -->
+      <div class="swiper-slide relative flex items-center min-h-[640px] lg:min-h-[720px] pt-28 pb-16 lg:pt-36 lg:pb-24">
+        <div class="absolute inset-0 z-0">
+          <img src="<%= image_path('pic112.jpeg') %>" alt="Connecting Hearts Support" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-900/40"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full mt-4">
+          <div class="max-w-3xl space-y-6 text-left">
+            <h1 class="font-serif font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1] tracking-tight">
+              Find Support Today, Create Change For Tomorrow Together.
+            </h1>
+
+            <p class="text-base sm:text-lg lg:text-xl text-purple-100/90 font-sans font-light leading-relaxed">
+              Whether you need support or want to help, there is a place for you in our mission to strengthen lives and communities.
+            </p>
+
+            <div class="pt-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
+              <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <%= link_to new_support_request_path, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-plum-950 bg-white hover:bg-warm-100 rounded-full shadow-2xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group" do %>
+                  <span>Get support</span>
+                  <svg class="w-5 h-5 text-plum-700 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                <% end %>
+
+                <%= link_to new_partnership_inquiry_path, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-white/10 hover:bg-white/20 rounded-full border border-white/25 transition-all text-center backdrop-blur-md" do %>
+                  Partner with us
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Badges -->
+            <div class="pt-6 border-t border-white/15 flex flex-wrap items-center gap-6 text-xs text-purple-100/80">
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> 100% Confidential Support</div>
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> Certified Family Counselors</div>
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> Child Academic Sponsorships</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Educational Support Pillar -->
+      <div class="swiper-slide relative flex items-center min-h-[640px] lg:min-h-[720px] pt-28 pb-16 lg:pt-36 lg:pb-24">
+        <div class="absolute inset-0 z-0">
+          <img src="<%= image_path('pic32.jpeg') %>" alt="Educational Support for Children" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-900/40"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 mt-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div class="max-w-3xl space-y-6 text-left">
+            <h2 class="font-serif font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1] tracking-tight">
+              Give Children Brighter Futures Through Education And Support.
+            </h2>
+
+            <p class="text-base sm:text-lg lg:text-xl text-amber-50/90 font-sans font-light leading-relaxed">
+              Your support can help children from vulnerable homes stay in school, pursue their dreams, and build brighter futures filled with hope and opportunity.
+            </p>
+
+            <div class="pt-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
+              <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <%= link_to educational_support_path, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-plum-950 bg-white hover:bg-warm-100 rounded-full shadow-2xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group" do %>
+                  <span>Support a Child</span>
+                  <svg class="w-5 h-5 text-plum-700 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                <% end %>
+
+                <%= link_to new_donation_path, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-white/10 hover:bg-white/20 rounded-full border border-white/25 transition-all text-center backdrop-blur-md" do %>
+                  Donate Now
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Badges -->
+            <div class="pt-6 border-t border-white/15 flex flex-wrap items-center gap-6 text-xs text-purple-100/80">
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> 100% Confidential Support</div>
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> Certified Family Counselors</div>
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> Child Academic Sponsorships</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Foundation Grand Launch August 1, 2026 -->
+      <div class="swiper-slide relative flex items-center min-h-[640px] lg:min-h-[720px] pt-28 pb-16 lg:pt-36 lg:pb-24">
+        <div class="absolute inset-0 z-0">
+          <img src="<%= image_path('pic6.jpeg') %>" alt="Connecting Hearts Experience 4.0 Launch" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-900/40"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 mt-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div class="max-w-3xl space-y-6 text-left">
+            <h2 class="font-serif font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1] tracking-tight">
+              Our Conversations Inspire Healthier Relationships And Families.
+            </h2>
+
+            <p class="text-base sm:text-lg lg:text-xl text-purple-100/90 font-sans font-light leading-relaxed">
+              Explore conversations and experiences that inspire healthier relationships, families, and hopeful futures for individuals, couples, and communities.
+            </p>
+
+            <div class="pt-4 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4">
+              <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <%= link_to experiences_path, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-plum-950 bg-white hover:bg-warm-100 rounded-full shadow-2xl transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group" do %>
+                  <span>View Experiences</span>
+                  <svg class="w-5 h-5 text-plum-700 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                <% end %>
+
+                <%= link_to contact_path, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-white/10 hover:bg-white/20 rounded-full border border-white/25 transition-all text-center backdrop-blur-md" do %>
+                  Contact Us
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Badges -->
+            <div class="pt-6 border-t border-white/15 flex flex-wrap items-center gap-6 text-xs text-purple-100/80">
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> 100% Confidential Support</div>
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> Certified Family Counselors</div>
+              <div class="flex items-center gap-2"><span class="text-amber-300 font-bold">✓</span> Child Academic Sponsorships</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: THE PROBLEM (Enhanced Color & Contrast) -->
+<section class="py-20 bg-warm-100 border-b border-warm-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+      <span class="text-xs font-bold uppercase tracking-widest text-plum-700 bg-plum-100 px-3.5 py-1 rounded-full inline-block">Understanding The Reality</span>
+      <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-950">
+        Behind Every Broken Home Is A Human Story.
+      </h2>
+      <p class="text-base sm:text-lg text-charcoal-700 leading-relaxed font-sans">
+        Relationships and families in our society face intense pressures. Too often, people suffer in isolation, weighed down by stigma, fear, or a lack of accessible support.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <div class="soft-card p-8 space-y-4 border-l-4 border-l-plum-600">
+        <div class="w-12 h-12 rounded-2xl bg-plum-100 text-plum-700 flex items-center justify-center text-2xl font-serif shadow-xs">💬</div>
+        <h3 class="font-serif text-xl font-bold text-plum-950">Marital Conflict & Distance</h3>
+        <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+          Couples carrying unspoken hurt, communication breakdowns, and unaddressed trauma without a safe, neutral space to process healing.
+        </p>
+      </div>
+
+      <div class="soft-card p-8 space-y-4 border-l-4 border-l-terracotta-600">
+        <div class="w-12 h-12 rounded-2xl bg-terracotta-100 text-terracotta-700 flex items-center justify-center text-2xl font-serif shadow-xs">💔</div>
+        <h3 class="font-serif text-xl font-bold text-plum-950">Divorce & Emotional Grief</h3>
+        <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+          Individuals navigating the emotional shock, identity crisis, and loneliness of separation or divorce without supportive guidance.
+        </p>
+      </div>
+
+      <div class="soft-card p-8 space-y-4 border-l-4 border-l-amber-500">
+        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-2xl font-serif shadow-xs">🎓</div>
+        <h3 class="font-serif text-xl font-bold text-plum-950">Children Affected by Breakdown</h3>
+        <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+          Innocent children whose schooling and mental wellbeing are threatened when parents separate or face financial disruption.
+        </p>
+      </div>
+
+      <div class="soft-card p-8 space-y-4 border-l-4 border-l-rose-500">
+        <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-2xl font-serif shadow-xs">🤝</div>
+        <h3 class="font-serif text-xl font-bold text-plum-950">Single Parenthood Pressure</h3>
+        <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+          Single mothers and fathers balancing work, parenting, and emotional strain with little to no community safety net.
+        </p>
+      </div>
+
+      <div class="soft-card p-8 space-y-4 border-l-4 border-l-emerald-600">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl font-serif shadow-xs">💸</div>
+        <h3 class="font-serif text-xl font-bold text-plum-950">Financial Strain in Relationships</h3>
+        <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+          Economic pressure that creates friction, secrecy, and anxiety, destabilizing otherwise loving relationship foundations.
+        </p>
+      </div>
+
+      <div class="soft-card p-8 space-y-4 border-l-4 border-l-indigo-600">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-2xl font-serif shadow-xs">🌱</div>
+        <h3 class="font-serif text-xl font-bold text-plum-950">Singles Seeking Guidance</h3>
+        <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+          Young adults navigating modern dating, expectations, and self-worth who deserve honest answers rather than superficial advice.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: OUR RESPONSE (3 PILLARS WITH COLOR ACCENTS) -->
+<section class="py-20 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+      <span class="text-xs font-bold uppercase tracking-widest text-plum-700 bg-plum-100 px-3.5 py-1 rounded-full inline-block">The Three Pillars</span>
+      <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-950">
+        We Connect Hearts. Restore Hope. Strengthen Lives.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Card 1 -->
+      <div class="soft-card overflow-hidden flex flex-col justify-between group">
+        <div class="h-56 overflow-hidden relative">
+          <img src="<%= image_path('pic20.jpeg') %>" alt="Connecting Hearts Experience" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-4 left-4 bg-plum-800 text-white text-xs font-bold px-3.5 py-1.5 rounded-full uppercase shadow-md">Pillar 1</span>
+        </div>
+        <div class="p-8 flex-1 flex flex-col justify-between space-y-6">
+          <div class="space-y-3">
+            <h3 class="font-serif text-2xl font-bold text-plum-950">Connecting Hearts Experience</h3>
+            <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+              Honest, transformative gatherings bringing together singles and married individuals for open debate, therapy sessions, testimony, and practical relationship guidance.
+            </p>
+          </div>
+          <%= link_to experiences_path, class: "inline-flex items-center text-sm font-bold text-plum-700 hover:text-plum-950 gap-2 group-hover:translate-x-1 transition-all" do %>
+            <span>Explore the Experience</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="soft-card overflow-hidden flex flex-col justify-between group">
+        <div class="h-56 overflow-hidden relative">
+          <img src="<%= image_path('pic10.jpeg') %>" alt="Free Counseling & Therapy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-4 left-4 bg-terracotta-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full uppercase shadow-md">Pillar 2</span>
+        </div>
+        <div class="p-8 flex-1 flex flex-col justify-between space-y-6">
+          <div class="space-y-3">
+            <h3 class="font-serif text-2xl font-bold text-plum-950">Free Counseling & Therapy</h3>
+            <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+              Confidential, professional counseling for individuals and couples navigating relationship conflict, marital distress, grief, and emotional challenges.
+            </p>
+          </div>
+          <%= link_to new_support_request_path, class: "inline-flex items-center text-sm font-bold text-terracotta-600 hover:text-plum-950 gap-2 group-hover:translate-x-1 transition-all" do %>
+            <span>Get support</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="soft-card overflow-hidden flex flex-col justify-between group">
+        <div class="h-56 overflow-hidden relative">
+          <img src="<%= image_path('child.png') %>" alt="Educational Support for Children" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <span class="absolute top-4 left-4 bg-amber-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full uppercase shadow-md">Pillar 3</span>
+        </div>
+        <div class="p-8 flex-1 flex flex-col justify-between space-y-6">
+          <div class="space-y-3">
+            <h3 class="font-serif text-2xl font-bold text-plum-950">Educational Support for Children</h3>
+            <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
+              Targeted academic sponsorships, uniforms, and books ensuring children from broken or single-parent homes remain in school and build secure futures.
+            </p>
+          </div>
+          <%= link_to educational_support_path, class: "inline-flex items-center text-sm font-bold text-amber-700 hover:text-plum-950 gap-2 group-hover:translate-x-1 transition-all" do %>
+            <span>Support a Child</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: TIMELINE (July 2025 -> August 2026 Launch) -->
+<section class="py-20 bg-warm-100 border-t border-warm-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+      <span class="text-xs font-bold uppercase tracking-widest text-plum-700 bg-plum-100 px-3.5 py-1 rounded-full inline-block">Our Journey</span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-plum-950">A Conversation Became A Movement.</h2>
+      <p class="text-sm text-charcoal-700">From an initial gathering on July 5, 2025 to an institutional foundation.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      
+      <div class="bg-white p-6 rounded-3xl border border-warm-300 space-y-3 shadow-xs">
+        <span class="text-xs font-bold uppercase text-plum-600 bg-plum-50 px-3 py-1 rounded-full">July 2025</span>
+        <h4 class="font-serif font-bold text-lg text-plum-950">Experience 1.0</h4>
+        <p class="text-xs text-charcoal-600">Theme: <em>This Thing Called Love</em>. Over 100 attendees joined for vulnerability & healing.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl border border-warm-300 space-y-3 shadow-xs">
+        <span class="text-xs font-bold uppercase text-plum-600 bg-plum-50 px-3 py-1 rounded-full">October 2025</span>
+        <h4 class="font-serif font-bold text-lg text-plum-950">Experience 2.0</h4>
+        <p class="text-xs text-charcoal-600">Theme: <em>Loving You</em>. Deep dive into self-worth, emotional maturity, and boundaries.</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-3xl border border-warm-300 space-y-3 shadow-xs">
+        <span class="text-xs font-bold uppercase text-plum-600 bg-plum-50 px-3 py-1 rounded-full">March 2026</span>
+        <h4 class="font-serif font-bold text-lg text-plum-950">Experience 3.0</h4>
+        <p class="text-xs text-charcoal-600">Theme: <em>Love, Sex & Money</em>. Tackling intimacy, compatibility, and financial transparency.</p>
+      </div>
+
+      <div class="bg-gradient-to-br from-plum-900 to-plum-950 text-white p-6 rounded-3xl space-y-3 shadow-md border border-plum-700">
+        <span class="text-xs font-bold uppercase text-amber-300 bg-white/10 px-3 py-1 rounded-full">August 1, 2026</span>
+        <h4 class="font-serif font-bold text-lg text-white">Experience 4.0 & Grand Launch</h4>
+        <p class="text-xs text-plum-100">Official institutional launch of Connecting Hearts Foundation in Warri!</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: 4-WAY CALL TO ACTION GRID -->
+<section class="py-20 bg-warm-50 border-t border-warm-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-plum-950">There Are Many Ways To Help & Get Involved.</h2>
+      <p class="text-sm text-charcoal-700">Whether you are seeking support or want to offer your time, expertise, or resources.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <div class="soft-card p-8 text-center space-y-4 flex flex-col justify-between border-t-4 border-t-plum-700">
+        <div class="space-y-2">
+          <div class="text-3xl">🕊️</div>
+          <h3 class="font-serif font-bold text-xl text-plum-950">I Need Help</h3>
+          <p class="text-xs text-charcoal-700 font-medium">Request confidential counseling, therapy referral, or child educational assistance.</p>
+        </div>
+        <%= link_to "Get support", new_support_request_path, class: "w-full py-2.5 text-xs font-bold text-white brand-btn-gradient rounded-full inline-block" %>
+      </div>
+
+      <div class="soft-card p-8 text-center space-y-4 flex flex-col justify-between border-t-4 border-t-terracotta-600">
+        <div class="space-y-2">
+          <div class="text-3xl">🙋‍♀️</div>
+          <h3 class="font-serif font-bold text-xl text-plum-950">I Want To Volunteer</h3>
+          <p class="text-xs text-charcoal-700 font-medium">Offer your skills in counseling, media, events, administration, or mentorship.</p>
+        </div>
+        <%= link_to "Join As Volunteer", new_volunteer_application_path, class: "w-full py-2.5 text-xs font-bold text-plum-950 bg-warm-200 hover:bg-warm-300 rounded-full inline-block" %>
+      </div>
+
+      <div class="soft-card p-8 text-center space-y-4 flex flex-col justify-between border-t-4 border-t-amber-500">
+        <div class="space-y-2">
+          <div class="text-3xl">🤝</div>
+          <h3 class="font-serif font-bold text-xl text-plum-950">I Want To Partner</h3>
+          <p class="text-xs text-charcoal-700 font-medium">Corporate CSR, media sponsorship, NGO collaborations, and institutional support.</p>
+        </div>
+        <%= link_to "Partner with us", new_partnership_inquiry_path, class: "w-full py-2.5 text-xs font-bold text-plum-950 bg-warm-200 hover:bg-warm-300 rounded-full inline-block" %>
+      </div>
+
+      <div class="soft-card p-8 text-center space-y-4 flex flex-col justify-between border-t-4 border-t-emerald-600">
+        <div class="space-y-2">
+          <div class="text-3xl">💛</div>
+          <h3 class="font-serif font-bold text-xl text-plum-950">I Want To Give</h3>
+          <p class="text-xs text-charcoal-700 font-medium">Sponsor counseling sessions or fund a child's school tuition and books.</p>
+        </div>
+        <%= link_to "Donate Now", new_donation_path, class: "w-full py-2.5 text-xs font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full inline-block" %>
+      </div>
+
+    </div>
+  </div>
+</section>

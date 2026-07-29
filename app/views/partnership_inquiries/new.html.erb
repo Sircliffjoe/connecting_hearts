@@ -1,0 +1,68 @@
+<% content_for :title, "Partner With Us" %>
+
+<section class="bg-plum-950 text-white py-12 lg:py-16 text-center">
+  <div class="max-w-3xl mx-auto px-4 space-y-3">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300">Institutional & CSR Collaboration</span>
+    <h1 class="font-serif text-3xl sm:text-4xl font-bold">Partner With Us</h1>
+    <p class="text-sm text-warm-200/90 font-light max-w-xl mx-auto">
+      Collaborate with Connecting Hearts Foundation to strengthen families, expand mental health access, and keep vulnerable children in school.
+    </p>
+  </div>
+</section>
+
+<section class="py-12 bg-warm-50">
+  <div class="max-w-2xl mx-auto px-4">
+    <div class="bg-white rounded-3xl p-8 sm:p-10 border border-warm-300 shadow-sm">
+      <%= form_with(model: @partnership_inquiry, local: true, class: "space-y-6") do |f| %>
+
+        <% if @partnership_inquiry.errors.any? %>
+          <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1">
+            <p class="font-bold">Please correct the form errors:</p>
+            <ul class="list-disc list-inside">
+              <% @partnership_inquiry.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <%= f.label :organization_name, "Organization / Business Name", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.text_field :organization_name, required: true, placeholder: "e.g. Apex Health Ltd", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          </div>
+
+          <div class="space-y-2">
+            <%= f.label :contact_person, "Contact Person Name", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.text_field :contact_person, required: true, placeholder: "e.g. Dr. O. Okonjo", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <%= f.label :email, "Official Email Address", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.email_field :email, required: true, placeholder: "info@organization.org", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          </div>
+
+          <div class="space-y-2">
+            <%= f.label :phone, "Phone / WhatsApp", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.telephone_field :phone, placeholder: "08012345678", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :partnership_type, "Partnership Category", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+          <%= f.select :partnership_type, PartnershipInquiry::TYPES, {}, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= f.label :message, "Proposal Details / How You Wish To Collaborate", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+          <%= f.text_area :message, rows: 4, required: true, placeholder: "Describe how your organization would like to partner with Connecting Hearts Foundation...", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+        </div>
+
+        <%= f.submit "Submit Partnership Proposal", class: "w-full py-4 text-sm font-bold text-white bg-plum-900 hover:bg-plum-800 rounded-full shadow-md cursor-pointer transition-all" %>
+
+      <% end %>
+    </div>
+  </div>
+</section>

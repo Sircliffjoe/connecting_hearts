@@ -1,0 +1,116 @@
+<div class="space-y-8">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <div>
+      <h1 class="font-serif text-3xl font-bold text-white">Foundation Triage Overview</h1>
+      <p class="text-xs text-slate-400">Warri, Delta State • Connecting Hearts Management Platform</p>
+    </div>
+    <span class="px-3 py-1 bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 rounded-full text-xs font-semibold">
+      System Active
+    </span>
+  </div>
+
+  <!-- Metric Badges -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-xs font-semibold text-slate-400 uppercase">Contact Form Submissions</span>
+      <div class="text-3xl font-serif font-bold text-sky-400"><%= @pending_contact_count %></div>
+      <%= link_to "Review Contact Messages →", admin_contact_inquiries_path, class: "text-xs font-bold text-sky-400 hover:text-sky-300 inline-block pt-1" %>
+    </div>
+
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-xs font-semibold text-slate-400 uppercase">Support Requests (Confidential)</span>
+      <div class="text-3xl font-serif font-bold text-rose-400"><%= @pending_support_count %></div>
+      <%= link_to "Review Support Requests →", admin_support_requests_path, class: "text-xs font-bold text-rose-400 hover:text-rose-300 inline-block pt-1" %>
+    </div>
+
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-xs font-semibold text-slate-400 uppercase">Partnership Proposals</span>
+      <div class="text-3xl font-serif font-bold text-purple-400"><%= @pending_partnership_count %></div>
+      <%= link_to "Review Proposals →", admin_partnership_inquiries_path, class: "text-xs font-bold text-purple-400 hover:text-purple-300 inline-block pt-1" %>
+    </div>
+
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-xs font-semibold text-slate-400 uppercase">Volunteer Applications</span>
+      <div class="text-3xl font-serif font-bold text-amber-400"><%= @pending_volunteer_count %></div>
+      <%= link_to "Review Applicants →", admin_volunteer_applications_path, class: "text-xs font-bold text-amber-400 hover:text-amber-300 inline-block pt-1" %>
+    </div>
+
+  </div>
+
+  <!-- Contact Inquiries Triage Section -->
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="font-serif text-xl font-bold text-white">Recent Contact Form Submissions</h2>
+      <%= link_to "View All Contact Messages", admin_contact_inquiries_path, class: "text-xs text-sky-400 font-semibold" %>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs text-slate-300">
+        <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
+          <tr>
+            <th class="p-3">Sender Name</th>
+            <th class="p-3">Email</th>
+            <th class="p-3">Subject</th>
+            <th class="p-3">Status</th>
+            <th class="p-3">Received</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+          <% @recent_contact_inquiries.each do |c| %>
+            <tr class="hover:bg-slate-850">
+              <td class="p-3 font-semibold text-white"><%= c.name %></td>
+              <td class="p-3"><%= c.email %></td>
+              <td class="p-3 font-bold text-sky-300"><%= c.subject %></td>
+              <td class="p-3">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase <%= c.status == 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800' %>">
+                  <%= c.status %>
+                </span>
+              </td>
+              <td class="p-3"><%= time_ago_in_words(c.created_at) %> ago</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Support Requests Section -->
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <h2 class="font-serif text-xl font-bold text-white">Recent Support Requests</h2>
+      <%= link_to "View All Support Requests", admin_support_requests_path, class: "text-xs text-rose-400 font-semibold" %>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs text-slate-300">
+        <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
+          <tr>
+            <th class="p-3">Applicant Name</th>
+            <th class="p-3">Category</th>
+            <th class="p-3">Format</th>
+            <th class="p-3">Status</th>
+            <th class="p-3">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+          <% @recent_support_requests.each do |sr| %>
+            <tr class="hover:bg-slate-850">
+              <td class="p-3 font-semibold text-white"><%= sr.full_name %></td>
+              <td class="p-3"><%= sr.support_category %></td>
+              <td class="p-3"><%= sr.session_format %></td>
+              <td class="p-3">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase <%= sr.status == 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800' %>">
+                  <%= sr.status %>
+                </span>
+              </td>
+              <td class="p-3">
+                <%= link_to "View Case File", admin_support_request_path(sr), class: "text-plum-400 hover:underline font-semibold" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

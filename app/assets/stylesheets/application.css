@@ -1,0 +1,116 @@
+/*
+ * Application Stylesheet
+ */
+
+/* Header Scroll Dynamics */
+.header-transparent {
+  background-color: transparent !important;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.45) 0%, rgba(15, 23, 42, 0) 100%) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.header-transparent .header-text-main {
+  color: #ffffff !important;
+}
+
+.header-transparent .header-text-sub {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.header-transparent .header-nav-btn {
+  color: #ffffff !important;
+}
+
+.header-transparent .header-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+}
+
+.header-transparent .header-nav-icon {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.header-transparent .header-btn-secondary {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.header-transparent .header-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.header-transparent .header-hamburger {
+  color: #ffffff !important;
+}
+
+.header-transparent .header-hamburger:hover {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.header-scrolled {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08) !important;
+}
+
+.header-scrolled .header-text-main {
+  color: #301934 !important;
+}
+
+.header-scrolled .header-text-sub {
+  color: #c55a38 !important;
+}
+
+.header-scrolled .header-nav-btn {
+  color: #301934 !important;
+}
+
+.header-scrolled .header-nav-btn:hover {
+  background-color: #fbf5fb !important;
+  color: #800080 !important;
+}
+
+.header-scrolled .header-nav-icon {
+  color: #9625a3 !important;
+}
+
+.header-scrolled .header-btn-secondary {
+  color: #301934 !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(234, 229, 217, 0.9) !important;
+}
+
+.header-scrolled .header-btn-secondary:hover {
+  background-color: #f4f1ea !important;
+  color: #800080 !important;
+}
+
+.header-scrolled .header-hamburger {
+  color: #301934 !important;
+}
+
+.header-scrolled .header-hamburger:hover {
+  background-color: #f4f1ea !important;
+}
+
+/* Swiper Custom Controls (Bottom Right Capsule) */
+.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1 !important;
+  width: 8px !important;
+  height: 8px !important;
+  margin: 0 3px !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #ffffff !important;
+  width: 20px !important;
+  border-radius: 9999px !important;
+}
+

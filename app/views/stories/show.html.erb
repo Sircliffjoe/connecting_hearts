@@ -1,0 +1,26 @@
+<% content_for :title, @story.title %>
+
+<section class="py-24 bg-warm-50">
+
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+    <div class="space-y-4 text-center">
+      <span class="text-xs font-bold uppercase tracking-widest text-terracotta-600"><%= @story.category %></span>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-plum-950"><%= @story.title %></h1>
+      <p class="text-xs text-charcoal-500">Published on <%= @story.created_at.strftime("%B %d, %Y") %></p>
+    </div>
+
+    <% if @story.image_url.present? %>
+      <div class="rounded-3xl overflow-hidden shadow-lg border border-warm-300">
+        <img src="<%= safe_image_path(@story.image_url) %>" alt="<%= @story.title %>" class="w-full h-96 object-cover">
+      </div>
+    <% end %>
+
+    <div class="bg-white p-8 sm:p-12 rounded-3xl border border-warm-300 shadow-sm text-charcoal-800 leading-relaxed font-sans space-y-6 text-base">
+      <%= simple_format(@story.body) %>
+    </div>
+
+    <div class="pt-6 text-center">
+      <%= link_to "← Back To All Stories", stories_path, class: "px-6 py-3 text-xs font-bold text-plum-900 bg-warm-200 rounded-full" %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,102 @@
+<% content_for :title, "Free Counseling & Therapy Support" %>
+
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300 bg-white/10 px-3.5 py-1 rounded-full inline-block">Pillar 2 • Free & Confidential</span>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">You Do Not Have To Navigate Everything Alone.</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
+      Connecting Hearts Foundation provides access to confidential counseling and therapy support through qualified professionals and compassionate referral networks.
+    </p>
+  </div>
+</section>
+
+
+<!-- Safeguarding & Emergency Notice Box -->
+<section class="py-6 bg-terracotta-50 border-b border-terracotta-200">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-charcoal-800 space-y-1">
+    <p class="font-bold text-terracotta-700">📌 Important Safeguarding Notice:</p>
+    <p>
+      Our counseling services are not an emergency intervention service. We do not replace emergency medical or psychiatric crisis care. Requests are reviewed and referred appropriately. Confidentiality is strictly respected within professional safeguarding boundaries.
+    </p>
+  </div>
+</section>
+
+<!-- Support Areas Grid -->
+<section class="py-20 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-6 space-y-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-plum-700 bg-plum-100 px-3.5 py-1 rounded-full inline-block">Safe & Confidential Environment</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-plum-950">A Safe Space To Speak & Heal</h2>
+        <p class="text-base text-charcoal-700 leading-relaxed font-sans">
+          Whether you are facing unresolved communication breakdowns, carrying the weight of emotional grief, or navigating co-parenting challenges, our team is here with non-judgmental guidance.
+        </p>
+      </div>
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl overflow-hidden shadow-xl border border-warm-300">
+          <img src="<%= image_path('pic10.jpeg') %>" alt="Counseling Environment" class="w-full h-80 object-cover">
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+        <h2 class="font-serif text-3xl font-bold text-plum-950">Areas Of Support We Provide</h2>
+        <p class="text-sm text-charcoal-700">Whether you are an individual processing personal grief or a couple seeking marital healing.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="bg-white rounded-2xl border border-warm-300 shadow-xs overflow-hidden space-y-4 flex flex-col justify-between">
+          <div class="h-44 overflow-hidden">
+            <img src="<%= image_path('pic11.jpeg') %>" alt="Marriage Conflict" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="font-serif text-lg font-bold text-plum-900">Marriage & Couples Conflict</h3>
+            <p class="text-xs text-charcoal-700 leading-relaxed">Communication repair, intimacy restoration, financial stress alignment, and trust rebuilding.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-warm-300 shadow-xs overflow-hidden space-y-4 flex flex-col justify-between">
+          <div class="h-44 overflow-hidden">
+            <img src="<%= image_path('pic26.jpeg') %>" alt="Divorce Support" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="font-serif text-lg font-bold text-plum-900">Divorce & Separation Support</h3>
+            <p class="text-xs text-charcoal-700 leading-relaxed">Processing separation grief, identity restoration, and peaceful co-parenting guidance.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-warm-300 shadow-xs overflow-hidden space-y-4 flex flex-col justify-between">
+          <div class="h-44 overflow-hidden">
+            <img src="<%= image_path('pic12.jpeg') %>" alt="Emotional Wellbeing" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="font-serif text-lg font-bold text-plum-900">Emotional & Mental Wellbeing</h3>
+            <p class="text-xs text-charcoal-700 leading-relaxed">Handling anxiety, heartbreak, guilt, and emotional exhaustion from relationship trauma.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-warm-300 shadow-xs overflow-hidden space-y-4 flex flex-col justify-between">
+          <div class="h-44 overflow-hidden">
+            <img src="<%= image_path('pic29.jpeg') %>" alt="Family Care" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="font-serif text-lg font-bold text-plum-900">Family & Single Parent Care</h3>
+            <p class="text-xs text-charcoal-700 leading-relaxed">Support for single mothers, single fathers, and extended family conflict resolution.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Direct CTA -->
+    <div class="mt-16 text-center bg-white rounded-3xl p-10 border border-warm-300 shadow-sm max-w-3xl mx-auto space-y-6">
+      <h3 class="font-serif text-2xl font-bold text-plum-950">Ready to Take The First Step Toward Healing?</h3>
+      <p class="text-sm text-charcoal-700">Filling out our brief support form takes under 3 minutes. Your information is kept completely private.</p>
+      <%= link_to "Request Confidential Support Now", new_support_request_path, class: "inline-block px-8 py-4 text-sm font-bold text-white bg-plum-900 hover:bg-plum-800 rounded-full shadow-md transition-all" %>
+    </div>
+
+  </div>
+</section>

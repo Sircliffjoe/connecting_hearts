@@ -1,0 +1,85 @@
+<% content_for :title, "Educational Support for Children" %>
+
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300 bg-white/10 px-3.5 py-1 rounded-full inline-block">Pillar 3 • Child Academic Shelter</span>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">A Difficult Home Should Not Mean A Lost Future.</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
+      Protecting children from losing their access to education when their families experience separation, divorce, or severe financial distress.
+    </p>
+  </div>
+</section>
+
+
+<section class="py-20 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7 space-y-6">
+        <h2 class="font-serif text-3xl font-bold text-plum-950">Why This Programme Exists</h2>
+        <p class="text-base text-charcoal-700 leading-relaxed">
+          When parents go through bitter divorce, marital breakdown, or sudden abandonment, children are frequently the invisible victims. School fees go unpaid, uniforms become worn, and children are withdrawn from school.
+        </p>
+        <p class="text-base text-charcoal-700 leading-relaxed">
+          The Connecting Hearts Educational Support Pillar steps in to bridge this gap. We partner directly with primary and secondary schools across Warri and Delta State to pay tuition fees, provide textbooks, uniforms, and ensure uninterrupted learning.
+        </p>
+      </div>
+
+      <div class="lg:col-span-5 space-y-6">
+        <div class="rounded-3xl overflow-hidden shadow-lg border border-warm-300">
+          <img src="<%= image_path('child.png') %>" alt="Children Educational Support" class="w-full h-64 object-cover">
+        </div>
+        <div class="bg-white p-8 rounded-3xl border border-warm-300 shadow-sm space-y-6">
+          <h3 class="font-serif text-xl font-bold text-plum-900">Who Qualifies For Support?</h3>
+          <ul class="space-y-3 text-sm text-charcoal-700">
+            <li class="flex items-start gap-2">
+              <span class="text-terracotta-600 font-bold">✓</span>
+              <span>Children of single parents experiencing extreme economic hardship.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-terracotta-600 font-bold">✓</span>
+              <span>Kids whose parents are undergoing separation/divorce disputes resulting in abandoned fees.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-terracotta-600 font-bold">✓</span>
+              <span>Orphans or vulnerable children affected by domestic breakdown in Warri.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sponsorship CTA Grid -->
+    <div class="bg-white rounded-3xl p-10 border border-warm-300 shadow-sm text-center space-y-8 max-w-4xl mx-auto">
+      <div class="space-y-3">
+        <h3 class="font-serif text-2xl font-bold text-plum-950">How You Can Help Keep A Child In School</h3>
+        <p class="text-sm text-charcoal-700">
+          You can sponsor a child's tuition for a term, an entire academic year, or provide school supplies.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+        <div class="p-6 rounded-2xl bg-warm-100 border border-warm-300 space-y-2">
+          <div class="font-serif font-bold text-lg text-plum-900">Term Sponsorship</div>
+          <p class="text-xs text-charcoal-700">Covers 1 term of school fees, exercise books, and basic supplies for a child in need.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-plum-50 border border-plum-200 space-y-2">
+          <div class="font-serif font-bold text-lg text-plum-900">Full Academic Year</div>
+          <p class="text-xs text-charcoal-700">Comprehensive 3-term tuition coverage, complete uniforms, textbooks, and mentoring.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-warm-100 border border-warm-300 space-y-2">
+          <div class="font-serif font-bold text-lg text-plum-900">School Partnerships</div>
+          <p class="text-xs text-charcoal-700">Educational institutions in Delta State partnering with us to offer subsidized slots.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <%= link_to "Sponsor A Child Today", new_donation_path(purpose: "Support a Child's Education"), class: "px-8 py-3.5 text-sm font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md transition-all" %>
+        <%= link_to "Request Child Educational Assistance", new_support_request_path(category: "Educational Support for Children"), class: "px-8 py-3.5 text-sm font-bold text-plum-900 bg-warm-200 hover:bg-warm-300 rounded-full border border-warm-300 transition-all" %>
+      </div>
+    </div>
+
+  </div>
+</section>

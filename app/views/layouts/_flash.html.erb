@@ -1,0 +1,19 @@
+<% flash.each do |type, message| %>
+  <% color_classes = case type.to_sym
+     when :notice, :success then "bg-emerald-50 text-emerald-900 border-emerald-300"
+     when :alert, :error then "bg-rose-50 text-rose-900 border-rose-300"
+     else "bg-plum-50 text-plum-900 border-plum-200"
+     end %>
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+    <div class="p-4 rounded-xl border <%= color_classes %> flex items-center justify-between shadow-sm animate-fade-in" role="alert">
+      <div class="flex items-center gap-3">
+        <span class="text-lg">
+          <%= type.to_sym == :alert || type.to_sym == :error ? '⚠️' : '✨' %>
+        </span>
+        <p class="text-sm font-medium"><%= message %></p>
+      </div>
+      <button type="button" onclick="this.parentElement.remove()" class="text-sm opacity-60 hover:opacity-100 font-bold px-2">✕</button>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,52 @@
+<% content_for :title, "Get Involved" %>
+
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300 bg-white/10 px-3.5 py-1 rounded-full inline-block">Join The Movement</span>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Get Involved & Make An Impact</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
+      Whether you are a professional counselor, media creative, corporate entity, or donor, there is a place for you to help rebuild families.
+    </p>
+  </div>
+</section>
+
+
+<section class="py-20 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      
+      <!-- Volunteer Card -->
+      <div class="bg-white rounded-3xl border border-warm-300 shadow-sm overflow-hidden flex flex-col justify-between space-y-6">
+        <div class="h-56 overflow-hidden">
+          <img src="<%= image_path('pic114.jpeg') %>" alt="Volunteer Community" class="w-full h-full object-cover">
+        </div>
+        <div class="p-8 space-y-4 flex-1 flex flex-col justify-between">
+          <div class="space-y-3">
+            <h2 class="font-serif text-2xl font-bold text-plum-950">Volunteer Your Time & Skills</h2>
+            <p class="text-sm text-charcoal-700 leading-relaxed">
+              We are actively looking for qualified counselors, therapists, photographers, videographers, copywriters, graphic designers, event organizers, and administrative volunteers.
+            </p>
+          </div>
+          <%= link_to "Apply To Volunteer", new_volunteer_application_path, class: "w-full text-center py-3.5 text-sm font-bold text-white bg-plum-900 hover:bg-plum-800 rounded-full shadow-md transition-all" %>
+        </div>
+      </div>
+
+      <!-- Partner Card -->
+      <div class="bg-white rounded-3xl border border-warm-300 shadow-sm overflow-hidden flex flex-col justify-between space-y-6">
+        <div class="h-56 overflow-hidden">
+          <img src="<%= image_path('pic116.jpeg') %>" alt="Partnership & Collaboration" class="w-full h-full object-cover">
+        </div>
+        <div class="p-8 space-y-4 flex-1 flex flex-col justify-between">
+          <div class="space-y-3">
+            <h2 class="font-serif text-2xl font-bold text-plum-950">Partner As An Organization</h2>
+            <p class="text-sm text-charcoal-700 leading-relaxed">
+              Businesses, NGOs, churches, schools, and professional networks in Nigeria can partner with us for corporate social responsibility (CSR) initiatives, event hosting, or media distribution.
+            </p>
+          </div>
+          <%= link_to "Propose A Partnership", new_partnership_inquiry_path, class: "w-full text-center py-3.5 text-sm font-bold text-plum-900 bg-warm-200 hover:bg-warm-300 rounded-full border border-warm-300 transition-all" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

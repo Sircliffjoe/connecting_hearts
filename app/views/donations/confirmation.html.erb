@@ -1,0 +1,27 @@
+<% content_for :title, "Donation Successful" %>
+
+<section class="py-20 bg-warm-50 min-h-[60vh] flex items-center justify-center">
+  <div class="max-w-md mx-auto px-4 text-center">
+    <div class="bg-white rounded-3xl p-8 border border-warm-300 shadow-md space-y-6">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-bold mx-auto">
+        ❤️
+      </div>
+
+      <h1 class="font-serif text-2xl font-bold text-plum-950">Thank You For Your Support!</h1>
+      
+      <p class="text-xs text-charcoal-700 leading-relaxed font-sans">
+        Your contribution directly powers our counseling and child educational programs in Warri.
+      </p>
+
+      <% if @donation.present? %>
+        <div class="p-4 rounded-xl bg-warm-100 border border-warm-300 text-xs text-charcoal-800 space-y-1 text-left">
+          <p><strong>Reference:</strong> <%= @donation.payment_reference %></p>
+          <p><strong>Amount:</strong> ₦<%= number_with_delimiter(@donation.amount) %></p>
+          <p><strong>Purpose:</strong> <%= @donation.purpose %></p>
+        </div>
+      <% end %>
+
+      <%= link_to "Return To Home", root_path, class: "inline-block px-8 py-3 text-xs font-bold text-white bg-plum-900 rounded-full" %>
+    </div>
+  </div>
+</section>

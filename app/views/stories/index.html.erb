@@ -1,0 +1,36 @@
+<% content_for :title, "Stories & Human Impact" %>
+
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300 bg-white/10 px-3.5 py-1 rounded-full inline-block">Human Stories Of Hope</span>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Stories & Impact</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
+      Authentic stories of relationship restoration, founder reflections, and educational hope for children in Warri.
+    </p>
+  </div>
+</section>
+
+
+<section class="py-20 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <% @stories.each do |story| %>
+        <div class="bg-white rounded-3xl overflow-hidden border border-warm-300 shadow-sm flex flex-col justify-between">
+          <div class="h-64 overflow-hidden relative">
+            <img src="<%= safe_image_path(story.image_url) %>" alt="<%= story.title %>" class="w-full h-full object-cover">
+            <span class="absolute top-4 left-4 bg-terracotta-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">
+              <%= story.category %>
+            </span>
+          </div>
+          <div class="p-8 space-y-4 flex-1 flex flex-col justify-between">
+            <div class="space-y-3">
+              <h2 class="font-serif text-2xl font-bold text-plum-950"><%= story.title %></h2>
+              <p class="text-sm text-charcoal-700 leading-relaxed"><%= story.summary %></p>
+            </div>
+            <%= link_to "Read Full Story →", story_path(story), class: "inline-block text-sm font-bold text-plum-900 hover:text-terracotta-600" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

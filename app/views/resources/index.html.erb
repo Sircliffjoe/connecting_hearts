@@ -1,0 +1,42 @@
+<% content_for :title, "Resource Hub & Articles | Connecting Hearts Foundation" %>
+
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300 bg-white/10 px-3.5 py-1 rounded-full inline-block">Learning & Relationship Guidance</span>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Resource Hub & Articles</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
+      Guides, articles, audio clips, and FAQs to equip singles, couples, and parents with practical relationship wisdom.
+    </p>
+  </div>
+</section>
+
+<section class="py-16 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    
+    <!-- Category Filter Tabs -->
+    <div class="flex flex-wrap items-center justify-center gap-2">
+      <%= link_to "All Categories", resources_path, class: "px-4 py-2 text-xs font-bold rounded-full border transition-all #{params[:category].blank? ? 'bg-plum-800 text-white border-plum-800 shadow-sm' : 'bg-white text-plum-950 border-warm-300 hover:bg-plum-50'}" %>
+      <% @categories.each do |cat| %>
+        <%= link_to cat, resources_path(category: cat), class: "px-4 py-2 text-xs font-bold rounded-full border transition-all #{params[:category] == cat ? 'bg-plum-800 text-white border-plum-800 shadow-sm' : 'bg-white text-plum-950 border-warm-300 hover:bg-plum-50'}" %>
+      <% end %>
+    </div>
+
+    <!-- Resource Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @resources.each do |r| %>
+        <div class="soft-card p-8 flex flex-col justify-between space-y-4 hover:-translate-y-1 transition-all">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-terracotta-700 bg-terracotta-50 px-3 py-1 rounded-full border border-terracotta-200"><%= r.category %></span>
+              <span class="text-[10px] font-bold text-plum-700 bg-plum-50 px-2.5 py-0.5 rounded-md uppercase"><%= r.resource_type %></span>
+            </div>
+            <h2 class="font-serif text-xl font-bold text-plum-950 leading-snug"><%= r.title %></h2>
+            <p class="text-xs text-charcoal-700 leading-relaxed font-medium"><%= r.summary %></p>
+          </div>
+          <%= link_to "Read / View Resource →", resource_path(r), class: "inline-block text-xs font-bold text-plum-800 hover:text-terracotta-600 pt-3 border-t border-warm-200 transition-colors" %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</section>

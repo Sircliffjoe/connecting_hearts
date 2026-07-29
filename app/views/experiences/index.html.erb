@@ -1,0 +1,164 @@
+<% content_for :title, "Connecting Hearts Experience | Powered by Eventro API" %>
+<% content_for :description, "Browse upcoming and past Connecting Hearts Experience conferences, workshops, and therapy gatherings in Warri, Nigeria." %>
+
+<!-- Hero Header -->
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-amber-300 uppercase">
+      <span>Re-live the Experiences</span>
+    </div>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Connecting Hearts Experience</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
+      Where singles and married individuals meet for honest conversation, emotional healing, and practical relationship wisdom in Warri, Nigeria.
+    </p>
+  </div>
+</section>
+
+
+<!-- Interactive Filter Bar (Date, Location, Event Type) -->
+<section class="py-6 bg-white border-b border-warm-300 sticky top-20 z-40 shadow-xs">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <%= form_with(url: experiences_path, method: :get, local: true, class: "grid grid-cols-1 sm:grid-cols-4 gap-4 items-center") do |f| %>
+      
+      <div>
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-plum-950 mb-1">Filter by Date</label>
+        <%= f.select :date, [["All Dates", "all"], ["Upcoming Events", "upcoming"], ["Past Events", "past"]], { selected: params[:date] || "all" }, class: "w-full px-3 py-2 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50 text-plum-950 font-medium" %>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-plum-950 mb-1">Filter by Location</label>
+        <%= f.select :location, [["All Locations", "all"], ["Warri, Delta State", "warri"], ["Online / Virtual", "online"]], { selected: params[:location] || "all" }, class: "w-full px-3 py-2 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50 text-plum-950 font-medium" %>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-bold uppercase tracking-wider text-plum-950 mb-1">Filter by Event Type</label>
+        <%= f.select :event_type, [["All Types", "all"], ["Conference", "conference"], ["Workshop", "workshop"], ["Therapy Gathering", "therapy"]], { selected: params[:event_type] || "all" }, class: "w-full px-3 py-2 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50 text-plum-950 font-medium" %>
+      </div>
+
+      <div class="pt-4 sm:pt-4 flex gap-2">
+        <%= f.submit "Apply Filters", class: "flex-1 py-2.5 text-xs font-bold text-white brand-btn-gradient rounded-xl shadow-xs cursor-pointer" %>
+        <%= link_to "Reset", experiences_path, class: "px-4 py-2.5 text-xs font-bold text-plum-950 bg-warm-200 hover:bg-warm-300 rounded-xl" %>
+      </div>
+
+    <% end %>
+  </div>
+</section>
+
+<!-- Featured Upcoming Event -->
+<% if @featured_event.present? %>
+<section id="edition4" class="py-16 brand-gradient text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-white/20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      
+      <div class="lg:col-span-8 space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400 text-plum-950 text-xs font-bold uppercase">
+          Featured Event
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white"><%= @featured_event[:title] %></h2>
+        <p class="text-xl font-serif text-amber-200 italic">Theme: "<%= @featured_event[:theme] %>"</p>
+        <p class="text-sm text-purple-100/90 leading-relaxed max-w-2xl"><%= @featured_event[:description] %></p>
+        
+        <div class="pt-2 flex flex-wrap gap-6 text-xs text-purple-200">
+          <div>📅 <%= @featured_event[:event_date].strftime("%B %d, %Y") %></div>
+          <div>📍 <%= @featured_event[:location] %></div>
+          <div>🏷️ <%= @featured_event[:event_type] %></div>
+          <div>👥 Capacity: <%= @featured_event[:capacity] %></div>
+        </div>
+      </div>
+
+      <!-- Registration Box -->
+      <div id="register" class="lg:col-span-4 bg-white text-charcoal-900 p-6 rounded-2xl shadow-xl space-y-4">
+        <h3 class="font-serif text-xl font-bold text-plum-950">Reserve Your Spot</h3>
+        <p class="text-xs text-charcoal-600">Free admission powered by Connecting Hearts Foundation.</p>
+        
+        <%= form_with(model: EventRegistration.new, url: event_registrations_path, local: true, class: "space-y-3") do |f| %>
+          <%= f.hidden_field :event_id, value: Event.first&.id || 1 %>
+          <div>
+            <%= f.text_field :full_name, required: true, placeholder: "Your Full Name", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none" %>
+          </div>
+          <div>
+            <%= f.email_field :email, required: true, placeholder: "Email Address", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none" %>
+          </div>
+          <div>
+            <%= f.telephone_field :phone, placeholder: "Phone / WhatsApp", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none" %>
+          </div>
+          <div>
+            <%= f.select :attendance_type, [["In-Person (Warri)", "in_person"], ["Virtual Stream", "virtual"]], {}, class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50" %>
+          </div>
+          <%= f.submit "Complete Free Registration", class: "w-full py-3 text-xs font-bold text-white brand-btn-gradient rounded-xl cursor-pointer shadow-md" %>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+</section>
+<% end %>
+
+<!-- All Events Grid (Filtered from Eventro API) -->
+<section id="archive" class="py-20 bg-warm-50 border-t border-warm-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div class="text-center max-w-2xl mx-auto space-y-2">
+      <span class="text-xs font-bold uppercase tracking-widest text-plum-700">Explore Events</span>
+      <h2 class="font-serif text-3xl font-bold text-plum-950">Events & Conferences (<%= @events.size %>)</h2>
+    </div>
+
+    <% if @events.empty? %>
+      <div class="bg-white p-12 rounded-3xl border border-warm-300 text-center text-charcoal-700 max-w-xl mx-auto space-y-2">
+        <p class="font-serif font-bold text-lg text-plum-950">No upcoming events matching your selected filters.</p>
+        <p class="text-xs">Try selecting 'All Dates' or 'All Locations' to see available events.</p>
+      </div>
+    <% else %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <% @events.each do |event| %>
+          <div class="bg-white rounded-3xl overflow-hidden border border-warm-300 shadow-sm flex flex-col justify-between hover:-translate-y-1 transition-transform">
+            <div class="h-48 overflow-hidden relative">
+              <img src="<%= safe_image_path(event[:image_url]) %>" alt="<%= event[:title] %>" class="w-full h-full object-cover">
+              <span class="absolute top-4 left-4 bg-plum-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">
+                <%= event[:edition_number] %>
+              </span>
+            </div>
+            <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-plum-700 font-bold uppercase"><%= event[:event_date].strftime("%b %d, %Y") %></span>
+                  <span class="text-charcoal-500 text-[10px] font-semibold bg-warm-200 px-2 py-0.5 rounded-md"><%= event[:event_type] %></span>
+                </div>
+                <h3 class="font-serif text-xl font-bold text-plum-950"><%= event[:title] %></h3>
+                <p class="text-xs font-serif italic text-plum-800">Theme: "<%= event[:theme] %>"</p>
+                <p class="text-xs text-charcoal-800 leading-relaxed font-medium"><%= event[:description] %></p>
+              </div>
+              <div class="pt-4 border-t border-warm-200 flex items-center justify-between text-xs text-charcoal-600">
+                <span>📍 <%= event[:location] %></span>
+                <span class="text-[10px] font-mono text-purple-700">via eventro.africa</span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>
+
+<!-- Attendee Testimonials -->
+<section id="testimonials" class="py-20 bg-warm-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-16 space-y-2">
+      <span class="text-xs font-bold uppercase tracking-widest text-plum-700">Participant Reflections</span>
+      <h2 class="font-serif text-3xl font-bold text-plum-950">What Attendees Say</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <% @testimonials.each do |t| %>
+        <div class="bg-white p-8 rounded-3xl border border-warm-300 shadow-xs space-y-4 flex flex-col justify-between">
+          <p class="text-sm text-charcoal-800 font-medium italic leading-relaxed font-sans">
+            "<%= t.quote %>"
+          </p>
+          <div class="pt-4 border-t border-warm-200">
+            <p class="font-serif font-bold text-base text-plum-950"><%= t.author_name %></p>
+            <p class="text-xs text-plum-700 font-semibold"><%= t.relationship_status %> • <%= t.edition_title %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

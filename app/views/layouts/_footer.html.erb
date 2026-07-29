@@ -1,0 +1,75 @@
+<footer class="bg-plum-950 text-warm-200 pt-16 pb-12 border-t border-plum-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+      
+      <!-- Foundation Summary Column -->
+      <div class="lg:col-span-2 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-terracotta-500 flex items-center justify-center text-white font-serif font-bold text-lg">
+            ♥
+          </div>
+          <span class="font-serif font-bold text-xl text-white tracking-tight">Connecting Hearts</span>
+        </div>
+        <p class="text-sm text-warm-300/90 max-w-md leading-relaxed">
+          Connecting Hearts for Singles & Married Foundation provides safe spaces, confidential therapy, and educational support for children in Warri, Delta State, and across Nigeria.
+        </p>
+        <p class="text-xs font-serif italic text-terracotta-300">
+          "Connecting Hearts. Growing Love. Building Life."
+        </p>
+        <div class="pt-2 text-xs text-warm-400 space-y-1">
+          <p>📍 Warri, Delta State, Nigeria</p>
+          <p>✉ contact@connectingheartsng.org</p>
+          <p>📞 +2349013732353</p>
+        </div>
+      </div>
+
+      <!-- Pillars & Work -->
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-terracotta-400 mb-4">Our Three Pillars</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><%= link_to "Connecting Hearts Experience", experiences_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Free Counseling & Therapy", counseling_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Educational Child Support", educational_support_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Experience 4.0 Launch Edition", experiences_path, class: "hover:text-white transition-colors" %></li>
+        </ul>
+      </div>
+
+      <!-- Get Support & Involved -->
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-terracotta-400 mb-4">Get Involved</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><%= link_to "Request Counseling Support", new_support_request_path, class: "hover:text-white transition-colors text-terracotta-300 font-semibold" %></li>
+          <li><%= link_to "Volunteer Your Skills", new_volunteer_application_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Corporate / NGO Partnership", new_partnership_inquiry_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Donate / Sponsor a Child", new_donation_path, class: "hover:text-white transition-colors" %></li>
+        </ul>
+      </div>
+
+      <!-- Learn & Resources -->
+      <div>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-terracotta-400 mb-4">Resources & Info</h3>
+        <ul class="space-y-2.5 text-sm">
+          <li><%= link_to "About Our Story & Founders", about_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Impact Stories", stories_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Relationship Articles & FAQs", resources_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Contact Us", contact_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Admin Login", admin_login_path, class: "text-xs text-warm-400 hover:text-white transition-colors mt-2 inline-block opacity-75" %></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Safety & Disclaimer Banner -->
+    <div class="bg-plum-900/60 rounded-xl p-4 mb-8 border border-plum-800 text-xs text-warm-300/80 leading-relaxed">
+      <strong class="text-terracotta-300 font-semibold">Important Safeguarding Notice:</strong> Connecting Hearts Foundation provides supportive, confidential guidance and professional referral networks. We are not an emergency crisis intervention service. If you or someone you know is in immediate physical danger, please contact emergency local medical or security services immediately.
+    </div>
+
+    <div class="border-t border-plum-900 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-warm-400 gap-4">
+      <p>© <%= Time.current.year %> Connecting Hearts for Singles & Married Foundation. Founded by Eloho Sodje. All rights reserved.</p>
+      <div class="flex space-x-6">
+        <%= link_to "Privacy & Safeguarding Policy", privacy_path, class: "hover:text-white transition-colors" %>
+        <%= link_to "Terms of Service", terms_path, class: "hover:text-white transition-colors" %>
+      </div>
+    </div>
+  </div>
+</footer>

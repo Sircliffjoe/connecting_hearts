@@ -1,0 +1,40 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+    <h1 class="font-serif text-2xl font-bold text-white">Manage Conferences & Events</h1>
+    <%= link_to "+ Create New Event", new_admin_event_path, class: "px-4 py-2 text-xs font-bold text-white bg-plum-800 hover:bg-plum-700 rounded-xl shadow-sm" %>
+  </div>
+
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs text-slate-300">
+        <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
+          <tr>
+            <th class="p-3">Edition</th>
+            <th class="p-3">Event Title</th>
+            <th class="p-3">Theme</th>
+            <th class="p-3">Date</th>
+            <th class="p-3">Location</th>
+            <th class="p-3">Featured</th>
+            <th class="p-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+          <% @events.each do |event| %>
+            <tr class="hover:bg-slate-850">
+              <td class="p-3 font-bold text-plum-300">Edition <%= event.edition_number %></td>
+              <td class="p-3 font-semibold text-white"><%= event.title %></td>
+              <td class="p-3 italic"><%= event.theme %></td>
+              <td class="p-3"><%= event.event_date&.strftime("%b %d, %Y") %></td>
+              <td class="p-3"><%= event.location %></td>
+              <td class="p-3"><%= event.featured ? "⭐ Yes" : "No" %></td>
+              <td class="p-3 space-x-2">
+                <%= link_to "Edit", edit_admin_event_path(event), class: "text-amber-400 hover:underline" %>
+                <%= button_to "Delete", admin_event_path(event), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "text-rose-400 hover:underline inline bg-transparent cursor-pointer" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

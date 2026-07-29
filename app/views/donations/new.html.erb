@@ -1,0 +1,72 @@
+<% content_for :title, "Donate / Support The Mission" %>
+
+<section class="bg-plum-950 text-white py-12 lg:py-16 text-center">
+  <div class="max-w-3xl mx-auto px-4 space-y-3">
+    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300">Secure Online Giving</span>
+    <h1 class="font-serif text-3xl sm:text-4xl font-bold">Support The Foundation</h1>
+    <p class="text-sm text-warm-200/90 font-light max-w-xl mx-auto">
+      Your financial partnership directly funds confidential therapy sessions and keeps vulnerable children in school.
+    </p>
+  </div>
+</section>
+
+<section class="py-12 bg-warm-50">
+  <div class="max-w-2xl mx-auto px-4">
+    <div class="bg-white rounded-3xl p-8 sm:p-10 border border-warm-300 shadow-sm">
+      <%= form_with(model: @donation, local: true, class: "space-y-6") do |f| %>
+
+        <% if @donation.errors.any? %>
+          <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1">
+            <p class="font-bold">Please correct the form errors:</p>
+            <ul class="list-disc list-inside">
+              <% @donation.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="space-y-2">
+          <%= f.label :purpose, "Donation Purpose", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+          <%= f.select :purpose, Donation::PURPOSES, {}, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="space-y-2 col-span-2">
+            <%= f.label :amount, "Donation Amount", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.number_field :amount, min: 100, step: 500, required: true, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50 font-bold text-plum-950" %>
+          </div>
+
+          <div class="space-y-2">
+            <%= f.label :currency, "Currency", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.select :currency, ["NGN (₦)", "USD ($)", "GBP (£)"], {}, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <%= f.label :donor_name, "Your Name (Optional)", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.text_field :donor_name, placeholder: "Leave blank to give anonymously", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          </div>
+
+          <div class="space-y-2">
+            <%= f.label :donor_email, "Email Address (For Receipt)", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <%= f.email_field :donor_email, required: true, placeholder: "you@example.com", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          </div>
+        </div>
+
+        <!-- Security & Payment Methods Badge -->
+        <div class="p-4 rounded-xl bg-warm-100 border border-warm-300 text-xs text-charcoal-600 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-600 font-bold">🔒 Secure 256-Bit SSL</span>
+            <span>Supports Cards, Bank Transfer, USSD</span>
+          </div>
+          <span class="font-bold text-plum-900">Paystack / Flutterwave</span>
+        </div>
+
+        <%= f.submit "Proceed To Secure Payment", class: "w-full py-4 text-sm font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all" %>
+
+      <% end %>
+    </div>
+  </div>
+</section>
