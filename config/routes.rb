@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
-  get "manifest" => "pwa#manifest", as: :pwa_manifest
-  get "service-worker" => "pwa#service_worker", as: :pwa_service_worker
 
   root "pages#home"
   get "about", to: "pages#about", as: :about

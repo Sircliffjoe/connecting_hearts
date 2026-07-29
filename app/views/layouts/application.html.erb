@@ -7,23 +7,8 @@
     <meta name="keywords" content="<%= content_for?(:keywords) ? yield(:keywords) : 'Relationship support Nigeria, Marriage counseling Warri, Couples counseling Delta State, Connecting Hearts Experience, Child education support Warri, Eloho Sodje' %>">
     <%= favicon_link_tag image_path("logo.png") %>
 
-    <!-- Progressive Web App (PWA) Meta & Manifest -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ConnectingHearts">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#4c1d4f">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="<%= image_path("logo.png") %>">
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js').catch(function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-        });
-      }
-    </script>
+    <meta name="author" content="Connecting Hearts for Singles & Married Foundation">
+    <%= favicon_link_tag image_path("logo.png") %>
     
     <!-- Open Graph / Facebook Metadata -->
     <meta property="og:type" content="website">
