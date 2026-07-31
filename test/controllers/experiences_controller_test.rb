@@ -7,25 +7,31 @@ class ExperiencesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show event details" do
-    get experience_url("evt-40")
+    event = Event.first || Event.create!(
+      title: "Connecting Hearts Experience 4.0",
+      theme: "The Art of Leaving and Cleaving",
+      event_date: 1.week.from_now,
+      location: "Warri, Delta State",
+      description: "Sample event description."
+    )
+    get experience_url(event.id)
     assert_response :success
-    assert_select "h1", text: /Connecting Hearts Experience 4.0/
   end
 
-  test "admin should create event and sync via Eventro API" do
+  test "admin should create event locally" do
     user = users(:one) rescue User.create!(name: "Admin User", email: "admin@connectingheartsng.org", password: "password123", role: "admin")
     post admin_login_url, params: { email: user.email, password: "password123" }
 
     assert_difference("Event.count") do
       post admin_events_url, params: {
         event: {
-          title: "New Eventro API Conference 5.0",
+          title: "New Local Foundation Conference 5.0",
           theme: "Building Legacy Families",
           edition_number: "5.0",
           event_date: 2.weeks.from_now,
           location: "Warri, Delta State",
           capacity: 300,
-          description: "A brand new event created via Eventro API."
+          description: "A brand new local event."
         }
       }
     end

@@ -2,24 +2,33 @@ class ExperiencesController < ApplicationController
   include SpamProtection
 
   def index
-    # Fetch events from Eventro API (eventro.africa) combined with local database events
-    @events = EventroApiService.fetch_events(
-      date: params[:date],
-      location: params[:location],
-      event_type: params[:event_type]
-    )
+    scope = Event.order(event_date: :desc)
+    
+    if params[:location].present? && params[:location] != "all"
+      if params[:location] == "warri"
+        scope = scope.where("LOWER(location) LIKE ?", "%warri%")
+      elsif params[:location] == "online"
+        scope = scope.where("LOWER(location) LIKE ? OR LOWER(location) LIKE ?", "%online%", "%virtual%")
+      end
+    end
 
-    @featured_event = @events.find { |e| e[:featured] } || @events.first
-    @past_events = @events.select { |e| e[:event_date] < Time.current }
-    @upcoming_events = @events.select { |e| e[:event_date] >= Time.current }
+    if params[:date] == "upcoming"
+      scope = scope.upcoming
+    elsif params[:date] == "past"
+      scope = scope.past
+    end
+
+    @events = scope
+    @featured_event = @events.find { |e| e[:featured] } || Event.featured.first || @events.first
+    @past_events = Event.past
+    @upcoming_events = Event.upcoming
 
     @testimonials = Testimonial.approved.order(created_at: :desc).limit(6)
   end
 
   def show
-    events = EventroApiService.fetch_events
-    @event = events.find { |e| e[:id].to_s == params[:id].to_s } || events.find { |e| e[:title].parameterize == params[:id].to_s } || events.first
-    @related_events = events.reject { |e| e[:id].to_s == @event[:id].to_s }.first(3)
+    @event = Event.find_by(id: params[:id]) || Event.find_by("LOWER(title) LIKE ?", "%#{params[:id].to_s.tr('-', ' ')}%") || Event.first
+    @related_events = Event.where.not(id: @event&.id).order(event_date: :desc).limit(3)
     @testimonials = Testimonial.approved.limit(3)
   end
 

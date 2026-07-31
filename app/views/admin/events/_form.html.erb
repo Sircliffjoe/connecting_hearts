@@ -17,36 +17,32 @@
     </div>
 
     <div class="space-y-2">
-      <%= f.label :edition_number, "Edition Number (e.g. 4.0)", class: "block text-xs font-bold text-slate-300" %>
-      <%= f.text_field :edition_number, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+      <%= f.label :edition_number, "Edition Number (Optional - e.g. 4.0)", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :edition_number, placeholder: "e.g. 4.0 (Leave blank if not applicable)", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
     </div>
 
     <div class="space-y-2">
-      <%= f.label :event_date, "Event Date & Time", class: "block text-xs font-bold text-slate-300" %>
-      <%= f.datetime_field :event_date, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+      <%= f.label :event_date, "Select Event Date & Time", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.datetime_local_field :event_date, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500 font-mono" %>
+      <span class="text-[10px] text-slate-400 block">Pick event date and start time</span>
     </div>
 
     <div class="space-y-2">
       <%= f.label :location, "Location / Venue", class: "block text-xs font-bold text-slate-300" %>
-      <%= f.text_field :location, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+      <%= f.text_field :location, placeholder: "e.g. Warri, Delta State or Online", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
     </div>
 
     <div class="space-y-2">
       <%= f.label :theme, "Theme / Subtitle", class: "block text-xs font-bold text-slate-300" %>
-      <%= f.text_field :theme, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+      <%= f.text_field :theme, placeholder: "e.g. Building Strong Foundations", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
     </div>
 
     <div class="space-y-2">
       <%= f.label :capacity, "Capacity / Max Attendees", class: "block text-xs font-bold text-slate-300" %>
-      <%= f.number_field :capacity, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+      <%= f.number_field :capacity, placeholder: "e.g. 250", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
     </div>
 
-    <div class="space-y-2">
-      <%= f.label :registration_link, "Registration URL / Form Link", class: "block text-xs font-bold text-slate-300" %>
-      <%= f.url_field :registration_link, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
-    </div>
-
-    <div class="md:col-span-2">
+    <div class="md:col-span-2 space-y-2">
       <%= render "shared/media_upload_field", form: f, field_name: :image_url, label_text: "Event Cover Image / Banner", placeholder_text: "pic1.jpeg or upload file below" %>
     </div>
   </div>
