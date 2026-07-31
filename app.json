@@ -4,7 +4,7 @@
   "keywords": ["rails", "dokku", "connectinghearts"],
   "scripts": {
     "dokku": {
-      "postdeploy": "bundle exec rails db:seed"
+      "postdeploy": "bundle exec rails db:migrate"
     }
   },
   "healthchecks": {

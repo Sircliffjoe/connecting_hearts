@@ -4,18 +4,22 @@ module ApplicationHelper
 
     url_str = url.to_s.strip
 
-    if url_str.start_with?("http://", "https://", "/")
-      url_str
-    else
-      begin
-        image_path(url_str)
-      rescue StandardError
-        begin
-          image_path(File.basename(url_str))
-        rescue StandardError
-          "/#{url_str}"
-        end
-      end
+    # External HTTP/HTTPS URLs
+    if url_str.start_with?("http://", "https://")
+      return url_str
+    end
+
+    # User uploads in public/uploads/
+    if url_str.start_with?("/uploads/", "uploads/")
+      return url_str.start_with?("/") ? url_str : "/#{url_str}"
+    end
+
+    # Asset Pipeline images (e.g. pic112.jpeg, /assets/pic112.jpeg)
+    filename = File.basename(url_str)
+    begin
+      image_path(filename)
+    rescue StandardError
+      url_str.start_with?("/") ? url_str : "/#{url_str}"
     end
   end
 

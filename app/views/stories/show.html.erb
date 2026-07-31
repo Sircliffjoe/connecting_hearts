@@ -3,30 +3,336 @@
 <% content_for :og_image, safe_image_path(@story.image_url) if @story.image_url.present? %>
 <% content_for :og_type, "article" %>
 
-<!-- Hero Header (Harmonized) -->
-<section class="brand-gradient text-white pt-28 pb-16 text-center relative overflow-hidden">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
-    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-amber-300 uppercase">
-      <span><%= @story.category %> • Published <%= @story.created_at.strftime("%B %d, %Y") %></span>
+<% word_count = @story.body.to_s.split.size %>
+<% read_time = [(word_count / 180.0).ceil, 1].max %>
+
+<!-- Hero Header Section -->
+<section class="brand-gradient text-white pt-28 pb-20 relative overflow-hidden">
+  <!-- Ambient Gradient Glow Orbs -->
+  <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-plum-500/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 right-10 w-80 h-80 bg-terracotta-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6 text-center">
+    
+    <!-- Breadcrumb & Badges -->
+    <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold">
+      <%= link_to stories_path, class: "inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/20" do %>
+        <span>← Stories & Impact</span>
+      <% end %>
+      <span class="px-3.5 py-1 rounded-full bg-amber-400 text-plum-950 font-bold uppercase tracking-wider shadow-xs">
+        <%= @story.category %>
+      </span>
+      <span class="px-3.5 py-1 rounded-full bg-white/15 text-purple-100 font-medium border border-white/20">
+        ⏱️ <%= read_time %> min read
+      </span>
+      <span class="px-3.5 py-1 rounded-full bg-white/15 text-purple-100 font-medium border border-white/20">
+        📅 <%= @story.created_at.strftime("%B %d, %Y") %>
+      </span>
     </div>
-    <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white max-w-4xl mx-auto leading-tight"><%= @story.title %></h1>
+
+    <!-- Main Title -->
+    <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-white max-w-4xl mx-auto leading-tight tracking-tight">
+      <%= @story.title %>
+    </h1>
+
+    <!-- Story Subtitle / Summary Lead -->
+    <% if @story.summary.present? %>
+      <p class="text-lg sm:text-xl text-purple-100/90 max-w-3xl mx-auto font-serif italic font-light leading-relaxed">
+        "<%= @story.summary %>"
+      </p>
+    <% end %>
+
+    <!-- Author & Organization Tagline -->
+    <div class="pt-2 flex items-center justify-center gap-3 text-xs text-purple-200 font-medium border-t border-white/15 max-w-md mx-auto">
+      <div class="w-8 h-8 rounded-full overflow-hidden border border-amber-400 shrink-0 shadow-xs">
+        <img src="<%= image_path('eloho-sodje.jpeg') %>" alt="Connecting Hearts Foundation" class="w-full h-full object-cover">
+      </div>
+      <span>Published by <strong class="text-white font-semibold">Connecting Hearts Foundation</strong> • Warri, Delta State</span>
+    </div>
+
   </div>
 </section>
 
-<section class="py-16 bg-warm-50">
+<!-- Featured Image Hero Card -->
+<div class="max-w-5xl mx-auto px-4 sm:px-6 -mt-10 sm:-mt-14 relative z-20">
+  <% if @story.image_url.present? %>
+    <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group relative">
+      <img src="<%= safe_image_path(@story.image_url) %>" alt="<%= @story.title %>" class="w-full h-72 sm:h-[440px] object-cover group-hover:scale-102 transition-transform duration-700">
+      <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent p-4 sm:p-6 text-white flex items-center justify-between">
+        <span class="text-xs sm:text-sm font-medium tracking-wide flex items-center gap-2 bg-slate-900/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20">
+          <span>📍</span> Warri, Delta State • Impact Series
+        </span>
+        <% if @story.featured? %>
+          <span class="bg-terracotta-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-xs">
+            ★ Featured Story
+          </span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
 
-    <% if @story.image_url.present? %>
-      <div class="rounded-3xl overflow-hidden shadow-lg border border-warm-300">
-        <img src="<%= safe_image_path(@story.image_url) %>" alt="<%= @story.title %>" class="w-full h-96 object-cover">
+<!-- Main Body & Interactive Sidebar Layout -->
+<section class="py-16 bg-warm-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      
+      <!-- Left Column: Main Article Content (lg:col-span-8) -->
+      <div class="lg:col-span-8 space-y-10">
+        
+        <!-- Story Summary Highlight Box -->
+        <% if @story.summary.present? %>
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-warm-300 border-l-4 border-l-plum-700 shadow-sm relative overflow-hidden space-y-2">
+            <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-plum-700">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
+              <span>Core Takeaway & Reflection</span>
+            </div>
+            <p class="text-charcoal-800 text-base sm:text-lg font-serif italic leading-relaxed">
+              <%= @story.summary %>
+            </p>
+          </div>
+        <% end %>
+
+        <!-- Article Content Body -->
+        <div class="bg-white p-8 sm:p-12 rounded-3xl border border-warm-300 shadow-sm text-charcoal-800 leading-relaxed font-sans space-y-6 text-base sm:text-lg">
+          <div class="flex items-center justify-between border-b border-warm-200 pb-4 text-xs font-semibold text-charcoal-500">
+            <span>Published in <strong class="text-plum-950 font-bold"><%= @story.category %></strong></span>
+            <span>Est. Reading Time: <strong class="text-plum-950 font-bold"><%= read_time %> Minutes</strong></span>
+          </div>
+
+          <div class="prose max-w-none text-charcoal-800 space-y-6 font-normal first-letter:float-left first-letter:text-5xl first-letter:font-bold first-letter:font-serif first-letter:mr-3 first-letter:text-plum-700 first-letter:leading-none">
+            <%= simple_format(@story.body) %>
+          </div>
+
+          <!-- Impact Metrics Footer Badge Bar -->
+          <div class="pt-6 border-t border-warm-200 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="p-4 rounded-2xl bg-warm-100 border border-warm-200 text-center">
+              <span class="block text-xs font-bold uppercase tracking-wider text-charcoal-500">Impact Category</span>
+              <span class="text-sm font-bold text-plum-950"><%= @story.category %></span>
+            </div>
+            <div class="p-4 rounded-2xl bg-warm-100 border border-warm-200 text-center">
+              <span class="block text-xs font-bold uppercase tracking-wider text-charcoal-500">Location Focus</span>
+              <span class="text-sm font-bold text-plum-950">Warri, Delta State</span>
+            </div>
+            <div class="p-4 rounded-2xl bg-warm-100 border border-warm-200 text-center">
+              <span class="block text-xs font-bold uppercase tracking-wider text-charcoal-500">Foundation Pillar</span>
+              <span class="text-sm font-bold text-terracotta-600">Restoration & Hope</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Share & Engagement Card -->
+        <div class="bg-white p-8 rounded-3xl border border-warm-300 shadow-sm space-y-4 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div>
+            <h3 class="font-serif text-lg font-bold text-plum-950">Share This Story</h3>
+            <p class="text-xs text-charcoal-600">Help us spread hope and awareness across Warri and beyond.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- WhatsApp Share -->
+            <a href="https://api.whatsapp.com/send?text=<%= ERB::Util.url_encode("#{@story.title} - Read on Connecting Hearts Foundation: #{request.original_url}") %>" 
+               target="_blank" 
+               rel="noopener"
+               class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-colors">
+              <span>💬 WhatsApp</span>
+            </a>
+
+            <!-- X / Twitter Share -->
+            <a href="https://twitter.com/intent/tweet?text=<%= ERB::Util.url_encode(@story.title) %>&url=<%= ERB::Util.url_encode(request.original_url) %>" 
+               target="_blank" 
+               rel="noopener"
+               class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-colors">
+              <span>𝕏 Post</span>
+            </a>
+
+            <!-- Facebook Share -->
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= ERB::Util.url_encode(request.original_url) %>" 
+               target="_blank" 
+               rel="noopener"
+               class="px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold flex items-center gap-2 shadow-xs transition-colors">
+              <span>f Share</span>
+            </a>
+
+            <!-- Copy Link Button -->
+            <button onclick="copyStoryUrl()" id="copy-story-btn" class="px-4 py-2.5 rounded-xl bg-warm-200 hover:bg-warm-300 text-plum-950 text-xs font-bold flex items-center gap-2 transition-colors cursor-pointer">
+              <span>🔗 Copy Link</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Founder / Author Banner Card -->
+        <div class="bg-white p-8 rounded-3xl border border-warm-300 shadow-sm flex flex-col sm:flex-row items-center gap-6">
+          <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-plum-700 shrink-0 shadow-md">
+            <img src="<%= image_path('eloho-sodje.jpeg') %>" alt="Eloho Sodje" class="w-full h-full object-cover">
+          </div>
+          <div class="space-y-2 text-center sm:text-left flex-1">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+              <h4 class="font-serif font-bold text-lg text-plum-950">Eloho Sodje</h4>
+              <span class="text-xs font-semibold text-terracotta-600 uppercase tracking-wider">Founder & Executive Director</span>
+            </div>
+            <p class="text-xs text-charcoal-700 leading-relaxed">
+              Leading the Connecting Hearts Foundation mission to restore broken relationship foundations, empower vulnerable families, and provide educational sponsorship to children in Warri, Delta State.
+            </p>
+            <div class="pt-2">
+              <%= link_to "Learn More About Our Mission →", about_path, class: "text-xs font-bold text-plum-900 hover:text-terracotta-600 transition-colors" %>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Sidebar (lg:col-span-4) -->
+      <div class="lg:col-span-4 space-y-8">
+        <div class="sticky top-28 space-y-8">
+
+          <!-- Story Details Quick Facts Card -->
+          <div class="bg-white p-6 sm:p-8 rounded-3xl border border-warm-300 shadow-sm space-y-4">
+            <h3 class="font-serif text-lg font-bold text-plum-950 border-b border-warm-200 pb-3">Story At A Glance</h3>
+            
+            <div class="space-y-3 text-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-charcoal-600">Category</span>
+                <span class="font-bold text-plum-900 bg-plum-50 px-2.5 py-1 rounded-md border border-plum-200"><%= @story.category %></span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-charcoal-600">Published Date</span>
+                <span class="font-semibold text-charcoal-900"><%= @story.created_at.strftime("%B %d, %Y") %></span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-charcoal-600">Read Time</span>
+                <span class="font-semibold text-charcoal-900"><%= read_time %> mins</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-charcoal-600">Location Focus</span>
+                <span class="font-semibold text-charcoal-900">Warri, Delta State</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Foundation Call-to-Action Card -->
+          <div class="brand-gradient text-white p-8 rounded-3xl shadow-xl space-y-5 relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <span class="inline-block bg-white/15 border border-white/20 text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              Need Help Or Want To Support?
+            </span>
+            
+            <div class="space-y-2">
+              <h3 class="font-serif text-xl sm:text-2xl font-bold text-white leading-snug">Inspired By This Story?</h3>
+              <p class="text-xs text-purple-100/90 leading-relaxed">
+                Whether you are seeking confidential relationship support or wish to partner with us to educate vulnerable children in Warri, we are here for you.
+              </p>
+            </div>
+
+            <div class="space-y-3 pt-1">
+              <%= link_to new_support_request_path, class: "block w-full py-3 text-center text-xs font-bold text-plum-950 bg-amber-300 hover:bg-amber-400 rounded-xl shadow-md transition-colors" do %>
+                Request Confidential Therapy
+              <% end %>
+              <%= link_to new_donation_path, class: "block w-full py-3 text-center text-xs font-bold text-white bg-white/15 hover:bg-white/25 border border-white/25 rounded-xl transition-colors" do %>
+                Donate to Educational Support
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Related Stories Sidebar Widget -->
+          <% if @related_stories.present? && @related_stories.any? %>
+            <div class="bg-white p-6 sm:p-8 rounded-3xl border border-warm-300 shadow-sm space-y-5">
+              <div class="flex items-center justify-between border-b border-warm-200 pb-3">
+                <h3 class="font-serif text-lg font-bold text-plum-950">Related Impact Stories</h3>
+                <%= link_to "View All", stories_path, class: "text-xs font-bold text-terracotta-600 hover:underline" %>
+              </div>
+
+              <div class="space-y-4">
+                <% @related_stories.each do |rel_story| %>
+                  <%= link_to story_path(rel_story), class: "group block space-y-2 pb-4 border-b border-warm-100 last:border-0 last:pb-0" do %>
+                    <div class="flex items-center gap-3">
+                      <div class="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-warm-200">
+                        <img src="<%= safe_image_path(rel_story.image_url) %>" alt="<%= rel_story.title %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                      </div>
+                      <div class="space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-terracotta-600"><%= rel_story.category %></span>
+                        <h4 class="font-serif text-xs font-bold text-plum-950 group-hover:text-terracotta-600 line-clamp-2 transition-colors">
+                          <%= rel_story.title %>
+                        </h4>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Bottom Section: More Impact Stories & Navigation -->
+<section class="py-16 bg-warm-100 border-t border-warm-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <div class="text-center space-y-3">
+      <span class="text-xs font-bold uppercase tracking-widest text-terracotta-600 bg-terracotta-50 px-3.5 py-1 rounded-full inline-block border border-terracotta-200">
+        Discover More Stories
+      </span>
+      <h2 class="font-serif text-3xl font-bold text-plum-950">More Stories of Hope & Transformation</h2>
+    </div>
+
+    <% if @related_stories.present? && @related_stories.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% @related_stories.each do |rel_story| %>
+          <div class="bg-white rounded-3xl overflow-hidden border border-warm-300 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
+            <div class="h-48 overflow-hidden relative">
+              <img src="<%= safe_image_path(rel_story.image_url) %>" alt="<%= rel_story.title %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <span class="absolute top-3 left-3 bg-terracotta-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                <%= rel_story.category %>
+              </span>
+            </div>
+            <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+              <div class="space-y-2">
+                <h3 class="font-serif text-lg font-bold text-plum-950 group-hover:text-terracotta-600 transition-colors line-clamp-2">
+                  <%= rel_story.title %>
+                </h3>
+                <p class="text-xs text-charcoal-700 line-clamp-3 leading-relaxed">
+                  <%= rel_story.summary %>
+                </p>
+              </div>
+              <div class="pt-4 border-t border-warm-100 flex items-center justify-between">
+                <span class="text-[11px] text-charcoal-500 font-medium"><%= rel_story.created_at.strftime("%b %d, %Y") %></span>
+                <%= link_to "Read Full Story →", story_path(rel_story), class: "text-xs font-bold text-plum-900 group-hover:text-terracotta-600 transition-colors" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
       </div>
     <% end %>
 
-    <div class="bg-white p-8 sm:p-12 rounded-3xl border border-warm-300 shadow-sm text-charcoal-800 leading-relaxed font-sans space-y-6 text-base">
-      <%= simple_format(@story.body) %>
-    </div>
-
     <div class="pt-6 text-center">
-      <%= link_to "← Back To All Stories", stories_path, class: "px-6 py-3 text-xs font-bold text-plum-900 bg-warm-200 rounded-full" %>
+      <%= link_to stories_path, class: "px-8 py-3.5 text-xs font-bold text-plum-950 bg-white hover:bg-warm-200 border border-warm-300 rounded-full shadow-xs transition-all inline-flex items-center gap-2 hover:scale-102" do %>
+        <span>← Explore All Foundation Stories</span>
+      <% end %>
     </div>
   </div>
 </section>
+
+<!-- Clipboard Copy Toast Script -->
+<script>
+  function copyStoryUrl() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.getElementById('copy-story-btn');
+      if (btn) {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<span>✓ Copied!</span>';
+        btn.classList.remove('bg-warm-200', 'text-plum-950');
+        btn.classList.add('bg-emerald-600', 'text-white');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('bg-emerald-600', 'text-white');
+          btn.classList.add('bg-warm-200', 'text-plum-950');
+        }, 2500);
+      }
+    });
+  }
+</script>
