@@ -9,12 +9,16 @@
       <%= link_to experiences_path, class: "inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors border border-white/20" do %>
         <span>← All Experiences</span>
       <% end %>
-      <span class="px-3.5 py-1 rounded-full bg-amber-400 text-plum-950 text-xs font-bold uppercase tracking-wider shadow-sm">
-        Edition <%= @event[:edition_number] %>
-      </span>
-      <span class="px-3.5 py-1 rounded-full bg-white/15 text-purple-100 text-xs font-medium border border-white/20">
-        <%= @event[:event_type] %>
-      </span>
+      <% if @event[:edition_number].present? %>
+        <span class="px-3.5 py-1 rounded-full bg-amber-400 text-plum-950 text-xs font-bold uppercase tracking-wider shadow-sm">
+          Edition <%= @event[:edition_number] %>
+        </span>
+      <% end %>
+      <% if @event[:event_type].present? %>
+        <span class="px-3.5 py-1 rounded-full bg-white/15 text-purple-100 text-xs font-medium border border-white/20">
+          <%= @event[:event_type] %>
+        </span>
+      <% end %>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -22,31 +26,39 @@
         <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
           <%= @event[:title] %>
         </h1>
-        <p class="text-xl sm:text-2xl font-serif text-amber-200 italic">
-          Theme: "<%= @event[:theme] %>"
-        </p>
+        <% if @event[:theme].present? %>
+          <p class="text-xl sm:text-2xl font-serif text-amber-200 italic">
+            Theme: "<%= @event[:theme] %>"
+          </p>
+        <% end %>
         <p class="text-base text-purple-100/90 leading-relaxed font-sans font-light max-w-3xl">
           <%= @event[:description] %>
         </p>
 
         <div class="pt-4 flex flex-wrap gap-6 text-sm text-purple-100 font-medium border-t border-white/15">
-          <div class="flex items-center gap-2">
-            <span>📅</span>
-            <span><%= @event[:event_date].strftime("%B %d, %Y • %I:%M %p") %></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span>📍</span>
-            <span><%= @event[:location] %></span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span>👥</span>
-            <span>Capacity: <%= @event[:capacity] %> Participants</span>
-          </div>
+          <% if @event[:event_date].present? %>
+            <div class="flex items-center gap-2">
+              <span>📅</span>
+              <span><%= @event[:event_date].strftime("%B %d, %Y • %I:%M %p") rescue @event[:event_date].to_s %></span>
+            </div>
+          <% end %>
+          <% if @event[:location].present? %>
+            <div class="flex items-center gap-2">
+              <span>📍</span>
+              <span><%= @event[:location] %></span>
+            </div>
+          <% end %>
+          <% if @event[:capacity].present? %>
+            <div class="flex items-center gap-2">
+              <span>👥</span>
+              <span>Capacity: <%= @event[:capacity] %> Participants</span>
+            </div>
+          <% end %>
         </div>
       </div>
 
       <div class="lg:col-span-4">
-        <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 max-h-80">
+        <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 h-64 sm:h-80 w-full bg-slate-900 flex items-center justify-center">
           <img src="<%= safe_image_path(@event[:image_url]) %>" alt="<%= @event[:title] %>" class="w-full h-full object-cover">
         </div>
       </div>

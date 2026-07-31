@@ -22,9 +22,13 @@
     </div>
 
     <div class="space-y-2">
-      <%= f.label :event_date, "Select Event Date & Time", class: "block text-xs font-bold text-slate-300" %>
-      <%= f.datetime_local_field :event_date, required: true, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500 font-mono" %>
-      <span class="text-[10px] text-slate-400 block">Pick event date and start time</span>
+      <%= f.label :event_date, "Event Date", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.date_field :event_date, value: (f.object.event_date&.strftime("%Y-%m-%d")), required: true, style: "color-scheme: dark;", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500 font-mono" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :event_time, "Start Time", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.time_field :event_time, value: (f.object.event_date&.strftime("%H:%M") || "10:00"), required: true, style: "color-scheme: dark;", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500 font-mono" %>
     </div>
 
     <div class="space-y-2">

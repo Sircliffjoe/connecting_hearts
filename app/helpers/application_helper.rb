@@ -1,14 +1,20 @@
 module ApplicationHelper
-  def safe_image_path(url)
-    return "" if url.blank?
-    if url.start_with?("http://", "https://")
-      url
+  def safe_image_path(url, fallback: "pic112.jpeg")
+    return image_path(fallback) if url.blank?
+
+    url_str = url.to_s.strip
+
+    if url_str.start_with?("http://", "https://", "/")
+      url_str
     else
-      filename = File.basename(url)
       begin
-        image_path(filename)
+        image_path(url_str)
       rescue StandardError
-        url
+        begin
+          image_path(File.basename(url_str))
+        rescue StandardError
+          "/#{url_str}"
+        end
       end
     end
   end

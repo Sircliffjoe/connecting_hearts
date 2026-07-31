@@ -45,7 +45,13 @@ module Admin
     end
 
     def event_params
-      params.require(:event).permit(:title, :edition_number, :event_date, :location, :theme, :description, :featured, :registration_link, :capacity, :image_url)
+      p = params.require(:event).permit(:title, :edition_number, :event_date, :event_time, :location, :theme, :description, :featured, :capacity, :image_url)
+      if p[:event_date].present? && p[:event_time].present?
+        p[:event_date] = Time.zone.parse("#{p[:event_date]} #{p[:event_time]}")
+      elsif p[:event_date].present?
+        p[:event_date] = Time.zone.parse(p[:event_date].to_s)
+      end
+      p.except(:event_time)
     end
   end
 end
