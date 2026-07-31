@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   get "terms", to: "pages#terms", as: :terms
 
   # Conference / Experience Archive
-  resources :experiences, only: [:index, :show]
+  resources :experiences, only: [:index, :show] do
+    post "create_testimonial", on: :collection
+  end
 
   # Interactive Form Flows
   resources :support_requests, path: "request-support", only: [:new, :create] do
@@ -63,4 +65,9 @@ Rails.application.routes.draw do
     patch "profile", to: "users#update_profile"
     get "settings", to: "users#settings", as: :settings
   end
+
+  # Custom Error Pages
+  match "/404", to: "errors#not_found", via: :all
+  match "/422", to: "errors#unprocessable_entity", via: :all
+  match "/500", to: "errors#internal_server_error", via: :all
 end

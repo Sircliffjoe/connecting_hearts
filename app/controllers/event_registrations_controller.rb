@@ -6,9 +6,11 @@ class EventRegistrationsController < ApplicationController
 
     @registration = EventRegistration.new(registration_params)
     if @registration.save
-      redirect_to experiences_path, notice: "Registration successful! We look forward to seeing you at the Connecting Hearts Experience."
+      # Sync registration with Eventro API (eventro.africa)
+      EventroApiService.register_participant(@registration)
+      redirect_to experiences_path, notice: "Registration successful! Your spot has been confirmed for the Connecting Hearts Experience."
     else
-      redirect_to experiences_path, error: "Unable to complete registration. Please check your information."
+      redirect_to experiences_path, alert: "Unable to complete registration. Please check your information."
     end
   end
 

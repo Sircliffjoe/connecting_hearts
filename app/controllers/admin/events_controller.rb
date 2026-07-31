@@ -16,7 +16,9 @@ module Admin
     def create
       @event = Event.new(event_params)
       if @event.save
-        redirect_to admin_events_path, notice: "Event created successfully."
+        # Sync event with Eventro API (eventro.africa)
+        EventroApiService.create_event(@event)
+        redirect_to admin_events_path, notice: "Event created successfully and synced with Eventro API."
       else
         render :new, status: :unprocessable_entity
       end
@@ -27,7 +29,9 @@ module Admin
 
     def update
       if @event.update(event_params)
-        redirect_to admin_events_path, notice: "Event updated successfully."
+        # Sync updated event details with Eventro API (eventro.africa)
+        EventroApiService.create_event(@event)
+        redirect_to admin_events_path, notice: "Event updated successfully and synced with Eventro API."
       else
         render :edit, status: :unprocessable_entity
       end

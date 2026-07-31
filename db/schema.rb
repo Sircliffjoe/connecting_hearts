@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_29_200400) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_31_170318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -81,6 +81,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_29_200400) do
     t.datetime "created_at", null: false
     t.string "external_link"
     t.string "file_url"
+    t.text "gallery_images"
+    t.string "image_url"
     t.boolean "published", default: true
     t.string "resource_type", null: false
     t.text "summary"

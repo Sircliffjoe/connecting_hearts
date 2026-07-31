@@ -1,0 +1,51 @@
+<%= form_with(model: [:admin, testimonial], local: true, class: "space-y-6") do |f| %>
+  <% if testimonial.errors.any? %>
+    <div class="bg-rose-950/80 border border-rose-800 text-rose-200 p-4 rounded-xl text-xs space-y-1">
+      <p class="font-bold"><%= pluralize(testimonial.errors.count, "error") %> prohibited this testimonial from being saved:</p>
+      <ul class="list-disc list-inside">
+        <% testimonial.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="space-y-2">
+      <%= f.label :author_name, "Author Name", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :author_name, required: true, placeholder: "e.g. Chinedu O.", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :relationship_status, "Relationship Status / Tag", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :relationship_status, placeholder: "e.g. Married 4 yrs / Single", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= f.label :edition_title, "Edition / Event Attended", class: "block text-xs font-bold text-slate-300" %>
+      <%= f.text_field :edition_title, placeholder: "e.g. Experience 3.0", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
+    </div>
+  </div>
+
+  <div class="space-y-2">
+    <%= f.label :quote, "Reflection / Testimonial Quote", class: "block text-xs font-bold text-slate-300" %>
+    <%= f.text_area :quote, required: true, rows: 4, placeholder: "Write the attendee's reflection quote here...", class: "w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-plum-500" %>
+  </div>
+
+  <div class="flex flex-wrap gap-6 pt-2">
+    <div class="flex items-center gap-3">
+      <%= f.check_box :approved, class: "w-4 h-4 rounded bg-slate-950 border-slate-800 text-plum-600 focus:ring-plum-500" %>
+      <%= f.label :approved, "Approved & Published on Site", class: "text-xs text-slate-300 font-medium cursor-pointer" %>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <%= f.check_box :featured, class: "w-4 h-4 rounded bg-slate-950 border-slate-800 text-plum-600 focus:ring-plum-500" %>
+      <%= f.label :featured, "Mark as Featured Reflection", class: "text-xs text-slate-300 font-medium cursor-pointer" %>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-4 pt-4 border-t border-slate-800">
+    <%= f.submit testimonial.new_record? ? "Create Testimonial" : "Update Testimonial", class: "px-6 py-2.5 bg-plum-700 hover:bg-plum-600 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer transition-colors" %>
+    <%= link_to "Cancel", admin_testimonials_path, class: "px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition-colors" %>
+  </div>
+<% end %>

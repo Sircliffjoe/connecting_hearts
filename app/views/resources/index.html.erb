@@ -1,8 +1,12 @@
 <% content_for :title, "Resource Hub & Articles | Connecting Hearts Foundation" %>
+<% content_for :description, "Guides, articles, audio clips, and FAQs to equip singles, couples, and parents with practical relationship wisdom." %>
 
+<!-- Hero Header (Harmonized) -->
 <section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
-    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300 bg-white/10 px-3.5 py-1 rounded-full inline-block">Learning & Relationship Guidance</span>
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-amber-300 uppercase">
+      <span>Learning & Relationship Guidance</span>
+    </div>
     <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Resource Hub & Articles</h1>
     <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
       Guides, articles, audio clips, and FAQs to equip singles, couples, and parents with practical relationship wisdom.
@@ -24,16 +28,29 @@
     <!-- Resource Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% @resources.each do |r| %>
-        <div class="soft-card p-8 flex flex-col justify-between space-y-4 hover:-translate-y-1 transition-all">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-terracotta-700 bg-terracotta-50 px-3 py-1 rounded-full border border-terracotta-200"><%= r.category %></span>
-              <span class="text-[10px] font-bold text-plum-700 bg-plum-50 px-2.5 py-0.5 rounded-md uppercase"><%= r.resource_type %></span>
-            </div>
-            <h2 class="font-serif text-xl font-bold text-plum-950 leading-snug"><%= r.title %></h2>
-            <p class="text-xs text-charcoal-700 leading-relaxed font-medium"><%= r.summary %></p>
+        <div class="bg-white rounded-3xl overflow-hidden border border-warm-300 shadow-sm flex flex-col justify-between hover:-translate-y-1 transition-all group">
+          <div class="h-48 overflow-hidden relative">
+            <img src="<%= safe_image_path(r.main_image) %>" alt="<%= r.title %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute top-4 left-4 text-[10px] font-bold uppercase tracking-wider text-white bg-plum-950/80 backdrop-blur-xs px-3 py-1 rounded-full">
+              <%= r.category %>
+            </span>
           </div>
-          <%= link_to "Read / View Resource →", resource_path(r), class: "inline-block text-xs font-bold text-plum-800 hover:text-terracotta-600 pt-3 border-t border-warm-200 transition-colors" %>
+
+          <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-bold text-plum-700 bg-plum-50 px-2.5 py-0.5 rounded-md uppercase"><%= r.resource_type %></span>
+              </div>
+              <h2 class="font-serif text-xl font-bold text-plum-950 leading-snug">
+                <%= link_to r.title, resource_path(r), class: "hover:text-terracotta-600 transition-colors" %>
+              </h2>
+              <p class="text-xs text-charcoal-700 leading-relaxed font-medium line-clamp-3"><%= r.summary %></p>
+            </div>
+            
+            <%= link_to resource_path(r), class: "inline-block w-full text-center py-2.5 px-4 rounded-xl bg-warm-100 hover:bg-plum-950 hover:text-white text-plum-950 text-xs font-bold transition-all border border-warm-300 shadow-xs" do %>
+              <span>Read / View Resource →</span>
+            <% end %>
+          </div>
         </div>
       <% end %>
     </div>

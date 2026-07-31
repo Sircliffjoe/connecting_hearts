@@ -2,6 +2,55 @@
 <% content_for :description, "Connecting Hearts for Singles & Married Foundation creates safe spaces, provides free confidential counseling, and supports children from broken homes in Warri, Delta State, Nigeria." %>
 <% content_for :og_image, image_path("pic112.jpeg") %>
 
+<% if Time.current < Time.zone.parse("2026-08-01 18:00:00 +0100") %>
+  <!-- GRAND LAUNCH TIMED MODAL -->
+  <div data-controller="launch-modal" data-launch-modal-target="modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/95 backdrop-blur-2xl transition-all duration-500">
+    <div class="relative max-w-2xl w-full bg-slate-900 border-2 border-amber-400/40 rounded-3xl p-8 sm:p-12 shadow-2xl text-center space-y-8 overflow-hidden brand-gradient text-white">
+      
+      <!-- Decorative Background Glow -->
+      <div class="absolute -top-24 -left-24 w-72 h-72 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Content -->
+      <div class="space-y-4 relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400 text-plum-950 text-xs font-bold uppercase tracking-widest shadow-lg">
+          <span>✨ Special Announcement</span>
+        </div>
+
+        <h2 class="font-serif text-3xl sm:text-5xl font-extrabold text-white leading-tight tracking-tight drop-shadow-md">
+          Welcome to the official launch of <br/>
+          <span class="text-amber-300 italic font-normal">Connecting Hearts Foundation</span>
+        </h2>
+
+        <p class="text-sm sm:text-base text-purple-100/90 font-light max-w-xl mx-auto leading-relaxed">
+          Walking alongside singles, couples, and children through life's most delicate relationship transitions in Warri, Nigeria.
+        </p>
+      </div>
+
+      <!-- Timer & CTA Action -->
+      <div class="space-y-6 relative z-10 pt-2 border-t border-white/15">
+        <div class="flex flex-col items-center justify-center gap-1">
+          <span class="text-[11px] uppercase tracking-widest text-amber-200/80 font-bold">Official Launch Event Window</span>
+          <span data-launch-modal-target="countdown" class="font-mono text-xl sm:text-2xl font-bold text-amber-300 tracking-wider">
+            Calculating...
+          </span>
+        </div>
+
+        <div class="pt-2">
+          <button type="button" data-action="click->launch-modal#unlock" class="w-full sm:w-auto px-10 py-5 text-sm sm:text-base font-extrabold uppercase tracking-wider text-plum-950 bg-amber-300 hover:bg-amber-200 rounded-2xl shadow-2xl transition-all transform hover:scale-[1.03] active:scale-95 cursor-pointer inline-flex items-center justify-center gap-3 border-2 border-amber-200">
+            <span>GAIN ACCESS TO LAUNCH 🚀</span>
+          </button>
+        </div>
+
+        <p class="text-[11px] text-purple-200/70 font-sans">
+          Click above to reveal the full website • Modal expires August 1, 2026 at 18:00
+        </p>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+
 <!-- SECTION 1: HERO SLIDER (Modern, High Impact, Swiper.js Enabled) -->
 <section class="relative overflow-hidden min-h-[640px] lg:min-h-[720px] w-full text-white">
   <div class="swiper w-full min-h-[640px] lg:min-h-[720px] relative" data-controller="hero-slider">
@@ -253,18 +302,18 @@
       <!-- Card 3 -->
       <div class="soft-card overflow-hidden flex flex-col justify-between group">
         <div class="h-56 overflow-hidden relative">
-          <img src="<%= image_path('child.png') %>" alt="Educational Support for Children" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <img src="<%= image_path('child.png') %>" alt="Educational Support for Children & Students" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
           <span class="absolute top-4 left-4 bg-amber-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full uppercase shadow-md">Pillar 3</span>
         </div>
         <div class="p-8 flex-1 flex flex-col justify-between space-y-6">
           <div class="space-y-3">
-            <h3 class="font-serif text-2xl font-bold text-plum-950">Educational Support for Children</h3>
+            <h3 class="font-serif text-2xl font-bold text-plum-950">Educational Support for Children & Youth</h3>
             <p class="text-sm text-charcoal-700 leading-relaxed font-medium">
-              Targeted academic sponsorships, uniforms, and books ensuring children from broken or single-parent homes remain in school and build secure futures.
+              Academic sponsorships across primary, secondary, and university levels—including 3 university scholars currently sponsored—ensuring youth from vulnerable homes build secure futures.
             </p>
           </div>
           <%= link_to educational_support_path, class: "inline-flex items-center text-sm font-bold text-amber-700 hover:text-plum-950 gap-2 group-hover:translate-x-1 transition-all" do %>
-            <span>Support a Child</span>
+            <span>Support a Student</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           <% end %>
         </div>

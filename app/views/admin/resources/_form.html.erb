@@ -31,8 +31,26 @@
       <%= f.url_field :external_link, class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-plum-500" %>
     </div>
 
-    <div class="md:col-span-2">
-      <%= render "shared/media_upload_field", form: f, field_name: :file_url, label_text: "Media Attachment / Video / PDF File", placeholder_text: "upload file below or paste link" %>
+    <div class="md:col-span-2 space-y-4 pt-2 border-t border-slate-800">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-plum-400">Resource Images & Visuals</h4>
+      <div>
+        <%= render "shared/media_upload_field", form: f, field_name: :image_url, label_text: "Main Featured Image (Primary Cover)", placeholder_text: "Select photo or enter URL" %>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <label class="block text-xs font-bold text-slate-300">4 Additional Gallery Images (Displayed in a 4-photo Grid)</label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <% 4.times do |i| %>
+            <div>
+              <%= f.text_field "gallery_images][]", value: (f.object.extra_images[i] rescue nil), placeholder: "Gallery Photo #{i + 1} Path/URL", class: "w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-plum-500 font-mono" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:col-span-2 border-t border-slate-800 pt-4">
+      <%= render "shared/media_upload_field", form: f, field_name: :file_url, label_text: "Media Attachment / Video / PDF Document File", placeholder_text: "upload file below or paste link" %>
     </div>
   </div>
 

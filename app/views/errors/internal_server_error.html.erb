@@ -1,0 +1,29 @@
+<% content_for :title, "500 - Server Error | Connecting Hearts Foundation" %>
+
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden min-h-[70vh] flex items-center justify-center">
+  <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 relative z-10 my-auto">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-400/20 border border-rose-400/30 text-rose-300 text-xs font-bold uppercase tracking-widest">
+      <span>500 • Internal System Error</span>
+    </div>
+
+    <h1 class="font-serif text-6xl sm:text-7xl font-extrabold text-amber-300">500</h1>
+    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white">Temporary System Interruption.</h2>
+    <p class="text-base sm:text-lg text-purple-100/90 max-w-xl mx-auto font-sans font-light leading-relaxed">
+      We encountered an unexpected technical issue. Our team has been notified. Please try refreshing or return to our homepage.
+    </p>
+
+    <div class="pt-6 flex flex-wrap items-center justify-center gap-4">
+      <button type="button" onclick="window.location.reload();" class="px-8 py-4 text-sm font-bold text-plum-950 bg-amber-300 hover:bg-amber-200 rounded-2xl shadow-xl transition-all flex items-center gap-2 cursor-pointer">
+        <span>🔄 Refresh Page</span>
+      </button>
+
+      <%= link_to root_path, class: "px-8 py-4 text-sm font-bold text-white bg-white/10 hover:bg-white/20 border border-white/25 rounded-2xl transition-all" do %>
+        <span>🏠 Return to Homepage</span>
+      <% end %>
+
+      <%= link_to contact_path, class: "px-8 py-4 text-sm font-bold text-white bg-white/10 hover:bg-white/20 border border-white/25 rounded-2xl transition-all" do %>
+        <span>📞 Contact Support</span>
+      <% end %>
+    </div>
+  </div>
+</section>

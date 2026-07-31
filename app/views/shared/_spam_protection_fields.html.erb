@@ -1,6 +1,26 @@
-<%# Spam Protection Fields (Honeypot Trap & Submission Timestamp) %>
+<%# Spam Protection Fields (Honeypot Trap, Timestamp & Interactive Security Puzzle) %>
 <div style="display: none !important; position: absolute !important; left: -9999px !important;" aria-hidden="true">
   <label for="website_hp">Leave this field empty</label>
   <input type="text" name="website_hp" id="website_hp" tabindex="-1" autocomplete="off" value="" />
 </div>
 <input type="hidden" name="form_timestamp" value="<%= Time.current.to_i %>" />
+
+<% puzzle = generate_security_puzzle %>
+<div class="bg-warm-100 p-4 sm:p-5 rounded-2xl border border-warm-300 space-y-3 shadow-xs my-4 text-left">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-base">🧩</span>
+      <span class="text-xs font-bold uppercase tracking-wider text-plum-950">Security Challenge (Anti-Bot Verification)</span>
+    </div>
+    <span class="text-[10px] font-mono text-plum-700 bg-white border border-plum-200 px-2 py-0.5 rounded-full font-bold">Human Check</span>
+  </div>
+  <p class="text-xs text-charcoal-700 font-medium">Please solve this quick math puzzle to confirm you are human:</p>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <span class="font-serif font-bold text-base text-plum-950 bg-white px-4 py-2 rounded-xl border border-warm-300 shadow-xs">
+      <%= puzzle[:num1] %> + <%= puzzle[:num2] %> = ?
+    </span>
+    <input type="number" name="puzzle_answer" required placeholder="Answer" class="w-28 px-3.5 py-2 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-white font-bold text-plum-950 shadow-xs" />
+    <input type="hidden" name="puzzle_token" value="<%= puzzle[:token] %>" />
+  </div>
+</div>

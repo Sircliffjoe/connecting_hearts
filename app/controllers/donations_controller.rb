@@ -1,4 +1,6 @@
 class DonationsController < ApplicationController
+  include SpamProtection
+
   def new
     @donation = Donation.new(
       purpose: params[:purpose] || "General Foundation Support",
@@ -8,6 +10,8 @@ class DonationsController < ApplicationController
   end
 
   def create
+    return unless verify_spam_and_rate_limit!
+
     @donation = Donation.new(donation_params)
     @donation.payment_reference = "CHF-#{SecureRandom.hex(6).upcase}"
     @donation.status = "successful" # Simulating Paystack/Flutterwave sandbox response

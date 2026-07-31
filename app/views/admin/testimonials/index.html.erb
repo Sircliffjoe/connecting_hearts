@@ -1,0 +1,65 @@
+<div class="max-w-6xl mx-auto space-y-6">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+    <div>
+      <h1 class="font-serif text-2xl font-bold text-white">Testimonials & Participant Reflections</h1>
+      <p class="text-xs text-slate-400">Manage participant testimonies, reviews, and event reflections across all conference editions.</p>
+    </div>
+    <%= link_to "+ Create Testimonial", new_admin_testimonial_path, class: "px-4 py-2.5 bg-plum-700 hover:bg-plum-600 text-white text-xs font-bold rounded-xl shadow-md transition-colors inline-flex items-center gap-2" %>
+  </div>
+
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+    <% if @testimonials.empty? %>
+      <div class="p-12 text-center text-slate-400 space-y-2">
+        <p class="font-bold text-white text-base">No testimonials found.</p>
+        <p class="text-xs">Click '+ Create Testimonial' to add participant reflections.</p>
+      </div>
+    <% else %>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800 text-[10px]">
+            <tr>
+              <th class="py-4 px-6">Author</th>
+              <th class="py-4 px-6">Reflection Quote</th>
+              <th class="py-4 px-6">Edition</th>
+              <th class="py-4 px-6">Status</th>
+              <th class="py-4 px-6 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 font-medium">
+            <% @testimonials.each do |t| %>
+              <tr class="hover:bg-slate-850 transition-colors">
+                <td class="py-4 px-6">
+                  <div class="font-bold text-white text-sm"><%= t.author_name %></div>
+                  <div class="text-[11px] text-slate-400"><%= t.relationship_status %></div>
+                </td>
+                <td class="py-4 px-6 max-w-md">
+                  <p class="italic text-slate-200 line-clamp-2">"<%= t.quote %>"</p>
+                </td>
+                <td class="py-4 px-6">
+                  <span class="px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 font-semibold text-[11px]">
+                    <%= t.edition_title.presence || "General" %>
+                  </span>
+                </td>
+                <td class="py-4 px-6">
+                  <% if t.approved %>
+                    <span class="px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-bold uppercase">
+                      ✓ Approved
+                    </span>
+                  <% else %>
+                    <span class="px-2.5 py-1 rounded-full bg-amber-950 text-amber-400 border border-amber-800 text-[10px] font-bold uppercase">
+                      Pending Review
+                    </span>
+                  <% end %>
+                </td>
+                <td class="py-4 px-6 text-right space-x-2">
+                  <%= link_to "Edit", edit_admin_testimonial_path(t), class: "px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-bold transition-colors inline-block" %>
+                  <%= button_to "Delete", admin_testimonial_path(t), method: :delete, data: { confirm: "Are you sure you want to delete this testimonial?" }, class: "px-3 py-1.5 bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 rounded-lg text-xs font-bold transition-colors inline-block" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
+</div>

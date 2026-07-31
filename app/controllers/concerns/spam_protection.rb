@@ -13,7 +13,16 @@ module SpamProtection
   ].freeze
 
   included do
-    helper_method :spam_protection_fields if respond_to?(:helper_method)
+    helper_method :generate_security_puzzle if respond_to?(:helper_method)
+  end
+
+  def generate_security_puzzle
+    num1 = rand(2..9)
+    num2 = rand(1..9)
+    expected = num1 + num2
+    secret = Rails.application.secret_key_base.presence || "connecting-hearts-secret-key"
+    token = Digest::SHA256.hexdigest("#{expected}-#{secret.first(16)}")
+    { num1: num1, num2: num2, token: token }
   end
 
   protected
@@ -38,6 +47,12 @@ module SpamProtection
       return false
     end
 
+    if params[:puzzle_token].present? && !is_puzzle_valid?
+      Rails.logger.warn("[SPAM BLOCKED] Security puzzle solution incorrect from IP: #{request.remote_ip}")
+      handle_spam_detected("Security puzzle answer was incorrect. Please solve the puzzle correctly before submitting.")
+      return false
+    end
+
     if is_spam_keyword_present?(text_content)
       Rails.logger.warn("[SPAM BLOCKED] Spam keyword detected from IP: #{request.remote_ip}")
       handle_spam_detected("Submission contained unallowed promotional content.")
@@ -48,6 +63,16 @@ module SpamProtection
   end
 
   private
+
+  def is_puzzle_valid?
+    ans = params[:puzzle_answer].to_s.strip
+    token = params[:puzzle_token].to_s.strip
+    return false if ans.blank? || token.blank?
+
+    secret = Rails.application.secret_key_base.presence || "connecting-hearts-secret-key"
+    expected_hash = Digest::SHA256.hexdigest("#{ans}-#{secret.first(16)}")
+    ActiveSupport::SecurityUtils.secure_compare(expected_hash, token)
+  end
 
   def is_honeypot_filled?
     hp = params[:website_hp] || params[:hp_field] || (params.values.find { |v| v.is_a?(Hash) && v[:website_hp].present? })

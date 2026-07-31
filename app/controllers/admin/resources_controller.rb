@@ -45,7 +45,7 @@ module Admin
     end
 
     def resource_params
-      params.require(:resource).permit(:title, :category, :resource_type, :summary, :content, :file_url, :external_link, :published)
+      params.require(:resource).permit(:title, :category, :resource_type, :summary, :content, :file_url, :external_link, :published, :image_url, gallery_images: [])
     end
   end
 end

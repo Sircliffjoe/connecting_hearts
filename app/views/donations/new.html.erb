@@ -1,10 +1,13 @@
 <% content_for :title, "Donate / Support The Mission" %>
 
-<section class="bg-plum-950 text-white py-12 lg:py-16 text-center">
-  <div class="max-w-3xl mx-auto px-4 space-y-3">
-    <span class="text-xs font-bold uppercase tracking-widest text-terracotta-300">Secure Online Giving</span>
-    <h1 class="font-serif text-3xl sm:text-4xl font-bold">Support The Foundation</h1>
-    <p class="text-sm text-warm-200/90 font-light max-w-xl mx-auto">
+<!-- Hero Header (Harmonized) -->
+<section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-amber-300 uppercase">
+      <span>Secure Online Giving</span>
+    </div>
+    <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Support The Foundation</h1>
+    <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
       Your financial partnership directly funds confidential therapy sessions and keeps vulnerable children in school.
     </p>
   </div>
@@ -14,6 +17,7 @@
   <div class="max-w-2xl mx-auto px-4">
     <div class="bg-white rounded-3xl p-8 sm:p-10 border border-warm-300 shadow-sm">
       <%= form_with(model: @donation, local: true, class: "space-y-6") do |f| %>
+        <%= render "shared/spam_protection_fields" %>
 
         <% if @donation.errors.any? %>
           <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1">

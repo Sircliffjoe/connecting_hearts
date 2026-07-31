@@ -1,4 +1,4 @@
-<% content_for :title, "Connecting Hearts Experience | Powered by Eventro API" %>
+<% content_for :title, "Connecting Hearts Experience" %>
 <% content_for :description, "Browse upcoming and past Connecting Hearts Experience conferences, workshops, and therapy gatherings in Warri, Nigeria." %>
 
 <!-- Hero Header -->
@@ -66,27 +66,21 @@
         </div>
       </div>
 
-      <!-- Registration Box -->
-      <div id="register" class="lg:col-span-4 bg-white text-charcoal-900 p-6 rounded-2xl shadow-xl space-y-4">
-        <h3 class="font-serif text-xl font-bold text-plum-950">Reserve Your Spot</h3>
-        <p class="text-xs text-charcoal-600">Free admission powered by Connecting Hearts Foundation.</p>
-        
-        <%= form_with(model: EventRegistration.new, url: event_registrations_path, local: true, class: "space-y-3") do |f| %>
-          <%= f.hidden_field :event_id, value: Event.first&.id || 1 %>
-          <div>
-            <%= f.text_field :full_name, required: true, placeholder: "Your Full Name", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none" %>
-          </div>
-          <div>
-            <%= f.email_field :email, required: true, placeholder: "Email Address", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none" %>
-          </div>
-          <div>
-            <%= f.telephone_field :phone, placeholder: "Phone / WhatsApp", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none" %>
-          </div>
-          <div>
-            <%= f.select :attendance_type, [["In-Person (Warri)", "in_person"], ["Virtual Stream", "virtual"]], {}, class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50" %>
-          </div>
-          <%= f.submit "Complete Free Registration", class: "w-full py-3 text-xs font-bold text-white brand-btn-gradient rounded-xl cursor-pointer shadow-md" %>
-        <% end %>
+      <!-- Featured Event Action Card -->
+      <div id="register" class="lg:col-span-4 bg-white text-charcoal-900 p-8 rounded-3xl shadow-xl space-y-4 text-center flex flex-col justify-between">
+        <div class="space-y-3">
+          <span class="inline-block bg-plum-100 text-plum-900 text-xs font-bold px-3 py-1 rounded-full uppercase">Official Launch Edition</span>
+          <h3 class="font-serif text-2xl font-bold text-plum-950">Experience <%= @featured_event[:edition_number] %></h3>
+          <p class="text-xs text-charcoal-600 leading-relaxed">
+            Free admission powered by Connecting Hearts Foundation. Reserve your spot for this edition or explore post-event documentation.
+          </p>
+        </div>
+
+        <div class="pt-2">
+          <%= link_to experience_path(@featured_event[:id]), class: "block w-full py-4 px-6 text-xs font-bold text-white brand-btn-gradient rounded-xl shadow-md hover:scale-[1.02] transition-transform text-center" do %>
+            <span>View Event Details & Reserve Spot →</span>
+          <% end %>
+        </div>
       </div>
 
     </div>
@@ -94,12 +88,13 @@
 </section>
 <% end %>
 
-<!-- All Events Grid (Filtered from Eventro API) -->
+<!-- All Events Grid -->
 <section id="archive" class="py-20 bg-warm-50 border-t border-warm-300">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
     <div class="text-center max-w-2xl mx-auto space-y-2">
       <span class="text-xs font-bold uppercase tracking-widest text-plum-700">Explore Events</span>
       <h2 class="font-serif text-3xl font-bold text-plum-950">Events & Conferences (<%= @events.size %>)</h2>
+      <p class="text-xs text-charcoal-600">Browse past editions, key takeaways, and upcoming conference gatherings in Warri.</p>
     </div>
 
     <% if @events.empty? %>
@@ -114,37 +109,46 @@
             <div class="h-48 overflow-hidden relative">
               <img src="<%= safe_image_path(event[:image_url]) %>" alt="<%= event[:title] %>" class="w-full h-full object-cover">
               <span class="absolute top-4 left-4 bg-plum-700 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">
-                <%= event[:edition_number] %>
+                Edition <%= event[:edition_number] %>
               </span>
             </div>
-            <div class="p-6 space-y-3 flex-1 flex flex-col justify-between">
+            <div class="p-6 space-y-4 flex-1 flex flex-col justify-between">
               <div class="space-y-2">
                 <div class="flex items-center justify-between text-xs">
                   <span class="text-plum-700 font-bold uppercase"><%= event[:event_date].strftime("%b %d, %Y") %></span>
                   <span class="text-charcoal-500 text-[10px] font-semibold bg-warm-200 px-2 py-0.5 rounded-md"><%= event[:event_type] %></span>
                 </div>
-                <h3 class="font-serif text-xl font-bold text-plum-950"><%= event[:title] %></h3>
+                <h3 class="font-serif text-xl font-bold text-plum-950">
+                  <%= link_to event[:title], experience_path(event[:id]), class: "hover:text-terracotta-600 transition-colors" %>
+                </h3>
                 <p class="text-xs font-serif italic text-plum-800">Theme: "<%= event[:theme] %>"</p>
-                <p class="text-xs text-charcoal-800 leading-relaxed font-medium"><%= event[:description] %></p>
+                <p class="text-xs text-charcoal-800 leading-relaxed font-medium line-clamp-3"><%= event[:description] %></p>
               </div>
-              <div class="pt-4 border-t border-warm-200 flex items-center justify-between text-xs text-charcoal-600">
-                <span>📍 <%= event[:location] %></span>
-                <span class="text-[10px] font-mono text-purple-700">via eventro.africa</span>
+
+              <div class="space-y-3 pt-4 border-t border-warm-200">
+                <div class="flex items-center justify-between text-xs text-charcoal-600">
+                  <span>📍 <%= event[:location] %></span>
+                </div>
+                <%= link_to experience_path(event[:id]), class: "block w-full text-center py-2.5 px-4 rounded-xl bg-warm-100 hover:bg-plum-950 hover:text-white text-plum-950 text-xs font-bold transition-all border border-warm-300 shadow-xs" do %>
+                  <span>View Details & Post-Event Highlights →</span>
+                <% end %>
               </div>
             </div>
           </div>
         <% end %>
       </div>
     <% end %>
+
   </div>
 </section>
 
-<!-- Attendee Testimonials -->
-<section id="testimonials" class="py-20 bg-warm-100">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-16 space-y-2">
+<!-- Attendee Testimonials / Participant Reflections -->
+<section id="testimonials" class="py-20 bg-warm-100 border-t border-warm-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div class="text-center max-w-2xl mx-auto space-y-2">
       <span class="text-xs font-bold uppercase tracking-widest text-plum-700">Participant Reflections</span>
       <h2 class="font-serif text-3xl font-bold text-plum-950">What Attendees Say</h2>
+      <p class="text-xs text-charcoal-700">Real testimonies from single and married participants across our conference editions.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -160,5 +164,44 @@
         </div>
       <% end %>
     </div>
+
+    <!-- Participant Reflection Submission Form -->
+    <div class="bg-white rounded-3xl p-8 sm:p-10 border border-warm-300 shadow-sm max-w-3xl mx-auto space-y-6">
+      <div class="text-center space-y-1">
+        <h3 class="font-serif text-xl font-bold text-plum-950">Attended A Connecting Hearts Experience?</h3>
+        <p class="text-xs text-charcoal-700">Share your story or reflection to encourage others on their relationship journey.</p>
+      </div>
+
+      <%= form_with(model: Testimonial.new, url: create_testimonial_experiences_path, local: true, class: "space-y-4") do |f| %>
+        <%= render "shared/spam_protection_fields" %>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <%= f.label :author_name, "Your Name", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+            <%= f.text_field :author_name, required: true, placeholder: "e.g. Chinedu O.", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50" %>
+          </div>
+
+          <div>
+            <%= f.label :relationship_status, "Status", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+            <%= f.text_field :relationship_status, placeholder: "e.g. Married 4 yrs / Single", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50" %>
+          </div>
+
+          <div>
+            <%= f.label :edition_title, "Edition Attended", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+            <%= f.text_field :edition_title, placeholder: "e.g. Experience 3.0", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :quote, "Your Reflection / Testimonial", class: "block text-xs font-bold uppercase tracking-wider text-plum-950 mb-1" %>
+          <%= f.text_area :quote, rows: 3, required: true, placeholder: "How did the experience impact your life or relationship?", class: "w-full px-3.5 py-2.5 rounded-xl border border-warm-300 text-xs focus:ring-2 focus:ring-plum-700 outline-none bg-warm-50" %>
+        </div>
+
+        <div class="text-center pt-2">
+          <%= f.submit "Submit Reflection", class: "px-6 py-3 text-xs font-bold text-white brand-btn-gradient rounded-xl cursor-pointer shadow-md" %>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 </section>

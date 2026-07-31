@@ -112,6 +112,8 @@ Resource.find_or_create_by!(title: "Navigating Financial Conflict in Marriage: A
   r.summary = "Money disputes are among the leading causes of marital stress. Here are 5 practical ways to align your financial goals."
   r.content = "Financial transparency is emotional transparency. In this guide, we explore how couples in Nigeria can create combined budgeting frameworks, handle extended family expectations gracefully, and build shared emergency savings."
   r.published = true
+  r.image_url = "/assets/pic115b.jpeg"
+  r.gallery_images = ["/assets/pic116.jpeg", "/assets/pic117.jpeg", "/assets/pic114.jpeg", "/assets/pic113.jpeg"]
 end
 
 Resource.find_or_create_by!(title: "Emotional Healing After Separation or Divorce") do |r|
@@ -120,6 +122,8 @@ Resource.find_or_create_by!(title: "Emotional Healing After Separation or Divorc
   r.summary = "A compassionate, step-by-step workbook for processing grief, restoring self-worth, and protecting children during separation."
   r.content = "Separation does not mean your life is over. This workbook provides gentle exercises to rebuild your sense of self, release shame, and establish healthy co-parenting boundaries."
   r.published = true
+  r.image_url = "/assets/pic120.jpeg"
+  r.gallery_images = ["/assets/pic122.jpeg", "/assets/pic113.jpeg", "/assets/pic114.jpeg", "/assets/pic116.jpeg"]
 end
 
 Resource.find_or_create_by!(title: "Red Flags vs. Healing Markers in Dating") do |r|
@@ -128,6 +132,8 @@ Resource.find_or_create_by!(title: "Red Flags vs. Healing Markers in Dating") do
   r.summary = "Distinguishing between temporary character flaws and fundamental incompatibility before committing."
   r.content = "Before saying 'I do', understand the difference between someone who is actively growing and someone who is emotionally unsafe. Learn how to evaluate values, conflict resolution styles, and emotional maturity."
   r.published = true
+  r.image_url = "/assets/pic118.jpeg"
+  r.gallery_images = ["/assets/pic117.jpeg", "/assets/pic115b.jpeg", "/assets/pic116.jpeg", "/assets/pic114.jpeg"]
 end
 
 Resource.find_or_create_by!(title: "Frequently Asked Questions About Confidential Counseling") do |r|
@@ -136,6 +142,8 @@ Resource.find_or_create_by!(title: "Frequently Asked Questions About Confidentia
   r.summary = "Everything you need to know about requesting free or subsidized counseling through the Foundation."
   r.content = "All counseling requests submitted through Connecting Hearts Foundation are strictly confidential. Sessions are conducted by certified family counselors and licensed therapists in our Warri network."
   r.published = true
+  r.image_url = "/assets/pic116.jpeg"
+  r.gallery_images = ["/assets/pic120.jpeg", "/assets/pic122.jpeg", "/assets/pic113.jpeg", "/assets/pic115b.jpeg"]
 end
 puts "✓ Resources created."
 
