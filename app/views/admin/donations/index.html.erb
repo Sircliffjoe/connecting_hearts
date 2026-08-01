@@ -1,30 +1,79 @@
 <div class="space-y-6">
-  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-    <h1 class="font-serif text-2xl font-bold text-white">Donation Financial Log</h1>
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+    <div>
+      <h1 class="font-serif text-2xl font-bold text-white flex items-center gap-2">
+        <span>💳</span>
+        <span>Donations & Payment Receipts Record</span>
+      </h1>
+      <p class="text-xs text-slate-400">Complete transaction log capturing donor form data and uploaded manual bank transfer receipts</p>
+    </div>
   </div>
 
-  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6">
+  <!-- Filter Pills -->
+  <div class="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-4 text-xs font-semibold">
+    <%= link_to "All Payments (#{Donation.count})", admin_donations_path, class: "px-3 py-1.5 rounded-xl border transition-colors #{@status.blank? ? 'bg-plum-900 text-white border-plum-700 font-bold' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'}" %>
+    <%= link_to "Pending Receipts (#{Donation.pending_verification.count})", admin_donations_path(status: "receipt_uploaded"), class: "px-3 py-1.5 rounded-xl border transition-colors #{@status == 'receipt_uploaded' ? 'bg-amber-950 text-amber-300 border-amber-800 font-bold' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'}" %>
+    <%= link_to "Verified / Successful (#{Donation.successful.count})", admin_donations_path(status: "successful"), class: "px-3 py-1.5 rounded-xl border transition-colors #{@status == 'successful' ? 'bg-emerald-950 text-emerald-300 border-emerald-800 font-bold' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'}" %>
+    <%= link_to "Awaiting Payment (#{Donation.awaiting_payment.count})", admin_donations_path(status: "pending"), class: "px-3 py-1.5 rounded-xl border transition-colors #{@status == 'pending' ? 'bg-slate-800 text-slate-200 border-slate-700 font-bold' : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'}" %>
+  </div>
+
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
     <div class="overflow-x-auto">
       <table class="w-full text-left text-xs text-slate-300">
         <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
           <tr>
             <th class="p-3">Reference</th>
-            <th class="p-3">Donor Email</th>
-            <th class="p-3">Donor Name</th>
-            <th class="p-3">Amount</th>
+            <th class="p-3">Donor Info</th>
+            <th class="p-3">Amount (₦)</th>
             <th class="p-3">Purpose</th>
             <th class="p-3">Date</th>
+            <th class="p-3">Payment Receipt</th>
+            <th class="p-3">Status</th>
+            <th class="p-3 text-right">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-800">
-          <% @donations.each do |d| %>
-            <tr class="hover:bg-slate-850">
-              <td class="p-3 font-mono text-plum-300 font-bold"><%= d.payment_reference %></td>
-              <td class="p-3"><%= d.donor_email %></td>
-              <td class="p-3 font-semibold text-white"><%= d.donor_name.presence || "Anonymous" %></td>
-              <td class="p-3 font-bold text-emerald-400">₦<%= number_with_delimiter(d.amount) %></td>
-              <td class="p-3"><%= d.purpose %></td>
-              <td class="p-3"><%= d.created_at.strftime("%b %d, %Y") %></td>
+          <% if @donations.any? %>
+            <% @donations.each do |d| %>
+              <tr class="hover:bg-slate-850">
+                <td class="p-3 font-mono text-plum-300 font-bold"><%= d.payment_reference %></td>
+                <td class="p-3">
+                  <span class="font-semibold text-white block"><%= d.donor_name.presence || "Anonymous" %></span>
+                  <span class="text-slate-400 text-[11px]"><%= d.donor_email %></span>
+                  <% if d.depositor_name.present? %>
+                    <span class="text-[10px] text-amber-300/80 block mt-0.5">Depositor: <%= d.depositor_name %></span>
+                  <% end %>
+                </td>
+                <td class="p-3 font-bold text-emerald-400 text-sm">₦<%= number_with_delimiter(d.amount) %></td>
+                <td class="p-3 max-w-xs truncate"><%= d.purpose %></td>
+                <td class="p-3 whitespace-nowrap"><%= d.created_at.strftime("%b %d, %Y %H:%M") %></td>
+                <td class="p-3">
+                  <% if d.receipt_url.present? %>
+                    <a href="<%= d.receipt_url %>" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold hover:bg-emerald-900 text-[11px]">
+                      <span>🧾 View Receipt</span>
+                    </a>
+                  <% else %>
+                    <span class="text-slate-500 italic text-[11px]">No receipt</span>
+                  <% end %>
+                </td>
+                <td class="p-3">
+                  <%= form_with(model: [:admin, d], local: true, class: "inline-block") do |f| %>
+                    <%= f.select :status, [
+                          ["Awaiting Payment", "pending"],
+                          ["Receipt Uploaded (Pending Verification)", "receipt_uploaded"],
+                          ["Verified / Successful", "successful"],
+                          ["Failed / Rejected", "failed"]
+                        ], {}, class: "px-2 py-1 rounded bg-slate-950 border border-slate-700 text-[11px] font-bold text-white focus:outline-none focus:border-plum-500", onchange: "this.form.submit()" %>
+                  <% end %>
+                </td>
+                <td class="p-3 text-right">
+                  <%= link_to "View File", admin_donation_path(d), class: "px-3 py-1.5 rounded-lg bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 font-medium text-[11px]" %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="8" class="p-8 text-center text-slate-500 italic">No donation records matching this status filter.</td>
             </tr>
           <% end %>
         </tbody>

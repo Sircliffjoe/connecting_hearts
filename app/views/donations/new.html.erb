@@ -1,10 +1,10 @@
 <% content_for :title, "Donate / Support The Mission" %>
 
-<!-- Hero Header (Harmonized) -->
+<!-- Hero Header -->
 <section class="brand-gradient text-white pt-28 pb-20 text-center relative overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4 relative z-10">
     <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-bold text-amber-300 uppercase">
-      <span>Secure Online Giving</span>
+      <span>Direct Bank Transfer Support</span>
     </div>
     <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white">Support The Foundation</h1>
     <p class="text-lg text-purple-100/90 max-w-2xl mx-auto font-sans font-light">
@@ -15,7 +15,12 @@
 
 <section class="py-12 bg-warm-50">
   <div class="max-w-2xl mx-auto px-4">
-    <div class="bg-white rounded-3xl p-8 sm:p-10 border border-warm-300 shadow-sm">
+    <div class="bg-white rounded-3xl p-8 sm:p-10 border border-warm-300 shadow-sm space-y-6">
+      <div class="border-b border-warm-200 pb-4">
+        <h2 class="font-serif text-xl font-bold text-plum-950">Enter Donation Information</h2>
+        <p class="text-xs text-charcoal-600">Fill in your donation details below to generate foundation transfer instructions.</p>
+      </div>
+
       <%= form_with(model: @donation, local: true, class: "space-y-6") do |f| %>
         <%= render "shared/spam_protection_fields" %>
 
@@ -32,18 +37,26 @@
 
         <div class="space-y-2">
           <%= f.label :purpose, "Donation Purpose", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
-          <%= f.select :purpose, Donation::PURPOSES, {}, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+          <%= f.select :purpose, Donation::PURPOSES, {}, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50 text-charcoal-900 font-medium" %>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div class="space-y-2 col-span-2">
-            <%= f.label :amount, "Donation Amount", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
-            <%= f.number_field :amount, min: 100, step: 500, required: true, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50 font-bold text-plum-950" %>
+            <%= f.label :amount, "Donation Amount (₦)", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-plum-950 text-base">₦</span>
+              <%= f.number_field :amount, min: 5000, step: "any", required: true, value: (@donation.amount.presence || 5000), class: "w-full pl-9 pr-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-base bg-warm-50 font-bold text-plum-950" %>
+            </div>
+            <p class="text-[11px] text-charcoal-500">Minimum donation amount is ₦5,000. You may enter any amount from ₦5,000 and above.</p>
           </div>
 
           <div class="space-y-2">
             <%= f.label :currency, "Currency", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
-            <%= f.select :currency, ["NGN (₦)", "USD ($)", "GBP (£)"], {}, class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+            <div class="w-full px-4 py-3 rounded-xl border border-warm-300 bg-warm-100 text-sm font-bold text-plum-950 flex items-center justify-between">
+              <span>Naira (₦)</span>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-plum-900 text-white">NGN</span>
+            </div>
+            <%= f.hidden_field :currency, value: "NGN" %>
           </div>
         </div>
 
@@ -59,18 +72,10 @@
           </div>
         </div>
 
-        <!-- Security & Payment Methods Badge -->
-        <div class="p-4 rounded-xl bg-warm-100 border border-warm-300 text-xs text-charcoal-600 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="text-emerald-600 font-bold">🔒 Secure 256-Bit SSL</span>
-            <span>Supports Cards, Bank Transfer, USSD</span>
-          </div>
-          <span class="font-bold text-plum-900">Paystack / Flutterwave</span>
-        </div>
-
-        <%= f.submit "Proceed To Secure Payment", class: "w-full py-4 text-sm font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all" %>
+        <%= f.submit "Donate Now", class: "w-full py-4 text-base font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2 group" %>
 
       <% end %>
     </div>
   </div>
 </section>
+

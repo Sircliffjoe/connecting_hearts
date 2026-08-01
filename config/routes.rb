@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   resources :donations, path: "donate", only: [:new, :create] do
     get "callback", on: :collection
     get "confirmation", on: :collection
+    post "upload_receipt", on: :collection
   end
 
   resources :event_registrations, only: [:create]
@@ -57,7 +58,7 @@ Rails.application.routes.draw do
     resources :stories
     resources :resources
     resources :testimonials
-    resources :donations, only: [:index, :show]
+    resources :donations, only: [:index, :show, :update]
     resources :users
 
     post "uploads", to: "uploads#create"

@@ -1,27 +1,222 @@
-<% content_for :title, "Donation Successful" %>
+<% content_for :title, "Donation Confirmation & Payment Details" %>
 
-<section class="py-20 bg-warm-50 min-h-[60vh] flex items-center justify-center">
-  <div class="max-w-md mx-auto px-4 text-center">
-    <div class="bg-white rounded-3xl p-8 border border-warm-300 shadow-md space-y-6">
-      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-bold mx-auto">
-        ❤️
+<section class="py-12 bg-warm-50 min-h-[80vh]" data-controller="receipt-modal">
+  <div class="max-w-3xl mx-auto px-4 space-y-6">
+
+    <!-- Header Status Banner -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-warm-300 shadow-sm text-center space-y-4">
+      <div class="w-16 h-16 rounded-full <%= @donation.status == 'successful' ? 'bg-emerald-100 text-emerald-700' : (@donation.status == 'receipt_uploaded' ? 'bg-amber-100 text-amber-800' : 'bg-plum-100 text-plum-900') %> flex items-center justify-center text-3xl font-bold mx-auto shadow-inner">
+        <%= @donation.status == 'successful' ? '✓' : (@donation.status == 'receipt_uploaded' ? '⏳' : '💳') %>
       </div>
 
-      <h1 class="font-serif text-2xl font-bold text-plum-950">Thank You For Your Support!</h1>
-      
-      <p class="text-xs text-charcoal-700 leading-relaxed font-sans">
-        Your contribution directly powers our counseling and child educational programs in Warri.
+      <div>
+        <% if @donation.status == 'successful' %>
+          <h1 class="font-serif text-2xl sm:text-3xl font-bold text-plum-950">Payment Verified & Confirmed!</h1>
+          <p class="text-xs sm:text-sm text-charcoal-600 max-w-lg mx-auto mt-1">
+            Thank you for your generous financial contribution to Connecting Hearts Foundation. Your support empowers lives.
+          </p>
+        <% elsif @donation.status == 'receipt_uploaded' %>
+          <h1 class="font-serif text-2xl sm:text-3xl font-bold text-plum-950">Payment Receipt Received!</h1>
+          <p class="text-xs sm:text-sm text-charcoal-600 max-w-lg mx-auto mt-1">
+            We have received your payment receipt. Our financial team is currently verifying the transfer and will confirm shortly.
+          </p>
+        <% else %>
+          <h1 class="font-serif text-2xl sm:text-3xl font-bold text-plum-950">Complete Your Donation</h1>
+          <p class="text-xs sm:text-sm text-charcoal-600 max-w-lg mx-auto mt-1">
+            Please make a bank transfer to the official Foundation bank account below using your payment reference.
+          </p>
+        <% end %>
+      </div>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase <%= @donation.status_badge_class %>">
+        <span><%= @donation.status_display_name %></span>
+      </div>
+    </div>
+
+    <!-- Grid: Captured Details & Bank Account Details -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Donation Details Captured -->
+      <div class="bg-white rounded-3xl p-6 border border-warm-300 shadow-sm space-y-4">
+        <div class="border-b border-warm-200 pb-3 flex items-center justify-between">
+          <h2 class="font-serif text-lg font-bold text-plum-950">Donation Details</h2>
+          <span class="text-[11px] font-mono font-bold text-plum-700 bg-plum-50 px-2 py-0.5 rounded border border-plum-200">
+            <%= @donation.payment_reference %>
+          </span>
+        </div>
+
+        <div class="space-y-3 text-xs text-charcoal-800">
+          <div class="bg-warm-100 p-3 rounded-2xl border border-warm-200">
+            <span class="text-[10px] font-bold text-charcoal-500 uppercase tracking-wider block">Donation Amount</span>
+            <span class="text-2xl font-serif font-bold text-plum-950">₦<%= number_with_delimiter(@donation.amount) %></span>
+            <span class="text-[10px] text-emerald-700 font-semibold block">NGN Currency</span>
+          </div>
+
+          <div>
+            <span class="text-[10px] font-bold text-charcoal-500 uppercase tracking-wider block">Purpose</span>
+            <span class="font-medium text-charcoal-900"><%= @donation.purpose %></span>
+          </div>
+
+          <div>
+            <span class="text-[10px] font-bold text-charcoal-500 uppercase tracking-wider block">Donor Information</span>
+            <span class="font-semibold text-charcoal-900 block"><%= @donation.donor_name.presence || "Anonymous Donor" %></span>
+            <span class="text-charcoal-600 block"><%= @donation.donor_email %></span>
+          </div>
+
+          <% if @donation.receipt_url.present? %>
+            <div class="pt-2 border-t border-warm-200">
+              <span class="text-[10px] font-bold text-charcoal-500 uppercase tracking-wider block mb-1">Attached Receipt</span>
+              <a href="<%= @donation.receipt_url %>" target="_blank" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-plum-900 text-white font-bold text-[11px] hover:bg-plum-800 transition-colors">
+                <span>📎 View Uploaded Receipt</span>
+              </a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Foundation Bank Account Details Card -->
+      <div class="bg-gradient-to-br from-plum-950 to-plum-900 text-white rounded-3xl p-6 border border-plum-800 shadow-md space-y-4 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="border-b border-plum-800 pb-3 flex items-center justify-between">
+            <h2 class="font-serif text-lg font-bold text-amber-300">Foundation Bank Account</h2>
+            <span class="text-[10px] font-bold uppercase tracking-wider bg-white/10 px-2 py-0.5 rounded text-amber-200">Official Account</span>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <span class="text-[10px] font-bold text-purple-200/70 uppercase tracking-wider block">Bank Name</span>
+              <span class="font-bold text-sm text-white">PremiumTrust Bank</span>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-bold text-purple-200/70 uppercase tracking-wider block">Account Name</span>
+              <span class="font-bold text-sm text-white">Connecting Hearts for Singles and Married Foundation</span>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-bold text-purple-200/70 uppercase tracking-wider block">Account Number</span>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="font-mono text-xl sm:text-2xl font-bold text-amber-300 tracking-wider">0040235590</span>
+                <button type="button" 
+                        data-action="click->receipt-modal#copyAccountNumber" 
+                        data-account-number="0040235590"
+                        class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-amber-300 transition-colors cursor-pointer focus:outline-none flex items-center gap-1 text-xs font-bold"
+                        title="Copy Account Number">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <span data-receipt-modal-target="copyBtnText">Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-[10px] font-bold text-purple-200/70 uppercase tracking-wider block">Payment Reference to Include</span>
+              <span class="font-mono text-xs font-bold text-purple-200"><%= @donation.payment_reference %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-plum-800">
+          <button type="button"
+                  data-action="click->receipt-modal#copyFullDetails"
+                  data-full-details="Bank: PremiumTrust Bank&#10;Account Name: Connecting Hearts for Singles and Married Foundation&#10;Account Number: 0040235590&#10;Payment Reference: <%= @donation.payment_reference %>&#10;Amount: ₦<%= number_with_delimiter(@donation.amount) %>"
+                  class="w-full py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-purple-100 flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            <span>📋</span>
+            <span data-receipt-modal-target="copyAccountBtnText">Copy All Account Details</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Action Section: I Have Made Payment -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-warm-300 shadow-sm text-center space-y-4">
+      <h3 class="font-serif text-lg font-bold text-plum-950">Have You Transferred the Funds?</h3>
+      <p class="text-xs text-charcoal-600 max-w-md mx-auto">
+        After transferring your donation to the bank account above, please click the button below to upload your payment receipt or transfer screenshot for instant documentation.
       </p>
 
-      <% if @donation.present? %>
-        <div class="p-4 rounded-xl bg-warm-100 border border-warm-300 text-xs text-charcoal-800 space-y-1 text-left">
-          <p><strong>Reference:</strong> <%= @donation.payment_reference %></p>
-          <p><strong>Amount:</strong> ₦<%= number_with_delimiter(@donation.amount) %></p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button type="button"
+                data-action="click->receipt-modal#openModal"
+                class="w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2">
+          <span>🧾</span>
+          <span><%= @donation.receipt_url.present? ? "Re-upload / Update Payment Receipt" : "I Have Made Payment" %></span>
+        </button>
+
+        <%= link_to root_path, class: "px-6 py-4 text-xs font-bold text-plum-900 bg-warm-100 hover:bg-warm-200 rounded-full transition-colors" do %>
+          <span>Return To Homepage</span>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- UPLOAD PAYMENT RECEIPT MODAL -->
+  <div data-receipt-modal-target="modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-lg bg-white rounded-3xl p-6 sm:p-8 border border-warm-300 shadow-2xl space-y-6 animate-scale-up">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-warm-200 pb-4">
+        <div>
+          <h3 class="font-serif text-xl font-bold text-plum-950">Upload Payment Receipt</h3>
+          <p class="text-xs text-charcoal-600">Provide proof of transfer for donation ref: <strong class="text-plum-900"><%= @donation.payment_reference %></strong></p>
+        </div>
+        <button type="button" 
+                data-action="click->receipt-modal#closeModal" 
+                class="p-2 text-charcoal-400 hover:text-charcoal-900 text-xl font-bold rounded-xl hover:bg-warm-100 transition-colors">
+          ✕
+        </button>
+      </div>
+
+      <!-- Upload Form -->
+      <%= form_with(url: upload_receipt_donations_path, method: :post, multipart: true, local: true, class: "space-y-4") do |f| %>
+        <%= hidden_field_tag :payment_reference, @donation.payment_reference %>
+
+        <div class="p-3 rounded-2xl bg-warm-100 border border-warm-200 text-xs text-charcoal-700 space-y-1">
+          <p><strong>Donation Amount:</strong> ₦<%= number_with_delimiter(@donation.amount) %></p>
           <p><strong>Purpose:</strong> <%= @donation.purpose %></p>
+        </div>
+
+        <div class="space-y-2">
+          <%= label_tag :receipt_file, "Select Receipt Image or PDF File *", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+          <div class="relative border-2 border-dashed border-warm-300 rounded-2xl p-6 text-center hover:border-plum-600 transition-colors bg-warm-50 cursor-pointer">
+            <input type="file" 
+                   name="receipt_file" 
+                   id="receipt_file" 
+                   required
+                   accept="image/*,application/pdf" 
+                   data-action="change->receipt-modal#fileSelected"
+                   class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+            <div class="space-y-2 pointer-events-none">
+              <span class="text-3xl block">📄</span>
+              <p class="text-xs font-bold text-plum-950">Click or drag receipt here to upload</p>
+              <p class="text-[10px] text-charcoal-500">Supports JPG, PNG, WEBP, or PDF (Max 10MB)</p>
+              <p data-receipt-modal-target="fileName" class="hidden text-xs font-bold text-emerald-700 pt-1"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <%= label_tag :depositor_name, "Depositor / Account Holder Name (Optional)", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+          <%= text_field_tag :depositor_name, @donation.depositor_name, placeholder: "Name on bank account used for transfer", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= label_tag :notes, "Transfer Notes or Bank Name (Optional)", class: "block text-xs font-bold uppercase tracking-wider text-charcoal-700" %>
+          <%= text_area_tag :notes, @donation.notes, rows: 2, placeholder: "e.g. Transferred via Kuda Bank app at 2:30 PM", class: "w-full px-4 py-3 rounded-xl border border-warm-300 focus:ring-2 focus:ring-plum-800 outline-none text-sm bg-warm-50" %>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-warm-200">
+          <button type="button" 
+                  data-action="click->receipt-modal#closeModal" 
+                  class="px-5 py-2.5 rounded-full text-xs font-bold text-charcoal-700 hover:bg-warm-100 transition-colors">
+            Cancel
+          </button>
+          <%= f.submit "Upload Receipt & Confirm", class: "px-6 py-3 rounded-full text-xs font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 shadow-md cursor-pointer transition-all" %>
         </div>
       <% end %>
 
-      <%= link_to "Return To Home", root_path, class: "inline-block px-8 py-3 text-xs font-bold text-white bg-plum-900 rounded-full" %>
     </div>
   </div>
+
 </section>

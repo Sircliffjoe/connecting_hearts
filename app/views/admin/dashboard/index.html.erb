@@ -1,41 +1,123 @@
 <div class="space-y-8">
-  <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
     <div>
-      <h1 class="font-serif text-3xl font-bold text-white">Foundation Triage Overview</h1>
+      <h1 class="font-serif text-3xl font-bold text-white">Foundation Triage & Payment Dashboard</h1>
       <p class="text-xs text-slate-400">Warri, Delta State • Connecting Hearts Management Platform</p>
     </div>
-    <span class="px-3 py-1 bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 rounded-full text-xs font-semibold">
-      System Active
-    </span>
+    <div class="flex items-center gap-2">
+      <span class="px-3 py-1 bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 rounded-full text-xs font-semibold">
+        System Active
+      </span>
+      <% if @pending_receipts_count > 0 %>
+        <span class="px-3 py-1 bg-amber-900/60 text-amber-300 border border-amber-700/50 rounded-full text-xs font-bold animate-pulse">
+          <%= @pending_receipts_count %> Pending Receipt(s)
+        </span>
+      <% end %>
+    </div>
   </div>
 
   <!-- Metric Badges -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
     
-    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
-      <span class="text-xs font-semibold text-slate-400 uppercase">Contact Form Submissions</span>
-      <div class="text-3xl font-serif font-bold text-sky-400"><%= @pending_contact_count %></div>
-      <%= link_to "Review Contact Messages →", admin_contact_inquiries_path, class: "text-xs font-bold text-sky-400 hover:text-sky-300 inline-block pt-1" %>
+    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Pending Receipts</span>
+      <div class="text-3xl font-serif font-bold text-amber-400"><%= @pending_receipts_count %></div>
+      <%= link_to "Verify Payment Receipts →", admin_donations_path(status: "receipt_uploaded"), class: "text-xs font-bold text-amber-400 hover:text-amber-300 inline-block pt-1" %>
     </div>
 
-    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
-      <span class="text-xs font-semibold text-slate-400 uppercase">Support Requests (Confidential)</span>
+    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Total Raised (Verified)</span>
+      <div class="text-2xl font-serif font-bold text-emerald-400">₦<%= number_with_delimiter(@total_donations_amount) %></div>
+      <%= link_to "View All Payments →", admin_donations_path, class: "text-xs font-bold text-emerald-400 hover:text-emerald-300 inline-block pt-1" %>
+    </div>
+
+    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Support Requests</span>
       <div class="text-3xl font-serif font-bold text-rose-400"><%= @pending_support_count %></div>
-      <%= link_to "Review Support Requests →", admin_support_requests_path, class: "text-xs font-bold text-rose-400 hover:text-rose-300 inline-block pt-1" %>
+      <%= link_to "Review Support →", admin_support_requests_path, class: "text-xs font-bold text-rose-400 hover:text-rose-300 inline-block pt-1" %>
     </div>
 
-    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
-      <span class="text-xs font-semibold text-slate-400 uppercase">Partnership Proposals</span>
-      <div class="text-3xl font-serif font-bold text-purple-400"><%= @pending_partnership_count %></div>
-      <%= link_to "Review Proposals →", admin_partnership_inquiries_path, class: "text-xs font-bold text-purple-400 hover:text-purple-300 inline-block pt-1" %>
+    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Contact Submissions</span>
+      <div class="text-3xl font-serif font-bold text-sky-400"><%= @pending_contact_count %></div>
+      <%= link_to "Review Messages →", admin_contact_inquiries_path, class: "text-xs font-bold text-sky-400 hover:text-sky-300 inline-block pt-1" %>
     </div>
 
-    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-2">
-      <span class="text-xs font-semibold text-slate-400 uppercase">Volunteer Applications</span>
-      <div class="text-3xl font-serif font-bold text-amber-400"><%= @pending_volunteer_count %></div>
-      <%= link_to "Review Applicants →", admin_volunteer_applications_path, class: "text-xs font-bold text-amber-400 hover:text-amber-300 inline-block pt-1" %>
+    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2">
+      <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Volunteers / Partners</span>
+      <div class="text-3xl font-serif font-bold text-purple-400"><%= @pending_volunteer_count + @pending_partnership_count %></div>
+      <%= link_to "Review Applications →", admin_volunteer_applications_path, class: "text-xs font-bold text-purple-400 hover:text-purple-300 inline-block pt-1" %>
     </div>
 
+  </div>
+
+  <!-- SECTION: DONATIONS & PAYMENT INFORMATION (FORM DATA + UPLOADED RECEIPTS) -->
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4 shadow-xl">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+      <div>
+        <h2 class="font-serif text-xl font-bold text-white flex items-center gap-2">
+          <span>💳</span>
+          <span>Donations & Payment Receipts Log</span>
+        </h2>
+        <p class="text-xs text-slate-400">Records donor form submissions, amount, purpose, and uploaded payment transfer receipts</p>
+      </div>
+      <%= link_to "View All Payment Information →", admin_donations_path, class: "text-xs text-plum-300 hover:text-plum-200 font-bold px-3 py-1.5 rounded-xl bg-slate-850 border border-slate-700" %>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs text-slate-300">
+        <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
+          <tr>
+            <th class="p-3">Ref Code</th>
+            <th class="p-3">Donor Name & Email</th>
+            <th class="p-3">Amount (₦)</th>
+            <th class="p-3">Purpose</th>
+            <th class="p-3">Status</th>
+            <th class="p-3">Payment Receipt</th>
+            <th class="p-3 text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800">
+          <% if @recent_donations.any? %>
+            <% @recent_donations.each do |d| %>
+              <tr class="hover:bg-slate-850">
+                <td class="p-3 font-mono font-bold text-plum-300"><%= d.payment_reference %></td>
+                <td class="p-3">
+                  <span class="font-semibold text-white block"><%= d.donor_name.presence || "Anonymous" %></span>
+                  <span class="text-slate-400 text-[11px]"><%= d.donor_email %></span>
+                  <% if d.depositor_name.present? %>
+                    <span class="text-[10px] text-slate-500 block italic">Depositor: <%= d.depositor_name %></span>
+                  <% end %>
+                </td>
+                <td class="p-3 font-bold text-emerald-400 text-sm">₦<%= number_with_delimiter(d.amount) %></td>
+                <td class="p-3 max-w-xs truncate"><%= d.purpose %></td>
+                <td class="p-3">
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase <%= d.status_badge_class %>">
+                    <%= d.status_display_name %>
+                  </span>
+                </td>
+                <td class="p-3">
+                  <% if d.receipt_url.present? %>
+                    <a href="<%= d.receipt_url %>" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold hover:bg-emerald-900 text-[11px]">
+                      <span>🧾 View Receipt</span>
+                    </a>
+                  <% else %>
+                    <span class="text-slate-500 italic text-[11px]">No receipt yet</span>
+                  <% end %>
+                </td>
+                <td class="p-3 text-right space-x-1">
+                  <%= link_to "View Details", admin_donation_path(d), class: "px-3 py-1 rounded-lg bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 font-medium text-[11px]" %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="7" class="p-6 text-center text-slate-500 italic">No donation payment records found yet.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Contact Inquiries Triage Section -->
