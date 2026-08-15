@@ -16,5 +16,11 @@ module Admin
         render :show, status: :unprocessable_entity
       end
     end
+
+    def destroy
+      @contact_inquiry = ContactInquiry.find(params[:id])
+      @contact_inquiry.destroy
+      redirect_back fallback_location: admin_dashboard_path, notice: "Contact inquiry deleted successfully."
+    end
   end
 end

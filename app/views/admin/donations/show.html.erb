@@ -85,7 +85,12 @@
             <%= f.text_area :notes, rows: 2, class: "w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:ring-2 focus:ring-plum-500 outline-none", placeholder: "e.g. Verified transfer in PremiumTrust Bank account statement" %>
           </div>
 
-          <%= f.submit "Update Status", class: "w-full py-2.5 rounded-xl bg-plum-800 hover:bg-plum-700 text-white font-bold text-xs shadow cursor-pointer transition-colors" %>
+          <div class="flex items-center justify-between gap-3 pt-2">
+            <%= f.submit "Update Status", class: "flex-1 py-2.5 rounded-xl bg-plum-800 hover:bg-plum-700 text-white font-bold text-xs shadow cursor-pointer transition-colors" %>
+            <%= button_to admin_donation_path(@donation), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this donation record permanently?" }, class: "px-4 py-2.5 rounded-xl bg-rose-950/70 text-rose-300 border border-rose-800/80 hover:bg-rose-900 hover:text-white font-bold text-xs cursor-pointer transition-colors" do %>
+              <span>🗑 Delete Record</span>
+            <% end %>
+          </div>
         <% end %>
       </div>
 

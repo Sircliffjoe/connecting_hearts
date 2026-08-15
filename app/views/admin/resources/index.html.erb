@@ -29,10 +29,18 @@
                 <td class="p-3 text-slate-400"><%= r.resource_type %></td>
                 <td class="p-3"><%= r.published ? "✓ Published" : "Draft" %></td>
                 <td class="p-3"><%= r.created_at.strftime("%b %d, %Y") %></td>
-                <td class="p-3 text-right space-x-3">
-                  <%= link_to "View", admin_resource_path(r), class: "text-sky-400 hover:underline font-medium" %>
-                  <%= link_to "Edit", edit_admin_resource_path(r), class: "text-amber-400 hover:underline font-medium" %>
-                  <%= button_to "Delete", admin_resource_path(r), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this resource?" }, class: "text-rose-400 hover:underline inline bg-transparent cursor-pointer font-medium" %>
+                <td class="p-3 text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <%= link_to admin_resource_path(r), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "View Resource", aria: { label: "View Resource" } do %>
+                      <%= icon_eye %>
+                    <% end %>
+                    <%= link_to edit_admin_resource_path(r), class: "p-2 rounded-lg bg-amber-950/60 text-amber-400 border border-amber-800/60 hover:bg-amber-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "Edit Resource", aria: { label: "Edit Resource" } do %>
+                      <%= icon_pencil %>
+                    <% end %>
+                    <%= button_to admin_resource_path(r), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this resource?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Resource", aria: { label: "Delete Resource" } do %>
+                      <%= icon_trash %>
+                    <% end %>
+                  </div>
                 </td>
               </tr>
             <% end %>

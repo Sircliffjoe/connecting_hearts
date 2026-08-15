@@ -31,10 +31,18 @@
                 <td class="p-3"><%= event.event_date&.strftime("%b %d, %Y") %></td>
                 <td class="p-3"><%= event.location.presence || "Online" %></td>
                 <td class="p-3"><%= event.featured ? "⭐ Yes" : "No" %></td>
-                <td class="p-3 text-right space-x-3">
-                  <%= link_to "View", admin_event_path(event), class: "text-sky-400 hover:underline font-medium" %>
-                  <%= link_to "Edit", edit_admin_event_path(event), class: "text-amber-400 hover:underline font-medium" %>
-                  <%= button_to "Delete", admin_event_path(event), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this event?" }, class: "text-rose-400 hover:underline inline bg-transparent cursor-pointer font-medium" %>
+                <td class="p-3 text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <%= link_to admin_event_path(event), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "View Event", aria: { label: "View Event" } do %>
+                      <%= icon_eye %>
+                    <% end %>
+                    <%= link_to edit_admin_event_path(event), class: "p-2 rounded-lg bg-amber-950/60 text-amber-400 border border-amber-800/60 hover:bg-amber-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "Edit Event", aria: { label: "Edit Event" } do %>
+                      <%= icon_pencil %>
+                    <% end %>
+                    <%= button_to admin_event_path(event), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this event?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Event", aria: { label: "Delete Event" } do %>
+                      <%= icon_trash %>
+                    <% end %>
+                  </div>
                 </td>
               </tr>
             <% end %>

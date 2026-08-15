@@ -59,7 +59,12 @@
           <%= f.text_area :notes, rows: 3, placeholder: "Add referral details or follow-up notes...", class: "w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs" %>
         </div>
 
-        <%= f.submit "Save Status & Notes", class: "px-6 py-2.5 text-xs font-bold text-white bg-plum-800 hover:bg-plum-700 rounded-xl cursor-pointer" %>
+        <div class="flex items-center justify-between pt-2">
+          <%= f.submit "Save Status & Notes", class: "px-6 py-2.5 text-xs font-bold text-white bg-plum-800 hover:bg-plum-700 rounded-xl cursor-pointer" %>
+          <%= button_to admin_support_request_path(@support_request), method: :delete, data: { turbo_confirm: "Are you sure you want to permanently delete this support request?" }, class: "px-4 py-2 text-xs font-bold text-rose-400 hover:text-white bg-rose-950/70 hover:bg-rose-900 border border-rose-800 rounded-xl transition-colors cursor-pointer" do %>
+            <span>🗑 Delete Support Request</span>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>

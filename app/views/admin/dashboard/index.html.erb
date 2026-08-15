@@ -1,8 +1,8 @@
-<div class="space-y-8">
+<div class="space-y-8" data-controller="contact-preview">
   <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
     <div>
-      <h1 class="font-serif text-3xl font-bold text-white">Foundation Triage & Payment Dashboard</h1>
-      <p class="text-xs text-slate-400">Warri, Delta State • Connecting Hearts Management Platform</p>
+      <h1 class="font-serif text-3xl font-bold text-white">Foundation Triage & Management Dashboard</h1>
+      <p class="text-xs text-slate-400">Connecting Hearts Foundation • Executive Administration Platform</p>
     </div>
     <div class="flex items-center gap-2">
       <span class="px-3 py-1 bg-emerald-900/60 text-emerald-300 border border-emerald-700/50 rounded-full text-xs font-semibold">
@@ -18,7 +18,6 @@
 
   <!-- Metric Badges -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-    
     <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-2">
       <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Pending Receipts</span>
       <div class="text-3xl font-serif font-bold text-amber-400"><%= @pending_receipts_count %></div>
@@ -48,10 +47,9 @@
       <div class="text-3xl font-serif font-bold text-purple-400"><%= @pending_volunteer_count + @pending_partnership_count %></div>
       <%= link_to "Review Applications →", admin_volunteer_applications_path, class: "text-xs font-bold text-purple-400 hover:text-purple-300 inline-block pt-1" %>
     </div>
-
   </div>
 
-  <!-- SECTION: DONATIONS & PAYMENT INFORMATION (FORM DATA + UPLOADED RECEIPTS) -->
+  <!-- SECTION 1: DONATIONS & PAYMENT INFORMATION -->
   <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4 shadow-xl">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
       <div>
@@ -59,7 +57,7 @@
           <span>💳</span>
           <span>Donations & Payment Receipts Log</span>
         </h2>
-        <p class="text-xs text-slate-400">Records donor form submissions, amount, purpose, and uploaded payment transfer receipts</p>
+        <p class="text-xs text-slate-400">Records donor submissions, verified transactions, and manual bank transfer receipts</p>
       </div>
       <%= link_to "View All Payment Information →", admin_donations_path, class: "text-xs text-plum-300 hover:text-plum-200 font-bold px-3 py-1.5 rounded-xl bg-slate-850 border border-slate-700" %>
     </div>
@@ -73,8 +71,8 @@
             <th class="p-3">Amount (₦)</th>
             <th class="p-3">Purpose</th>
             <th class="p-3">Status</th>
-            <th class="p-3">Payment Receipt</th>
-            <th class="p-3 text-right">Action</th>
+            <th class="p-3">Receipt</th>
+            <th class="p-3 text-right">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-800">
@@ -98,15 +96,22 @@
                 </td>
                 <td class="p-3">
                   <% if d.receipt_url.present? %>
-                    <a href="<%= d.receipt_url %>" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold hover:bg-emerald-900 text-[11px]">
-                      <span>🧾 View Receipt</span>
+                    <a href="<%= d.receipt_url %>" target="_blank" class="p-2 rounded-lg bg-emerald-950/60 text-emerald-400 border border-emerald-800/60 hover:bg-emerald-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center" title="View Payment Receipt Document" aria-label="View Payment Receipt">
+                      <%= icon_receipt %>
                     </a>
                   <% else %>
-                    <span class="text-slate-500 italic text-[11px]">No receipt yet</span>
+                    <span class="text-slate-500 italic text-[11px]">—</span>
                   <% end %>
                 </td>
-                <td class="p-3 text-right space-x-1">
-                  <%= link_to "View Details", admin_donation_path(d), class: "px-3 py-1 rounded-lg bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 font-medium text-[11px]" %>
+                <td class="p-3 text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <%= link_to admin_donation_path(d), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "View Donation File", aria: { label: "View Donation File" } do %>
+                      <%= icon_eye %>
+                    <% end %>
+                    <%= button_to admin_donation_path(d), method: :delete, data: { turbo_confirm: "Are you sure you want to delete donation reference #{d.payment_reference}?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Donation", aria: { label: "Delete Donation" } do %>
+                      <%= icon_trash %>
+                    <% end %>
+                  </div>
                 </td>
               </tr>
             <% end %>
@@ -120,11 +125,17 @@
     </div>
   </div>
 
-  <!-- Contact Inquiries Triage Section -->
-  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
-    <div class="flex items-center justify-between">
-      <h2 class="font-serif text-xl font-bold text-white">Recent Contact Form Submissions</h2>
-      <%= link_to "View All Contact Messages", admin_contact_inquiries_path, class: "text-xs text-sky-400 font-semibold" %>
+  <!-- SECTION 2: CONTACT INQUIRIES (WITH PREVIEW MODAL & DELETE) -->
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4 shadow-xl">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h2 class="font-serif text-xl font-bold text-white flex items-center gap-2">
+          <span>📬</span>
+          <span>Recent Contact Inquiries</span>
+        </h2>
+        <p class="text-xs text-slate-400">Review, preview message details, and manage public contact submissions</p>
+      </div>
+      <%= link_to "View All Contact Messages →", admin_contact_inquiries_path, class: "text-xs text-sky-400 hover:text-sky-300 font-bold px-3 py-1.5 rounded-xl bg-slate-850 border border-slate-700" %>
     </div>
     
     <div class="overflow-x-auto">
@@ -136,20 +147,48 @@
             <th class="p-3">Subject</th>
             <th class="p-3">Status</th>
             <th class="p-3">Received</th>
+            <th class="p-3 text-right">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-800">
-          <% @recent_contact_inquiries.each do |c| %>
-            <tr class="hover:bg-slate-850">
-              <td class="p-3 font-semibold text-white"><%= c.name %></td>
-              <td class="p-3"><%= c.email %></td>
-              <td class="p-3 font-bold text-sky-300"><%= c.subject %></td>
-              <td class="p-3">
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase <%= c.status == 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800' %>">
-                  <%= c.status %>
-                </span>
-              </td>
-              <td class="p-3"><%= time_ago_in_words(c.created_at) %> ago</td>
+          <% if @recent_contact_inquiries.any? %>
+            <% @recent_contact_inquiries.each do |c| %>
+              <tr class="hover:bg-slate-850">
+                <td class="p-3 font-semibold text-white"><%= c.name %></td>
+                <td class="p-3"><%= c.email %></td>
+                <td class="p-3 font-bold text-sky-300 max-w-xs truncate"><%= c.subject %></td>
+                <td class="p-3">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase <%= c.status == 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800' %>">
+                    <%= c.status %>
+                  </span>
+                </td>
+                <td class="p-3 whitespace-nowrap"><%= time_ago_in_words(c.created_at) %> ago</td>
+                <td class="p-3 text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <button type="button"
+                            data-action="click->contact-preview#open"
+                            data-name="<%= ERB::Util.html_escape(c.name) %>"
+                            data-email="<%= ERB::Util.html_escape(c.email) %>"
+                            data-subject="<%= ERB::Util.html_escape(c.subject) %>"
+                            data-date="<%= c.created_at.strftime('%b %d, %Y %H:%M') %>"
+                            data-status="<%= c.status %>"
+                            data-message="<%= ERB::Util.html_escape(c.message) %>"
+                            data-delete-url="<%= admin_contact_inquiry_path(c) %>"
+                            class="p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center"
+                            title="Preview Message"
+                            aria-label="Preview Message">
+                      <%= icon_eye %>
+                    </button>
+                    <%= button_to admin_contact_inquiry_path(c), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this contact message from #{c.name}?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Message", aria: { label: "Delete Message" } do %>
+                      <%= icon_trash %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="p-6 text-center text-slate-500 italic">No contact submissions found.</td>
             </tr>
           <% end %>
         </tbody>
@@ -157,11 +196,17 @@
     </div>
   </div>
 
-  <!-- Support Requests Section -->
-  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
-    <div class="flex items-center justify-between">
-      <h2 class="font-serif text-xl font-bold text-white">Recent Support Requests</h2>
-      <%= link_to "View All Support Requests", admin_support_requests_path, class: "text-xs text-rose-400 font-semibold" %>
+  <!-- SECTION 3: SUPPORT REQUESTS (ADMIN REQUESTS REVIEW) -->
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4 shadow-xl">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h2 class="font-serif text-xl font-bold text-white flex items-center gap-2">
+          <span>🤝</span>
+          <span>Recent Support & Counseling Requests</span>
+        </h2>
+        <p class="text-xs text-slate-400">Confidential intake for relationship counseling and child educational support</p>
+      </div>
+      <%= link_to "View All Support Requests →", admin_support_requests_path, class: "text-xs text-rose-400 hover:text-rose-300 font-bold px-3 py-1.5 rounded-xl bg-slate-850 border border-slate-700" %>
     </div>
     
     <div class="overflow-x-auto">
@@ -172,27 +217,238 @@
             <th class="p-3">Category</th>
             <th class="p-3">Format</th>
             <th class="p-3">Status</th>
-            <th class="p-3">Action</th>
+            <th class="p-3">Date</th>
+            <th class="p-3 text-right">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-800">
-          <% @recent_support_requests.each do |sr| %>
-            <tr class="hover:bg-slate-850">
-              <td class="p-3 font-semibold text-white"><%= sr.full_name %></td>
-              <td class="p-3"><%= sr.support_category %></td>
-              <td class="p-3"><%= sr.session_format %></td>
-              <td class="p-3">
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase <%= sr.status == 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800' %>">
-                  <%= sr.status %>
-                </span>
-              </td>
-              <td class="p-3">
-                <%= link_to "View Case File", admin_support_request_path(sr), class: "text-plum-400 hover:underline font-semibold" %>
-              </td>
+          <% if @recent_support_requests.any? %>
+            <% @recent_support_requests.each do |sr| %>
+              <tr class="hover:bg-slate-850">
+                <td class="p-3 font-semibold text-white"><%= sr.full_name %></td>
+                <td class="p-3 font-medium text-rose-300"><%= sr.support_category %></td>
+                <td class="p-3"><%= sr.session_format %></td>
+                <td class="p-3">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase <%= sr.status == 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-emerald-950 text-emerald-300 border border-emerald-800' %>">
+                    <%= sr.status %>
+                  </span>
+                </td>
+                <td class="p-3 whitespace-nowrap"><%= sr.created_at.strftime("%b %d, %Y") %></td>
+                <td class="p-3 text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <%= link_to admin_support_request_path(sr), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "Review Case File", aria: { label: "Review Case File" } do %>
+                      <%= icon_eye %>
+                    <% end %>
+                    <%= button_to admin_support_request_path(sr), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this support request for #{sr.full_name}?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Support Request", aria: { label: "Delete Support Request" } do %>
+                      <%= icon_trash %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="p-6 text-center text-slate-500 italic">No support requests found.</td>
             </tr>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
+
+  <!-- SECTION 4 & 5: VOLUNTEER APPLICATIONS & PARTNERSHIP PROPOSALS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    
+    <!-- Volunteer Applications -->
+    <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4 shadow-xl flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h2 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+            <span>🙋</span>
+            <span>Volunteer Applications</span>
+          </h2>
+          <%= link_to "View All →", admin_volunteer_applications_path, class: "text-xs text-purple-400 hover:text-purple-300 font-bold" %>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
+              <tr>
+                <th class="p-2.5">Name</th>
+                <th class="p-2.5">Role Interest</th>
+                <th class="p-2.5">Status</th>
+                <th class="p-2.5 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <% if @recent_volunteer_applications.any? %>
+                <% @recent_volunteer_applications.each do |v| %>
+                  <tr class="hover:bg-slate-850">
+                    <td class="p-2.5 font-semibold text-white">
+                      <%= v.full_name %>
+                      <span class="block text-[11px] text-slate-400"><%= v.email %></span>
+                    </td>
+                    <td class="p-2.5 font-bold text-purple-300"><%= v.role_interest %></td>
+                    <td class="p-2.5">
+                      <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-slate-800 text-slate-300">
+                        <%= v.status %>
+                      </span>
+                    </td>
+                    <td class="p-2.5 text-right">
+                      <div class="flex items-center justify-end gap-1.5">
+                        <%= link_to admin_volunteer_application_path(v), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "Review Volunteer Application", aria: { label: "Review Application" } do %>
+                          <%= icon_eye %>
+                        <% end %>
+                        <%= button_to admin_volunteer_application_path(v), method: :delete, data: { turbo_confirm: "Delete volunteer application from #{v.full_name}?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Volunteer Application", aria: { label: "Delete Application" } do %>
+                          <%= icon_trash %>
+                        <% end %>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              <% else %>
+                <tr>
+                  <td colspan="4" class="p-4 text-center text-slate-500 italic">No volunteer applications yet.</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Partnership Proposals -->
+    <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4 shadow-xl flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <h2 class="font-serif text-lg font-bold text-white flex items-center gap-2">
+            <span>🤝</span>
+            <span>Partnership Proposals</span>
+          </h2>
+          <%= link_to "View All →", admin_partnership_inquiries_path, class: "text-xs text-amber-400 hover:text-amber-300 font-bold" %>
+        </div>
+
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-semibold">
+              <tr>
+                <th class="p-2.5">Organization</th>
+                <th class="p-2.5">Contact</th>
+                <th class="p-2.5">Type</th>
+                <th class="p-2.5 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800">
+              <% if @recent_partnerships.any? %>
+                <% @recent_partnerships.each do |p| %>
+                  <tr class="hover:bg-slate-850">
+                    <td class="p-2.5 font-semibold text-white">
+                      <%= p.organization_name %>
+                      <span class="block text-[11px] text-slate-400"><%= p.email %></span>
+                    </td>
+                    <td class="p-2.5"><%= p.contact_person %></td>
+                    <td class="p-2.5 font-bold text-amber-300"><%= p.partnership_type %></td>
+                    <td class="p-2.5 text-right">
+                      <div class="flex items-center justify-end gap-1.5">
+                        <a href="mailto:<%= p.email %>?subject=Re: Partnership Proposal - <%= ERB::Util.html_escape(p.organization_name) %>" class="p-2 rounded-lg bg-indigo-950/60 text-indigo-400 border border-indigo-800/60 hover:bg-indigo-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center" title="Email Organization" aria-label="Email Organization">
+                          <%= icon_mail %>
+                        </a>
+                        <%= button_to admin_partnership_inquiry_path(p), method: :delete, data: { turbo_confirm: "Delete partnership proposal from #{p.organization_name}?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Proposal", aria: { label: "Delete Proposal" } do %>
+                          <%= icon_trash %>
+                        <% end %>
+                      </div>
+                    </td>
+                  </tr>
+                <% end %>
+              <% else %>
+                <tr>
+                  <td colspan="4" class="p-4 text-center text-slate-500 italic">No partnership proposals yet.</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CONTACT INQUIRY PREVIEW MODAL -->
+  <div data-contact-preview-target="modal" 
+       data-action="click->contact-preview#closeOnBackdrop"
+       class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-xl bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-6 animate-scale-up text-white">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 pb-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400">Contact Message Preview</span>
+          <h3 class="font-serif text-xl font-bold text-white mt-1" data-contact-preview-target="subject">Inquiry Subject</h3>
+        </div>
+        <button type="button" 
+                data-action="click->contact-preview#close" 
+                class="p-2 text-slate-400 hover:text-white text-xl font-bold rounded-xl hover:bg-slate-800 transition-colors cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Sender Info Details -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs">
+        <div>
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Sender Name</span>
+          <span class="font-bold text-white text-sm" data-contact-preview-target="name">-</span>
+        </div>
+        <div>
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Email Address</span>
+          <span class="font-mono text-sky-300" data-contact-preview-target="email">-</span>
+        </div>
+        <div>
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Date Received</span>
+          <span class="text-slate-300" data-contact-preview-target="date">-</span>
+        </div>
+        <div>
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Status</span>
+          <span data-contact-preview-target="status" class="inline-block mt-0.5">Pending</span>
+        </div>
+      </div>
+
+      <!-- Message Content -->
+      <div class="space-y-2">
+        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">Full Message Body</span>
+        <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-sm text-slate-200 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto" data-contact-preview-target="message">
+          -
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-800">
+        <div>
+          <form data-contact-preview-target="deleteForm" method="post" class="inline-block">
+            <input type="hidden" name="_method" value="delete" />
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <button type="submit" 
+                    onclick="return confirm('Are you sure you want to delete this message permanently?');"
+                    class="px-4 py-2 rounded-xl text-xs font-bold text-rose-300 bg-rose-950/80 hover:bg-rose-900 border border-rose-800 transition-colors cursor-pointer flex items-center gap-1.5">
+              <span>🗑 Delete Message</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a href="#" 
+             data-contact-preview-target="emailLink"
+             class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-sky-600 hover:bg-sky-500 transition-colors inline-flex items-center gap-1.5 shadow-md">
+            <span>✉ Reply via Email</span>
+          </a>
+          <button type="button" 
+                  data-action="click->contact-preview#close" 
+                  class="px-4 py-2 rounded-xl text-xs font-bold text-slate-300 bg-slate-800 hover:bg-slate-700 transition-colors cursor-pointer">
+            Close
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>

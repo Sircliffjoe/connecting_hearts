@@ -10,6 +10,7 @@ class PartnershipInquiriesController < ApplicationController
 
     @partnership_inquiry = PartnershipInquiry.new(partnership_params)
     if @partnership_inquiry.save
+      BrevoService.send_partnership_confirmation(@partnership_inquiry) rescue nil
       redirect_to confirmation_partnership_inquiries_path, notice: "Thank you! Your partnership proposal has been submitted."
     else
       render :new, status: :unprocessable_entity

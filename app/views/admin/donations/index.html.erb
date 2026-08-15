@@ -49,11 +49,11 @@
                 <td class="p-3 whitespace-nowrap"><%= d.created_at.strftime("%b %d, %Y %H:%M") %></td>
                 <td class="p-3">
                   <% if d.receipt_url.present? %>
-                    <a href="<%= d.receipt_url %>" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold hover:bg-emerald-900 text-[11px]">
-                      <span>🧾 View Receipt</span>
+                    <a href="<%= d.receipt_url %>" target="_blank" class="p-2 rounded-lg bg-emerald-950/60 text-emerald-400 border border-emerald-800/60 hover:bg-emerald-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center" title="View Payment Receipt Document" aria-label="View Payment Receipt">
+                      <%= icon_receipt %>
                     </a>
                   <% else %>
-                    <span class="text-slate-500 italic text-[11px]">No receipt</span>
+                    <span class="text-slate-500 italic text-[11px]">—</span>
                   <% end %>
                 </td>
                 <td class="p-3">
@@ -67,7 +67,14 @@
                   <% end %>
                 </td>
                 <td class="p-3 text-right">
-                  <%= link_to "View File", admin_donation_path(d), class: "px-3 py-1.5 rounded-lg bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 font-medium text-[11px]" %>
+                  <div class="flex items-center justify-end gap-1.5">
+                    <%= link_to admin_donation_path(d), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "View Donation File", aria: { label: "View Donation File" } do %>
+                      <%= icon_eye %>
+                    <% end %>
+                    <%= button_to admin_donation_path(d), method: :delete, data: { turbo_confirm: "Are you sure you want to delete donation reference #{d.payment_reference}?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Donation", aria: { label: "Delete Donation" } do %>
+                      <%= icon_trash %>
+                    <% end %>
+                  </div>
                 </td>
               </tr>
             <% end %>

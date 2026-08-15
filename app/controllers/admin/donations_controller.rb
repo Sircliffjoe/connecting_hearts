@@ -1,6 +1,6 @@
 module Admin
   class DonationsController < ApplicationController
-    before_action :set_donation, only: [:show, :update]
+    before_action :set_donation, only: [:show, :update, :destroy]
 
     def index
       @status = params[:status]
@@ -29,6 +29,11 @@ module Admin
       else
         redirect_to admin_donations_path, alert: "Failed to update donation status."
       end
+    end
+
+    def destroy
+      @donation.destroy
+      redirect_back fallback_location: admin_dashboard_path, notice: "Donation record #{@donation.payment_reference} deleted successfully."
     end
 
     private

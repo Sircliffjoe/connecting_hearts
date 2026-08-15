@@ -7,6 +7,7 @@ class DonationsController < ApplicationController
       amount: 5000,
       currency: "NGN"
     )
+    @payment_method = params[:payment_method] || "paystack"
   end
 
   def create
@@ -16,12 +17,63 @@ class DonationsController < ApplicationController
     @donation.currency = "NGN"
     @donation.payment_reference = "CHF-#{SecureRandom.hex(6).upcase}"
     @donation.status = "pending"
+    @payment_method = params[:payment_method]
 
     if @donation.save
-      redirect_to confirmation_donations_path(ref: @donation.payment_reference), notice: "Donation initiated! Please complete transfer using bank details below."
+      if @payment_method == "paystack"
+        initialize_and_redirect_paystack(@donation)
+      else
+        redirect_to confirmation_donations_path(ref: @donation.payment_reference), notice: "Donation initiated! Please complete transfer using bank details below."
+      end
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def callback
+    ref = params[:reference].presence || params[:trxref].presence
+    if ref.blank?
+      redirect_to new_donation_path, alert: "Payment reference not found."
+      return
+    end
+
+    @donation = Donation.find_by(payment_reference: ref)
+    if @donation.nil?
+      redirect_to new_donation_path, alert: "Donation record not found for reference #{ref}."
+      return
+    end
+
+    verification = PaymentGateways::PaystackService.verify_transaction(ref)
+
+    if verification["status"] == true && verification.dig("data", "status") == "success"
+      data = verification["data"]
+      channel = data["channel"] || "card"
+      gateway_id = data["id"]
+      paid_amount = (data["amount"].to_f / 100).round(2)
+
+      @donation.update!(
+        status: "successful",
+        amount: paid_amount.positive? ? paid_amount : @donation.amount,
+        notes: "Paid online via Paystack (Channel: #{channel}, Gateway ID: #{gateway_id})"
+      )
+
+      BrevoService.send_donation_receipt(@donation) rescue nil
+
+      redirect_to confirmation_donations_path(ref: @donation.payment_reference), notice: "Payment successful! Thank you for your generous donation."
+    else
+      err_msg = verification["message"] || "Payment verification incomplete."
+      redirect_to confirmation_donations_path(ref: @donation.payment_reference), alert: "Paystack status: #{err_msg}. You can complete donation via bank transfer below."
+    end
+  end
+
+  def initialize_paystack
+    @donation = Donation.find_by(payment_reference: params[:payment_reference]) || Donation.find_by(id: params[:id])
+    if @donation.nil?
+      redirect_to new_donation_path, alert: "Donation record not found."
+      return
+    end
+
+    initialize_and_redirect_paystack(@donation)
   end
 
   def confirmation
@@ -75,6 +127,33 @@ class DonationsController < ApplicationController
 
   def donation_params
     params.require(:donation).permit(:donor_name, :donor_email, :amount, :purpose)
+  end
+
+  def initialize_and_redirect_paystack(donation)
+    amount_in_kobo = (donation.amount * 100).to_i
+    callback_url = callback_donations_url
+
+    response = PaymentGateways::PaystackService.initialize_transaction(
+      email: donation.donor_email,
+      amount_in_kobo: amount_in_kobo,
+      reference: donation.payment_reference,
+      callback_url: callback_url,
+      metadata: {
+        donor_name: donation.donor_name,
+        purpose: donation.purpose,
+        custom_fields: [
+          { display_name: "Purpose", variable_name: "purpose", value: donation.purpose },
+          { display_name: "Reference Code", variable_name: "reference", value: donation.payment_reference }
+        ]
+      }
+    )
+
+    if response["status"] == true && response.dig("data", "authorization_url").present?
+      redirect_to response["data"]["authorization_url"], allow_other_host: true
+    else
+      Rails.logger.error("[Paystack] Initialization failed: #{response.inspect}")
+      redirect_to confirmation_donations_path(ref: donation.payment_reference), alert: "Unable to redirect to Paystack (#{response['message'] || 'Service unavailable'}). Please proceed with direct bank transfer below."
+    end
   end
 
   def cloudinary_configured?

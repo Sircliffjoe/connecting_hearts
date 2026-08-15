@@ -12,6 +12,7 @@ class SupportRequestsController < ApplicationController
 
     @support_request = SupportRequest.new(support_request_params)
     if @support_request.save
+      BrevoService.send_support_request_confirmation(@support_request) rescue nil
       redirect_to confirmation_support_requests_path, notice: "Your support request has been received with care."
     else
       flash.now[:error] = "Please check the form for missing information."

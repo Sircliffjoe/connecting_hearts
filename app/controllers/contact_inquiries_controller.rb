@@ -10,7 +10,8 @@ class ContactInquiriesController < ApplicationController
 
     @contact_inquiry = ContactInquiry.new(contact_params)
     if @contact_inquiry.save
-      redirect_to contact_path, notice: "Thank you! Your message has been received. Our Warri team will get back to you shortly."
+      BrevoService.send_contact_inquiry_confirmation(@contact_inquiry) rescue nil
+      redirect_to contact_path, notice: "Thank you! Your message has been received. Our team will get back to you shortly."
     else
       flash.now[:error] = "Please check the form for missing or invalid information."
       render "pages/contact", status: :unprocessable_entity

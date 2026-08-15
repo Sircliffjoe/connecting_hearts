@@ -14,6 +14,8 @@ class ContactInquiriesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to contact_url
+    assert_equal "Thank you! Your message has been received. Our team will get back to you shortly.", flash[:notice]
+    assert_no_match /Warri/, flash[:notice]
   end
 
   test "should block submission when honeypot trap is filled by bot" do

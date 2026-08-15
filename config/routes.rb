@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     get "callback", on: :collection
     get "confirmation", on: :collection
     post "upload_receipt", on: :collection
+    post "initialize_paystack", on: :collection
   end
 
   resources :event_registrations, only: [:create]
@@ -50,15 +51,15 @@ Rails.application.routes.draw do
 
     get "/", to: "dashboard#index", as: :dashboard
 
-    resources :contact_inquiries, only: [:index, :show, :update]
-    resources :support_requests, only: [:index, :show, :update]
-    resources :volunteer_applications, only: [:index, :show, :update]
-    resources :partnership_inquiries, only: [:index, :show, :update]
+    resources :contact_inquiries, only: [:index, :show, :update, :destroy]
+    resources :support_requests, only: [:index, :show, :update, :destroy]
+    resources :volunteer_applications, only: [:index, :show, :update, :destroy]
+    resources :partnership_inquiries, only: [:index, :show, :update, :destroy]
     resources :events
     resources :stories
     resources :resources
     resources :testimonials
-    resources :donations, only: [:index, :show, :update]
+    resources :donations, only: [:index, :show, :update, :destroy]
     resources :users
 
     post "uploads", to: "uploads#create"

@@ -17,6 +17,12 @@ module Admin
       end
     end
 
+    def destroy
+      @support_request = SupportRequest.find(params[:id])
+      @support_request.destroy
+      redirect_back fallback_location: admin_dashboard_path, notice: "Support request deleted successfully."
+    end
+
     private
 
     def support_request_params

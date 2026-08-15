@@ -29,10 +29,18 @@
                 <td class="p-3"><%= s.published ? "✓ Published" : "Draft" %></td>
                 <td class="p-3"><%= s.featured ? "⭐ Yes" : "No" %></td>
                 <td class="p-3"><%= s.created_at.strftime("%b %d, %Y") %></td>
-                <td class="p-3 text-right space-x-3">
-                  <%= link_to "View", admin_story_path(s), class: "text-sky-400 hover:underline font-medium" %>
-                  <%= link_to "Edit", edit_admin_story_path(s), class: "text-amber-400 hover:underline font-medium" %>
-                  <%= button_to "Delete", admin_story_path(s), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this story?" }, class: "text-rose-400 hover:underline inline bg-transparent cursor-pointer font-medium" %>
+                <td class="p-3 text-right">
+                  <div class="flex items-center justify-end gap-1.5">
+                    <%= link_to admin_story_path(s), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "View Story", aria: { label: "View Story" } do %>
+                      <%= icon_eye %>
+                    <% end %>
+                    <%= link_to edit_admin_story_path(s), class: "p-2 rounded-lg bg-amber-950/60 text-amber-400 border border-amber-800/60 hover:bg-amber-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "Edit Story", aria: { label: "Edit Story" } do %>
+                      <%= icon_pencil %>
+                    <% end %>
+                    <%= button_to admin_story_path(s), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this story?" }, class: "p-2 rounded-lg bg-rose-950/60 text-rose-400 border border-rose-800/60 hover:bg-rose-900 hover:text-white transition-colors shadow-sm cursor-pointer inline-flex items-center justify-center", title: "Delete Story", aria: { label: "Delete Story" } do %>
+                      <%= icon_trash %>
+                    <% end %>
+                  </div>
                 </td>
               </tr>
             <% end %>

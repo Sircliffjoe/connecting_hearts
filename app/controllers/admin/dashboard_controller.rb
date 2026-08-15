@@ -11,6 +11,7 @@ module Admin
 
       @recent_contact_inquiries = ContactInquiry.recent.limit(5)
       @recent_support_requests = SupportRequest.recent.limit(5)
+      @recent_volunteer_applications = VolunteerApplication.recent.limit(5)
       @recent_partnerships = PartnershipInquiry.recent.limit(5)
       @recent_donations = Donation.recent.limit(5)
     end

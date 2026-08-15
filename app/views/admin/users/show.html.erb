@@ -95,7 +95,9 @@
                 <td class="p-3 text-slate-400"><%= req.session_format.titleize %></td>
                 <td class="p-3"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase <%= req.status == 'completed' ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-700' : 'bg-amber-900/60 text-amber-300 border border-amber-700' %>"><%= req.status %></span></td>
                 <td class="p-3 text-right">
-                  <%= link_to "View Details", admin_support_request_path(req), class: "text-sky-400 hover:underline font-medium" %>
+                  <%= link_to admin_support_request_path(req), class: "p-2 rounded-lg bg-sky-950/60 text-sky-400 border border-sky-800/60 hover:bg-sky-900 hover:text-white transition-colors shadow-sm inline-flex items-center justify-center", title: "View Support Request", aria: { label: "View Support Request" } do %>
+                    <%= icon_eye %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

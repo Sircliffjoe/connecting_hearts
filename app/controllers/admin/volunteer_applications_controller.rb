@@ -16,5 +16,11 @@ module Admin
         render :show, status: :unprocessable_entity
       end
     end
+
+    def destroy
+      @volunteer_application = VolunteerApplication.find(params[:id])
+      @volunteer_application.destroy
+      redirect_back fallback_location: admin_dashboard_path, notice: "Volunteer application deleted successfully."
+    end
   end
 end

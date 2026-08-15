@@ -136,11 +136,18 @@
       </p>
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <% if @donation.status == 'pending' %>
+          <%= button_to initialize_paystack_donations_path(payment_reference: @donation.payment_reference), method: :post, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2" do %>
+            <span>💳</span>
+            <span>Pay Online with Paystack Now</span>
+          <% end %>
+        <% end %>
+
         <button type="button"
                 data-action="click->receipt-modal#openModal"
                 class="w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2">
           <span>🧾</span>
-          <span><%= @donation.receipt_url.present? ? "Re-upload / Update Payment Receipt" : "I Have Made Payment" %></span>
+          <span><%= @donation.receipt_url.present? ? "Re-upload / Update Payment Receipt" : "Upload Transfer Receipt" %></span>
         </button>
 
         <%= link_to root_path, class: "px-6 py-4 text-xs font-bold text-plum-900 bg-warm-100 hover:bg-warm-200 rounded-full transition-colors" do %>

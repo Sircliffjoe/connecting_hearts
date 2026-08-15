@@ -10,6 +10,7 @@ class VolunteerApplicationsController < ApplicationController
 
     @volunteer_application = VolunteerApplication.new(volunteer_params)
     if @volunteer_application.save
+      BrevoService.send_volunteer_confirmation(@volunteer_application) rescue nil
       redirect_to confirmation_volunteer_applications_path, notice: "Thank you for applying to volunteer!"
     else
       render :new, status: :unprocessable_entity

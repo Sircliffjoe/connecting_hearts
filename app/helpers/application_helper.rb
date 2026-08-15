@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include AdminHelper
   def safe_image_path(url, fallback: "pic112.jpeg")
     return image_path(fallback) if url.blank?
 
