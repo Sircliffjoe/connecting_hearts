@@ -101,4 +101,27 @@ class PaystackDonationsTest < ActionDispatch::IntegrationTest
       assert_redirected_to "https://checkout.paystack.com/mock-late-url"
     end
   end
+
+  test "should return json payload for Paystack popup modal when requested via JSON" do
+    assert_difference("Donation.count", 1) do
+      post donations_url, params: {
+        payment_method: "paystack",
+        donation: {
+          donor_name: "Modal Donor",
+          donor_email: "modal_donor@example.com",
+          amount: 52000,
+          purpose: "General Foundation Support"
+        }
+      }, as: :json
+    end
+
+    assert_response :success
+    data = JSON.parse(response.body)
+    assert_equal true, data["success"]
+    assert_equal 5200000, data["amount_in_kobo"]
+    assert_equal "modal_donor@example.com", data["donor_email"]
+    assert_equal "Modal Donor", data["donor_name"]
+    assert_match /^CHF-/, data["payment_reference"]
+    assert_not_nil data["public_key"]
+  end
 end

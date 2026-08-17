@@ -5,7 +5,7 @@ class DonationsControllerTest < ActionDispatch::IntegrationTest
     get new_donation_url
     assert_response :success
     assert_select "h1", "Support The Foundation"
-    assert_select "input[value='Donate Now']"
+    assert_select "button[type='submit']", text: /Donate Now/
   end
 
   test "should create donation and redirect to confirmation" do

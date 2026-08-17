@@ -1,6 +1,6 @@
 <% content_for :title, "Donation Confirmation & Payment Details" %>
 
-<section class="py-12 bg-warm-50 min-h-[80vh]" data-controller="receipt-modal">
+<section class="py-12 bg-warm-50 min-h-[80vh]" data-controller="receipt-modal donation-payment">
   <div class="max-w-3xl mx-auto px-4 space-y-6">
 
     <!-- Header Status Banner -->
@@ -78,7 +78,7 @@
       <div class="bg-gradient-to-br from-plum-950 to-plum-900 text-white rounded-3xl p-6 border border-plum-800 shadow-md space-y-4 flex flex-col justify-between">
         <div class="space-y-4">
           <div class="border-b border-plum-800 pb-3 flex items-center justify-between">
-            <h2 class="font-serif text-lg font-bold text-amber-300">Foundation Bank Account</h2>
+            <h2 class="font-serif text-sm font-bold text-amber-300">Foundation Bank Details</h2>
             <span class="text-[10px] font-bold uppercase tracking-wider bg-white/10 px-2 py-0.5 rounded text-amber-200">Official Account</span>
           </div>
 
@@ -137,20 +137,28 @@
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
         <% if @donation.status == 'pending' %>
-          <%= button_to initialize_paystack_donations_path(payment_reference: @donation.payment_reference), method: :post, class: "w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-emerald-600 hover:bg-emerald-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2" do %>
+          <button type="button"
+                  data-action="click->donation-payment#openDirect"
+                  data-public-key="<%= PaymentGateways::PaystackService.public_key %>"
+                  data-email="<%= @donation.donor_email %>"
+                  data-amount-in-kobo="<%= (@donation.amount * 100).to_i %>"
+                  data-reference="<%= @donation.payment_reference %>"
+                  data-donor-name="<%= ERB::Util.html_escape(@donation.donor_name.presence || 'Anonymous Donor') %>"
+                  data-purpose="<%= ERB::Util.html_escape(@donation.purpose) %>"
+                  class="w-full sm:w-auto px-8 py-4 text-base text-sm text-white bg-emerald-600 hover:bg-emerald-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2">
             <span>💳</span>
-            <span>Pay Online with Paystack Now</span>
-          <% end %>
+            <span>Pay Online Now</span>
+          </button>
         <% end %>
 
         <button type="button"
                 data-action="click->receipt-modal#openModal"
-                class="w-full sm:w-auto px-8 py-4 text-base font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2">
+                class="w-full sm:w-auto px-8 py-4 text-base text-sm text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2">
           <span>🧾</span>
           <span><%= @donation.receipt_url.present? ? "Re-upload / Update Payment Receipt" : "Upload Transfer Receipt" %></span>
         </button>
 
-        <%= link_to root_path, class: "px-6 py-4 text-xs font-bold text-plum-900 bg-warm-100 hover:bg-warm-200 rounded-full transition-colors" do %>
+        <%= link_to root_path, class: "px-6 py-4 text-xs text-sm text-plum-900 bg-warm-100 hover:bg-warm-200 rounded-full transition-colors" do %>
           <span>Return To Homepage</span>
         <% end %>
       </div>

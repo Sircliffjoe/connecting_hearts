@@ -13,7 +13,7 @@
   </div>
 </section>
 
-<section class="py-12 bg-warm-50">
+<section class="py-12 bg-warm-50" data-controller="donation-payment">
   <div class="max-w-2xl mx-auto px-4">
     <div class="bg-white rounded-3xl p-8 sm:p-10 border border-warm-300 shadow-sm space-y-6">
       <div class="border-b border-warm-200 pb-4">
@@ -21,7 +21,13 @@
         <p class="text-xs text-charcoal-600">Choose your preferred payment method below to complete your contribution securely.</p>
       </div>
 
-      <%= form_with(model: @donation, local: true, class: "space-y-6") do |f| %>
+      <!-- Asynchronous Error Box for Inline Modal Responses -->
+      <div data-donation-payment-target="errorContainer" class="hidden p-4 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 space-y-1">
+        <p class="font-bold">Please correct the form errors:</p>
+        <ul data-donation-payment-target="errorList" class="list-disc list-inside space-y-0.5"></ul>
+      </div>
+
+      <%= form_with(model: @donation, url: donations_path, data: { "donation-payment-target": "form", action: "submit->donation-payment#submit", turbo: "false" }, class: "space-y-6") do |f| %>
         <%= render "shared/spam_protection_fields" %>
 
         <% if @donation.errors.any? %>
@@ -50,7 +56,7 @@
                 <span class="text-[10px] font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">Instant</span>
               </div>
               <p class="text-[11px] text-charcoal-600 mt-2">
-                Card, Instant Bank Transfer, USSD, Apple Pay via secure Paystack gateway.
+                Card, Instant Bank Transfer, USSD, Apple Pay via secure Paystack popup modal.
               </p>
             </label>
 
@@ -108,7 +114,12 @@
           </div>
         </div>
 
-        <%= f.submit "Donate Now", class: "w-full py-4 text-base font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2 group" %>
+        <button type="submit" 
+                data-donation-payment-target="submitBtn" 
+                class="w-full py-4 text-base font-bold text-white bg-terracotta-600 hover:bg-terracotta-500 rounded-full shadow-md cursor-pointer transition-all flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed">
+          <span data-donation-payment-target="submitSpinner" class="hidden animate-spin">⏳</span>
+          <span data-donation-payment-target="submitText">Donate Now</span>
+        </button>
 
       <% end %>
     </div>

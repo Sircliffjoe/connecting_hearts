@@ -106,11 +106,18 @@ module SpamProtection
 
   def handle_spam_detected(message)
     flash[:error] = message
-    redirect_to request.referrer || root_path
+    respond_to do |format|
+      format.json { render json: { success: false, errors: [message] }, status: :unprocessable_entity }
+      format.html { redirect_to request.referrer || root_path }
+    end
   end
 
   def handle_rate_limit_exceeded
-    flash[:error] = "Too many submissions from your location. Please wait a few minutes before trying again."
-    redirect_to request.referrer || root_path
+    message = "Too many submissions from your location. Please wait a few minutes before trying again."
+    flash[:error] = message
+    respond_to do |format|
+      format.json { render json: { success: false, errors: [message] }, status: :too_many_requests }
+      format.html { redirect_to request.referrer || root_path }
+    end
   end
 end

@@ -54,7 +54,9 @@ Rails.application.routes.draw do
     resources :contact_inquiries, only: [:index, :show, :update, :destroy]
     resources :support_requests, only: [:index, :show, :update, :destroy]
     resources :volunteer_applications, only: [:index, :show, :update, :destroy]
-    resources :partnership_inquiries, only: [:index, :show, :update, :destroy]
+    resources :partnership_inquiries, only: [:index, :show, :update, :destroy] do
+      post "send_email", on: :member
+    end
     resources :events
     resources :stories
     resources :resources

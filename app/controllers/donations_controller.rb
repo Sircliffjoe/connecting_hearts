@@ -14,19 +14,51 @@ class DonationsController < ApplicationController
     return unless verify_spam_and_rate_limit!
 
     @donation = Donation.new(donation_params)
-    @donation.currency = "NGN"
+    @donation.currency = params.dig(:donation, :currency).presence || "NGN"
     @donation.payment_reference = "CHF-#{SecureRandom.hex(6).upcase}"
     @donation.status = "pending"
-    @payment_method = params[:payment_method]
+    @payment_method = params[:payment_method] || "paystack"
 
     if @donation.save
-      if @payment_method == "paystack"
-        initialize_and_redirect_paystack(@donation)
-      else
-        redirect_to confirmation_donations_path(ref: @donation.payment_reference), notice: "Donation initiated! Please complete transfer using bank details below."
+      respond_to do |format|
+        format.json do
+          render json: {
+            success: true,
+            payment_method: @payment_method,
+            payment_reference: @donation.payment_reference,
+            amount_in_kobo: (@donation.amount * 100).to_i,
+            amount: @donation.amount,
+            currency: @donation.currency,
+            donor_name: @donation.donor_name.presence || "Anonymous Donor",
+            donor_email: @donation.donor_email,
+            purpose: @donation.purpose,
+            public_key: PaymentGateways::PaystackService.public_key,
+            callback_url: callback_donations_url(reference: @donation.payment_reference),
+            confirmation_url: confirmation_donations_path(ref: @donation.payment_reference)
+          }
+        end
+
+        format.html do
+          if @payment_method == "paystack"
+            initialize_and_redirect_paystack(@donation)
+          else
+            redirect_to confirmation_donations_path(ref: @donation.payment_reference), notice: "Donation initiated! Please complete transfer using bank details below."
+          end
+        end
       end
     else
-      render :new, status: :unprocessable_entity
+      respond_to do |format|
+        format.json do
+          render json: {
+            success: false,
+            errors: @donation.errors.full_messages
+          }, status: :unprocessable_entity
+        end
+
+        format.html do
+          render :new, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -69,11 +101,33 @@ class DonationsController < ApplicationController
   def initialize_paystack
     @donation = Donation.find_by(payment_reference: params[:payment_reference]) || Donation.find_by(id: params[:id])
     if @donation.nil?
-      redirect_to new_donation_path, alert: "Donation record not found."
+      respond_to do |format|
+        format.json { render json: { success: false, errors: ["Donation record not found."] }, status: :not_found }
+        format.html { redirect_to new_donation_path, alert: "Donation record not found." }
+      end
       return
     end
 
-    initialize_and_redirect_paystack(@donation)
+    respond_to do |format|
+      format.json do
+        render json: {
+          success: true,
+          payment_reference: @donation.payment_reference,
+          amount_in_kobo: (@donation.amount * 100).to_i,
+          amount: @donation.amount,
+          currency: @donation.currency || "NGN",
+          donor_name: @donation.donor_name.presence || "Anonymous Donor",
+          donor_email: @donation.donor_email,
+          purpose: @donation.purpose,
+          public_key: PaymentGateways::PaystackService.public_key,
+          callback_url: callback_donations_url(reference: @donation.payment_reference),
+          confirmation_url: confirmation_donations_path(ref: @donation.payment_reference)
+        }
+      end
+      format.html do
+        initialize_and_redirect_paystack(@donation)
+      end
+    end
   end
 
   def confirmation
@@ -126,7 +180,7 @@ class DonationsController < ApplicationController
   private
 
   def donation_params
-    params.require(:donation).permit(:donor_name, :donor_email, :amount, :purpose)
+    params.require(:donation).permit(:donor_name, :donor_email, :amount, :currency, :purpose)
   end
 
   def initialize_and_redirect_paystack(donation)

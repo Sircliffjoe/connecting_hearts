@@ -1,0 +1,212 @@
+<div class="max-w-4xl mx-auto space-y-6" data-controller="partnership-email">
+  <!-- Top Navigation & Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+    <div>
+      <div class="flex items-center gap-2">
+        <%= link_to "← Back to Proposals", admin_partnership_inquiries_path, class: "text-xs font-semibold text-slate-400 hover:text-white transition-colors" %>
+      </div>
+      <h1 class="font-serif text-2xl font-bold text-white mt-1">Partnership Proposal: <%= @partnership_inquiry.organization_name %></h1>
+      <p class="text-xs text-slate-400">Received on <%= @partnership_inquiry.created_at.strftime("%B %d, %Y at %H:%M %p") %></p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span class="px-3 py-1 rounded-full text-xs font-bold uppercase <%= @partnership_inquiry.status == 'pending' ? 'bg-amber-950 text-amber-300 border border-amber-800' : (@partnership_inquiry.status == 'partnered' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-slate-800 text-slate-300 border border-slate-700') %>">
+        <%= @partnership_inquiry.status %>
+      </span>
+      <button type="button"
+              data-action="click->partnership-email#open"
+              data-org="<%= ERB::Util.html_escape(@partnership_inquiry.organization_name) %>"
+              data-contact="<%= ERB::Util.html_escape(@partnership_inquiry.contact_person) %>"
+              data-email="<%= ERB::Util.html_escape(@partnership_inquiry.email) %>"
+              data-action-url="<%= send_email_admin_partnership_inquiry_path(@partnership_inquiry) %>"
+              data-subject="Re: Partnership Proposal - <%= ERB::Util.html_escape(@partnership_inquiry.organization_name) %>"
+              class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md transition-colors cursor-pointer inline-flex items-center gap-1.5">
+        <span>✉ Email Organization</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Main Left Column: Organization Details & Message -->
+    <div class="md:col-span-2 space-y-6">
+      
+      <!-- Organization Details Card -->
+      <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+        <h2 class="font-serif text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+          <span>Organization & Contact Information</span>
+          <span class="text-xs font-mono text-slate-400">#<%= @partnership_inquiry.id %></span>
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase font-semibold">Organization Name</span>
+            <strong class="text-white text-base block mt-0.5"><%= @partnership_inquiry.organization_name %></strong>
+          </div>
+
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase font-semibold">Contact Person</span>
+            <strong class="text-white text-base block mt-0.5"><%= @partnership_inquiry.contact_person %></strong>
+          </div>
+
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase font-semibold">Partnership Type</span>
+            <span class="inline-block mt-1 px-2.5 py-1 rounded-lg bg-amber-950/70 border border-amber-800/80 text-amber-300 font-bold text-xs">
+              <%= @partnership_inquiry.partnership_type %>
+            </span>
+          </div>
+
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase font-semibold">Submission Date</span>
+            <span class="text-slate-200 block mt-1"><%= @partnership_inquiry.created_at.strftime("%b %d, %Y (%H:%M)") %></span>
+          </div>
+
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase font-semibold">Official Email Address</span>
+            <a href="mailto:<%= @partnership_inquiry.email %>" class="text-indigo-400 hover:underline font-mono text-xs block mt-0.5">
+              <%= @partnership_inquiry.email %>
+            </a>
+          </div>
+
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase font-semibold">Phone Number / WhatsApp</span>
+            <span class="text-slate-200 block mt-0.5"><%= @partnership_inquiry.phone.presence || "Not provided" %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proposal Message / Scope Card -->
+      <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-3">
+        <h2 class="font-serif text-lg font-bold text-white border-b border-slate-800 pb-3">Proposal Details & Message</h2>
+        
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 leading-relaxed text-sm whitespace-pre-wrap">
+          <%= simple_format(@partnership_inquiry.message) %>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Status Controls & Actions -->
+    <div class="space-y-6">
+      
+      <!-- Status Management Form Card -->
+      <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+        <h2 class="font-serif text-lg font-bold text-white border-b border-slate-800 pb-3">Update Status</h2>
+
+        <%= form_with(model: [:admin, @partnership_inquiry], local: true, class: "space-y-4") do |f| %>
+          <div class="space-y-2">
+            <%= f.label :status, "Inquiry Status", class: "block text-[11px] font-bold uppercase tracking-wider text-slate-400" %>
+            <%= f.select :status, PartnershipInquiry::STATUSES.map { |s| [s.titleize, s] }, {}, class: "w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-bold text-white focus:ring-2 focus:ring-indigo-500 outline-none" %>
+          </div>
+
+          <div class="pt-2">
+            <%= f.submit "Update Status", class: "w-full py-2.5 rounded-xl bg-purple-800 hover:bg-purple-700 text-white font-bold text-xs shadow cursor-pointer transition-colors" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Actions Card -->
+      <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 space-y-4">
+        <h2 class="font-serif text-lg font-bold text-white border-b border-slate-800 pb-3">Quick Actions</h2>
+
+        <div class="space-y-2.5">
+          <button type="button"
+                  data-action="click->partnership-email#open"
+                  data-org="<%= ERB::Util.html_escape(@partnership_inquiry.organization_name) %>"
+                  data-contact="<%= ERB::Util.html_escape(@partnership_inquiry.contact_person) %>"
+                  data-email="<%= ERB::Util.html_escape(@partnership_inquiry.email) %>"
+                  data-action-url="<%= send_email_admin_partnership_inquiry_path(@partnership_inquiry) %>"
+                  data-subject="Re: Partnership Proposal - <%= ERB::Util.html_escape(@partnership_inquiry.organization_name) %>"
+                  class="w-full py-2.5 rounded-xl bg-indigo-950/80 text-indigo-300 hover:bg-indigo-900 hover:text-white border border-indigo-800/80 font-bold text-xs transition-colors cursor-pointer flex items-center justify-center gap-2">
+            <span>✉ Compose Direct Email</span>
+          </button>
+
+          <%= button_to admin_partnership_inquiry_path(@partnership_inquiry), method: :delete, data: { turbo_confirm: "Are you sure you want to permanently delete this partnership proposal from #{@partnership_inquiry.organization_name}?" }, class: "w-full py-2.5 rounded-xl bg-rose-950/70 text-rose-300 border border-rose-800/80 hover:bg-rose-900 hover:text-white font-bold text-xs cursor-pointer transition-colors flex items-center justify-center gap-2" do %>
+            <span>🗑 Delete Proposal</span>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EMAIL ORGANIZATION POPUP MODAL -->
+  <div data-partnership-email-target="modal" 
+       data-action="click->partnership-email#closeOnBackdrop"
+       class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-lg bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-5 animate-scale-up text-white">
+      
+      <!-- Header -->
+      <div class="flex items-start justify-between border-b border-slate-800 pb-4">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">Direct Communication</span>
+          <h3 class="font-serif text-xl font-bold text-white mt-0.5">Email Organization</h3>
+        </div>
+        <button type="button" 
+                data-action="click->partnership-email#close" 
+                class="p-2 text-slate-400 hover:text-white text-xl font-bold rounded-xl hover:bg-slate-800 transition-colors cursor-pointer"
+                aria-label="Close modal">
+          ✕
+        </button>
+      </div>
+
+      <!-- Recipient Info Banner -->
+      <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-xs space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Recipient</span>
+          <span class="font-mono text-indigo-300" data-partnership-email-target="recipientEmail">-</span>
+        </div>
+        <div class="font-bold text-white text-sm" data-partnership-email-target="recipient">-</div>
+      </div>
+
+      <!-- Email Form -->
+      <form data-partnership-email-target="form" method="post" class="space-y-4">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        
+        <div class="space-y-1">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300">
+            Subject
+          </label>
+          <input type="text" 
+                 name="subject" 
+                 required
+                 data-partnership-email-target="subject" 
+                 class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none" 
+                 placeholder="Subject line..." />
+        </div>
+
+        <div class="space-y-1">
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300">
+            Message Body
+          </label>
+          <textarea name="message" 
+                    rows="5" 
+                    required
+                    data-partnership-email-target="message" 
+                    class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs leading-relaxed focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none" 
+                    placeholder="Write your response, proposal feedback, or follow-up note here..."></textarea>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800">
+          <a href="#" 
+             data-partnership-email-target="mailtoFallback" 
+             class="text-xs text-indigo-400 hover:text-indigo-300 hover:underline">
+            ↗ Open in Mail App
+          </a>
+
+          <div class="flex items-center gap-2">
+            <button type="button" 
+                    data-action="click->partnership-email#close" 
+                    class="px-4 py-2 rounded-xl text-xs font-bold text-slate-300 bg-slate-800 hover:bg-slate-700 transition-colors cursor-pointer">
+              Cancel
+            </button>
+            <button type="submit" 
+                    class="px-5 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors shadow-md cursor-pointer flex items-center gap-2">
+              <span>Send Email ✉</span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
